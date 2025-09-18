@@ -1,14 +1,16 @@
 # chaos_cli.py
 
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser
-from chaos_interpreter import ChaoInterpreter
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser
+from chaos_interpreter import ChaosInterpreter
 
 import argparse
 import json
+import sys
+from pathlib import Path
 
 def run_chaos(code, show_tokens=False, show_ast=False, output_json=False):
-    lexer = ChaoLexer()
+    lexer = ChaosLexer()
     tokens = lexer.tokenize(code)
 
     if show_tokens:
@@ -16,14 +18,14 @@ def run_chaos(code, show_tokens=False, show_ast=False, output_json=False):
         for t in tokens:
             print(t)
 
-    parser = ChaoParser(tokens)
+    parser = ChaosParser(tokens)
     ast = parser.parse()
 
     if show_ast:
         print("\n🌳 AST:")
         print(ast)
 
-    interpreter = ChaoInterpreter()
+    interpreter = ChaosInterpreter()
     interpreter.interpret(ast)
 
     print("\n🧠 Final CHAOS Environment:")
@@ -34,11 +36,34 @@ def run_chaos(code, show_tokens=False, show_ast=False, output_json=False):
             print(f"{k}: {v}")
 
 def main():
-    parser = argparse.ArgumentParser(description="CHAOS Interactive Shell")
+    parser = argparse.ArgumentParser(description="CHAOS Shell and script runner")
+    parser.add_argument("path", nargs="?", help="Path to a CHAOS script (.sn)")
     parser.add_argument("--tokens", action="store_true", help="Show token list")
     parser.add_argument("--ast", action="store_true", help="Show AST output")
     parser.add_argument("--json", action="store_true", help="Output environment as JSON")
     args = parser.parse_args()
+
+    if args.path:
+        script_path = Path(args.path)
+        if script_path.suffix.lower() != ".sn":
+            parser.error("CHAOS scripts must use the .sn extension")
+
+        if not script_path.exists():
+            print(f"💥 File not found: {script_path}")
+            sys.exit(1)
+
+        try:
+            source = script_path.read_text(encoding="utf-8")
+        except OSError as err:
+            print(f"💥 Could not read {script_path}: {err}")
+            sys.exit(1)
+
+        try:
+            run_chaos(source, args.tokens, args.ast, args.json)
+        except Exception as err:
+            print(f"💥 Error: {err}")
+            sys.exit(1)
+        return
 
     print("CHAOS Shell 🌌 (type 'exit' to quit)")
     buffer = []

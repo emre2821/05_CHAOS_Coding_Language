@@ -1,0 +1,8 @@
+[EVENT]: relation
+[OBJECT:BOX]: [ATTRIBUTE:WOOD]
+[OBJECT:GIFT]: [ATTRIBUTE:SMALL]
+[RELATIONSHIP:BOX:CONTAINS:GIFT]
+[EMOTION:JOY:6]
+{
+We opened the box and found both a gift and a promise.
+}

@@ -1,12 +1,13 @@
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser, NodeType
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser, NodeType
+
 
 def test_parse_three_layers():
-    src = '''
+    src = """
     [EVENT]: memory
     [EMOTION:JOY:7]
     { The garden was alive. }
-    '''
-    ast = ChaoParser(ChaoLexer().tokenize(src)).parse()
+    """
+    ast = ChaosParser(ChaosLexer().tokenize(src)).parse()
     assert ast.type == NodeType.PROGRAM
     assert len(ast.children) == 3
