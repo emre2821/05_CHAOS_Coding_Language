@@ -1,40 +1,44 @@
-# chaos_runtime.py
+"""
+Entry point for executing CHAOS programs.
+"""
+from typing import Dict, Any
 
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser
-from chaos_interpreter import ChaoInterpreter
 from chaos_errors import ChaosSyntaxError, ChaosRuntimeError
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser
+from chaos_interpreter import ChaosInterpreter
 
-def run_chaos(source_code: str, verbose=False, return_tokens=False):
-    lexer = ChaoLexer()
+
+def run_chaos(source_code: str, verbose: bool = False) -> Dict[str, Any]:
+    lexer = ChaosLexer()
     try:
         tokens = lexer.tokenize(source_code)
-    except Exception as e:
-        raise ChaosSyntaxError(f"Lexer error: {e}")
+    except Exception as exc:
+        raise ChaosSyntaxError(f"Lexer error: {exc}") from exc
 
     if verbose:
         print("🔹 Tokens:")
-        for t in tokens:
-            print(t)
+        for token in tokens:
+            print(token)
 
-    parser = ChaoParser(tokens)
+    parser = ChaosParser(tokens)
     try:
         ast = parser.parse()
-    except Exception as e:
-        raise ChaosSyntaxError(f"Parser error: {e}")
+    except Exception as exc:
+        raise ChaosSyntaxError(f"Parser error: {exc}") from exc
 
     if verbose:
         print("🔸 AST:")
         print(ast)
 
-    interpreter = ChaoInterpreter()
+    interpreter = ChaosInterpreter()
     try:
-        interpreter.interpret(ast)
-    except Exception as e:
-        raise ChaosRuntimeError(f"Interpreter error: {e}")
+        env = interpreter.interpret(ast)
+    except Exception as exc:
+        raise ChaosRuntimeError(f"Interpreter error: {exc}") from exc
 
     if verbose:
-        print("✅ CHAOS Runtime Environment:")
-        print(interpreter.environment)
+        print("✅ ENV:")
+        print(env)
 
-    return (interpreter.environment, tokens) if return_tokens else interpreter.environment
+    return env

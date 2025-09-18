@@ -127,7 +127,7 @@ class Token:
     def __repr__(self):
         return f"Token({self.type}, {self.value!r}, line={self.line}, col={self.column})"
 
-class ChaoLexer:
+class ChaosLexer:
     def __init__(self):
         self.keywords = { 'TRUE': TokenType.BOOLEAN, 'FALSE': TokenType.BOOLEAN, 'NULL': TokenType.NULL }
 
@@ -192,7 +192,7 @@ class Node:
         self.type = type_; self.value = value; self.children = children or []
     def __repr__(self): return f"Node({self.type}, value={self.value!r}, children={len(self.children)})"
 
-class ChaoParser:
+class ChaosParser:
     def __init__(self, tokens: List[Token]):
         self.tokens = tokens; self.current = 0
 
@@ -335,7 +335,7 @@ Interpreter: walk parse tree -> environment dict.
 from typing import Dict, Any
 from chaos_parser import NodeType, Node
 
-class ChaoInterpreter:
+class ChaosInterpreter:
     def __init__(self):
         self.environment = {}
 
@@ -365,13 +365,13 @@ class ChaoInterpreter:
 Preflight: tokenizes + parses and checks for 3 layers.
 """
 from chaos_errors import ChaosValidationError
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser
 
 def validate_chaos(source: str) -> None:
     try:
-        tokens = ChaoLexer().tokenize(source)
-        ast = ChaoParser(tokens).parse()
+        tokens = ChaosLexer().tokenize(source)
+        ast = ChaosParser(tokens).parse()
         if not ast or not ast.children or len(ast.children) != 3:
             raise ChaosValidationError("Expected 3 layers in CHAOS: structured_core, emotive_layer, chaosfield_layer")
     except Exception as e:
@@ -388,12 +388,12 @@ Entry point for executing CHAOS programs.
 """
 from typing import Dict, Any
 from chaos_errors import ChaosSyntaxError, ChaosRuntimeError
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser
-from chaos_interpreter import ChaoInterpreter
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser
+from chaos_interpreter import ChaosInterpreter
 
 def run_chaos(source_code: str, verbose: bool = False) -> Dict[str, Any]:
-    lexer = ChaoLexer()
+    lexer = ChaosLexer()
     try:
         tokens = lexer.tokenize(source_code)
     except Exception as e:
@@ -403,7 +403,7 @@ def run_chaos(source_code: str, verbose: bool = False) -> Dict[str, Any]:
         print("🔹 Tokens:")
         for t in tokens: print(t)
 
-    parser = ChaoParser(tokens)
+    parser = ChaosParser(tokens)
     try:
         ast = parser.parse()
     except Exception as e:
@@ -413,7 +413,7 @@ def run_chaos(source_code: str, verbose: bool = False) -> Dict[str, Any]:
         print("🔸 AST:")
         print(ast)
 
-    interpreter = ChaoInterpreter()
+    interpreter = ChaosInterpreter()
     try:
         env = interpreter.interpret(ast)
     except Exception as e:
@@ -1051,18 +1051,18 @@ if __name__ == "__main__": main()
 
 ```python
 import pytest
-from chaos_lexer import ChaoLexer, TokenType
+from chaos_lexer import ChaosLexer, TokenType
 
 def test_lex_basic_pairs():
     src = '[EVENT]: memory\n[CONTEXT]: garden\n'
-    toks = ChaoLexer().tokenize(src)
+    toks = ChaosLexer().tokenize(src)
     assert any(t.type == TokenType.LEFT_BRACKET for t in toks)
     assert any(getattr(t, "value", None) == "EVENT" for t in toks)
     assert any(t.type == TokenType.COLON for t in toks)
 
 def test_lex_emotion_tag():
     src = '[EMOTION:JOY:7]'
-    toks = ChaoLexer().tokenize(src)
+    toks = ChaosLexer().tokenize(src)
     kinds = [t.type.name for t in toks]
     assert "LEFT_BRACKET" in kinds and "RIGHT_BRACKET" in kinds
     assert any(getattr(t, "value", None) == "EMOTION" for t in toks)
@@ -1071,12 +1071,12 @@ def test_lex_emotion_tag():
 ### `tests/test_parser.py`
 
 ```python
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser, NodeType
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser, NodeType
 
 def test_parse_three_layers():
     src = '[EVENT]: memory\n[EMOTION:JOY:7]\n{ Text }'
-    ast = ChaoParser(ChaoLexer().tokenize(src)).parse()
+    ast = ChaosParser(ChaosLexer().tokenize(src)).parse()
     assert ast.type == NodeType.PROGRAM and len(ast.children) == 3
 ```
 

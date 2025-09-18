@@ -1,19 +1,18 @@
-# chaos_validator.py
-
+"""
+Preflight: tokenizes + parses and checks for 3 layers.
+"""
 from chaos_errors import ChaosValidationError
-from chaos_lexer import ChaoLexer
-from chaos_parser import ChaoParser
+from chaos_lexer import ChaosLexer
+from chaos_parser import ChaosParser
+
 
 def validate_chaos(source: str) -> None:
-    """Raises ChaosValidationError if the CHAOS code is invalid."""
     try:
-        lexer = ChaoLexer()
-        tokens = lexer.tokenize(source)
-
-        parser = ChaoParser(tokens)
-        ast = parser.parse()
-
+        tokens = ChaosLexer().tokenize(source)
+        ast = ChaosParser(tokens).parse()
         if not ast or not ast.children or len(ast.children) != 3:
-            raise ChaosValidationError("Expected 3 layers in CHAOS: structured_core, emotive_layer, chaosfield_layer")
-    except Exception as e:
-        raise ChaosValidationError(f"CHAOS Validation Failed: {e}")
+            raise ChaosValidationError(
+                "Expected 3 layers in CHAOS: structured_core, emotive_layer, chaosfield_layer"
+            )
+    except Exception as exc:
+        raise ChaosValidationError(f"CHAOS Validation Failed: {exc}") from exc

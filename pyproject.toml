@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaos-language"
+version = "0.1.0"
+description = "CHAOS scripting language runtime, agent, and business tooling"
+readme = "README.md"
+authors = [{ name = "Paradigm Eden" }]
+license = { text = "Eden Cooperative License" }
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Information Technology",
+    "License :: Other/Proprietary License",
+    "Topic :: Office/Business",
+    "Topic :: Text Processing",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://example.com/eden-chaos"
+Source = "https://example.com/eden-chaos/source"
+
+[project.scripts]
+chaos-cli = "chaos_cli:main"
+chaos-exec = "chaos_exec:main"
+chaos-agent = "chaos_agent_cli:main"
+
+[tool.setuptools]
+py-modules = [
+    "chaos_agent",
+    "chaos_agent_cli",
+    "chaos_cli",
+    "chaos_context",
+    "chaos_dreams",
+    "chaos_emotion",
+    "chaos_errors",
+    "chaos_exec",
+    "chaos_graph",
+    "chaos_interpreter",
+    "chaos_lexer",
+    "chaos_logger",
+    "chaos_parser",
+    "chaos_protocols",
+    "chaos_reports",
+    "chaos_runtime",
+    "chaos_stdlib",
+    "chaos_validator",
+    "chaos_fuzz",
+    "chaos_monorepo",
+    "EdenCore",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["."]

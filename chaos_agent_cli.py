@@ -1,11 +1,6 @@
 """
-Interactive CLI for ChaosAgent:
-- Type free text to affect emotions.
-- Load & run a .sn / .chaos file into context.
-- View dreams, current emotions, symbols, and last action.
+Interactive CLI for ChaosAgent.
 """
-
-from __future__ import annotations
 import argparse
 import os
 from typing import Optional
@@ -14,24 +9,24 @@ from chaos_agent import ChaosAgent
 
 BANNER = """\
 CHAOS Agent CLI 🌌
-Commands:
-  :open <path>     Load a .sn/.chaos file into memory
-  :dreams          Show current dream visions
-  :emotions        Show active emotions and intensities
-  :symbols         Show known symbols
-  :action          Show the last action taken
-  :clear           Clear narrative memory
-  :help            Show this help
-  :quit            Exit
-Type free text to influence emotions (keyword triggers), Enter to commit.
+:open <path>   load .sn/.chaos file
+:dreams        show visions
+:emotions      active emotions
+:symbols       known symbols
+:action        last action
+:clear         clear narrative
+:help          help
+:quit          exit
 """
 
-def read_file(path: str) -> Optional[str]:
+
+def _read(path: str) -> Optional[str]:
     if not os.path.exists(path):
         print("File not found.")
         return None
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+    with open(path, "r", encoding="utf-8") as handle:
+        return handle.read()
+
 
 def main():
     parser = argparse.ArgumentParser(description="CHAOS Agent REPL")
@@ -40,9 +35,9 @@ def main():
 
     agent = ChaosAgent(args.name)
     print(BANNER)
+    buf: list[str] = []
+    last = None
 
-    last_report = None
-    buf = []
     while True:
         try:
             line = input("agent> ").strip()
@@ -50,55 +45,49 @@ def main():
             print("\nbye.")
             break
 
-        if not line:
-            text = "\n".join(buf).strip()
-            buf.clear()
-            if not text and not last_report:
-                continue
-            report = agent.step(text=text or None)
-            last_report = report
-            print(f"✓ action: {report.action}")
-            print(f"✓ emotions: {report.emotions}")
-            print(f"✓ dreams: {report.dreams[:2]}")
-            continue
-
         if line.startswith(":"):
-            parts = line.split(maxsplit=1)
-            cmd = parts[0][1:]
-            arg = parts[1] if len(parts) > 1 else ""
-
+            cmd, *rest = line[1:].split(maxsplit=1)
+            arg = rest[0] if rest else ""
             if cmd == "open":
-                src = read_file(arg)
+                src = _read(arg)
                 if src:
-                    rep = agent.step(sn=src)
-                    last_report = rep
-                    print("✓ loaded and merged.")
+                    last = agent.step(sn=src)
+                    print("✓ merged.")
             elif cmd == "dreams":
-                rep = agent.step()
-                print("\n".join(rep.dreams[:5]))
+                last = agent.step()
+                print("\n".join(last.dreams[:5]))
             elif cmd == "emotions":
-                rep = agent.step()
-                print(rep.emotions)
+                last = agent.step()
+                print(last.emotions)
             elif cmd == "symbols":
-                rep = agent.step()
-                print(rep.symbols)
+                last = agent.step()
+                print(last.symbols)
             elif cmd == "action":
-                rep = agent.step()
-                print(rep.action)
+                last = agent.step()
+                print(last.action)
             elif cmd == "clear":
                 agent.ctx.set_narrative("")
-                print("✓ narrative cleared.")
-            elif cmd == "help":
+                print("✓ cleared.")
+            elif cmd in ("help", "h", "?"):
                 print(BANNER)
-            elif cmd in ("q", "quit", "exit"):
+            elif cmd in ("quit", "exit", "q"):
                 print("bye.")
                 break
             else:
-                print("unknown command. try :help")
+                print("unknown. :help")
             continue
 
-            # fallthrough never
+        if not line:
+            text = "\n".join(buf).strip()
+            buf.clear()
+            if not text and not last:
+                continue
+            last = agent.step(text=text or None)
+            print(f"✓ action: {last.action} | emotions: {last.emotions} | dreams: {last.dreams[:2]}")
+            continue
+
         buf.append(line)
+
 
 if __name__ == "__main__":
     main()

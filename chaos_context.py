@@ -1,24 +1,27 @@
-# chaos_context.py
+"""
+Shared memory for symbols, emotions, narrative.
+"""
+
 
 class ChaosContext:
     def __init__(self):
         self.memory = {
             "symbols": {},
             "emotions": [],
-            "narrative": ""
+            "narrative": "",
         }
 
-    def set_symbol(self, key: str, value: str):
+    def set_symbol(self, key: str, value: str) -> None:
         self.memory["symbols"][key] = value
 
-    def add_emotion(self, emotion: str):
+    def add_emotion(self, emotion: str) -> None:
         self.memory["emotions"].append(emotion)
 
-    def set_narrative(self, text: str):
+    def set_narrative(self, text: str) -> None:
         self.memory["narrative"] = text
 
-    def get_memory(self):
+    def get(self):  # type: ignore[override]
         return self.memory
 
-    def reset(self):
+    def reset(self) -> None:
         self.__init__()
