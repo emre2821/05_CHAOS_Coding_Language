@@ -1097,3 +1097,17 @@ def test_agent_step_minimal():
 * Agent REPL: `python chaos_agent_cli.py` (type `:help` for commands)
 * Fuzz all examples: `python chaos_fuzz.py`
 * Tests (pytest): ensure files are importable; then `pytest -q`
+
+# --- HOOK: auto-run CHAOS continuation build ---
+import subprocess, sys, os
+
+try:
+    continued_path = r"C:\EdenOS_Origin\05_CHAOS_Coding_Language\chaos_continued.complete_build.py"
+    if os.path.exists(continued_path):
+        print("\n⚡ Launching CHAOS continuation build...")
+        subprocess.run([sys.executable, continued_path], check=True)
+    else:
+        print(f"\n⚠ No continuation build found at {continued_path}")
+except Exception as e:
+    print(f"\n[ERROR] Could not launch continuation build: {e}")
+

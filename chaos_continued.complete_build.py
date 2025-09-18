@@ -1,11 +1,13 @@
-# chaos_complete_build.py
+# chaos_continued.complete_build.py
 """
 Continuation build script for EdenOS CHAOS environment.
-Extends the base CHAOS language build by creating:
-- EdenOS root under C:\EdenOS\<USERNAME>\
+Triggered by chaos_language.complete_build.py
+
+This script creates:
+- EdenOS root under C:\EdenOS_<USERNAME>\
 - Storage folder (\99_storage)
 - Dropbox folder (\000_Eden_Dropbox)
-- Tutorial generator + tutorial modules
+- Tutorial modules (10 lessons, auto-archiving)
 - Autoloop watcher (eden_loop.py)
 """
 
@@ -35,11 +37,11 @@ import os, sys, time, json
 from pathlib import Path
 
 # Point Python at your CHAOS runtime
-sys.path.append(fr"{{EDEN_ROOT}}\\05_CHAOS_Coding_Language")
+sys.path.append(r"C:\\EdenOS_Origin\\05_CHAOS_Coding_Language")
 
 from chaos_runtime import run_chaos
 
-WATCH_DIR = Path(r"{{DROPBOX}}")
+WATCH_DIR = Path(r"{DROPBOX}")
 LOG_DIR = WATCH_DIR / "logs"
 CHECK_INTERVAL = 5
 
@@ -207,14 +209,13 @@ def write_tutorials():
 # Main
 # -----------------------------
 def main():
-    print("⚡ Building EdenOS CHAOS environment...")
+    print("⚡ Running CHAOS continuation build...")
     ensure_dirs()
     write_autoloop()
     write_tutorials()
     print("\nAll components built. Next steps:")
     print("1. Run eden_loop.py to start your Dropbox watcher.")
-    print("2. Tutorials are already in 000_Eden_Dropbox — drop them in, watch Eden breathe.")
-    print("3. After each run, tutorials archive to 99_storage.")
+    print("2. Tutorials are already in 000_Eden_Dropbox — Eden will auto-archive them after first run.")
 
 if __name__ == "__main__":
     main()
