@@ -69,25 +69,46 @@ class ChaosParser:
             return self.advance()
         raise SyntaxError(message)
 
+    def _collect_bracket_contents(self, *, include_brackets: bool = False) -> str:
+        depth = 1
+        parts: List[str] = ["["] if include_brackets else []
+        while not self.is_at_end():
+            tok = self.advance()
+            if tok.type == TokenType.LEFT_BRACKET:
+                depth += 1
+                parts.append(str(tok.value))
+                continue
+            if tok.type == TokenType.RIGHT_BRACKET:
+                depth -= 1
+                if depth == 0:
+                    if include_brackets:
+                        parts.append(str(tok.value))
+                    break
+                parts.append(str(tok.value))
+                continue
+            parts.append(str(tok.value))
+        if depth != 0:
+            raise SyntaxError("Unterminated bracket expression")
+        return "".join(parts).strip()
+
     def parse_structured_core(self) -> Node:
         pairs: Dict[str, Any] = {}
-        # Expect many:  [IDENT]: value
+        # Expect many:  [IDENT[:...]]: value
         while not self.is_at_end():
             if not self.check(TokenType.LEFT_BRACKET):
                 break
-            self.advance()  # [
+            bracket_start = self.current
+            self.advance()  # consume '['
             if not self.check(TokenType.IDENTIFIER):
                 # Not a key-value tag → maybe emotive layer
-                self.current -= 1  # step back from '['
+                self.current = bracket_start
                 break
-            key = self.advance().value
-            if self.check(TokenType.COLON):
-                # Detected a layered tag like [EMOTION:JOY:7]; rewind for emotive parser
-                self.current -= 2
+            key = self._collect_bracket_contents(include_brackets=False)
+            if not self.check(TokenType.COLON):
+                # Not a structured core pair; rewind for emotive parser
+                self.current = bracket_start
                 break
-            self.consume(TokenType.RIGHT_BRACKET, "] expected after key")
-            self.consume(TokenType.COLON, ": expected after ]")
-            # value: STRING | NUMBER | IDENTIFIER | BOOLEAN | NULL
+            self.advance()  # consume ':'
             tok = self.advance()
             if tok.type in (TokenType.STRING, TokenType.NUMBER, TokenType.BOOLEAN):
                 pairs[key] = tok.value
@@ -95,6 +116,10 @@ class ChaosParser:
                 pairs[key] = tok.value
             elif tok.type == TokenType.NULL:
                 pairs[key] = None
+            elif tok.type == TokenType.LEFT_BRACKET:
+                # Capture nested bracketed value like [ATTRIBUTE:WOOD]
+                value = self._collect_bracket_contents(include_brackets=False)
+                pairs[key] = value
             else:
                 # If next is left brace, bail (chaosfield)
                 self.current -= 1
@@ -117,12 +142,15 @@ class ChaosParser:
                 break
             self.consume(TokenType.COLON, "':' after tag")
             kind = self.consume(TokenType.IDENTIFIER, "emotion/symbol type").value
-            intensity_token = None
-            if self.match(TokenType.COLON):
-                intensity_token = self.advance()
-                if intensity_token.type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
-                    raise SyntaxError("intensity")
+            extras = []
+            while self.match(TokenType.COLON):
+                if self.is_at_end():
+                    raise SyntaxError(": without value")
+                extras.append(self.advance())
             self.consume(TokenType.RIGHT_BRACKET, "] after tag")
+            intensity_token = extras[0] if extras else None
+            if intensity_token and intensity_token.type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
+                raise SyntaxError("intensity")
             if tag == "EMOTION":
                 raw_value = intensity_token.value if intensity_token is not None else None
                 try:
