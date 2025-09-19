@@ -78,6 +78,12 @@ def _language_for(path: Path) -> str:
 
 
 def _build_digest(paths: Iterable[Path]) -> str:
+    def _display_name(path: Path) -> str:
+        try:
+            return str(path.resolve().relative_to(REPO_ROOT))
+        except ValueError:
+            return str(path.resolve())
+
     sections = [
         "# CHAOS Monorepo Dump (Full Core Stack)",
         "",
@@ -87,7 +93,7 @@ def _build_digest(paths: Iterable[Path]) -> str:
     ]
 
     for path in paths:
-        rel_path = path.relative_to(REPO_ROOT)
+        rel_path = _display_name(path)
         fence = _language_for(path)
         sections.append(f"## `{rel_path}`")
         sections.append("")
@@ -150,7 +156,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         output_path = args.output
         output_path.write_text(digest, encoding="utf-8")
-        print(f"Wrote CHAOS digest to {output_path.relative_to(REPO_ROOT)}")
+        try:
+            destination = output_path.resolve().relative_to(REPO_ROOT)
+        except ValueError:
+            destination = output_path.resolve()
+        print(f"Wrote CHAOS digest to {destination}")
 
     return 0
 
