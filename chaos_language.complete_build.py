@@ -5,10 +5,11 @@ Python.  When Dreambearers attempted to run it they would hit a SyntaxError
 because the Markdown (with bare tokens such as ``[TIME]``) is not valid Python.
 
 The script now assembles the digest programmatically.  It gathers the key
-modules from the repository, wraps each one in a Markdown fence, and writes the
-result to ``chaos_language.complete_build.md`` (or to another target selected by
-CLI flags).  The generated artifact mirrors the old installer-style dump while
-remaining runnable as a standard Python utility.
+modules from the repository—including the Gizzy-guided continuation build and
+the ``chaos_corpus`` ritual snippets—wraps each one in a Markdown fence, and
+writes the result to ``chaos_language.complete_build.md`` (or to another target
+selected by CLI flags).  The generated artifact mirrors the old installer-style
+dump while remaining runnable as a standard Python utility.
 """
 from __future__ import annotations
 
@@ -19,17 +20,28 @@ from typing import Iterable, List, Sequence
 REPO_ROOT = Path(__file__).resolve().parent
 DEFAULT_OUTPUT = REPO_ROOT / "chaos_language.complete_build.md"
 SELF_NAME = Path(__file__).name
+DEFAULT_EMBED_DIRS = ("chaos_corpus",)
 
 
 def _default_targets(include_tests: bool = False) -> List[Path]:
     """Return the ordered list of repository files to embed in the digest."""
     top_level_modules = sorted(
-        path
-        for path in REPO_ROOT.glob("*.py")
-        if path.name not in {SELF_NAME, "chaos_continued.complete_build.py"}
+        path for path in REPO_ROOT.glob("*.py") if path.name != SELF_NAME
     )
 
     extras = [REPO_ROOT / "README.md", REPO_ROOT / "pyproject.toml"]
+
+    for directory in DEFAULT_EMBED_DIRS:
+        dir_path = REPO_ROOT / directory
+        if not dir_path.is_dir():
+            continue
+        extras.extend(
+            sorted(
+                path
+                for path in dir_path.rglob("*")
+                if path.is_file()
+            )
+        )
 
     if include_tests:
         extras.extend(sorted(REPO_ROOT.joinpath("tests").rglob("*.py")))
