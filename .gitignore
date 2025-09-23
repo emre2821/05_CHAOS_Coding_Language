@@ -1,1 +1,3 @@
 /chaos_language.egg-info
+*.pyc
+report.json
