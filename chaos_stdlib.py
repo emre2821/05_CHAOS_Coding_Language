@@ -48,3 +48,44 @@ def weighted_pick(pairs: List[Tuple[Any, int]], default: Any = None) -> Any:
         if choice <= acc:
             return item
     return default
+
+
+def soft_intensity(
+    raw: Any,
+    default: int = 5,
+    *,
+    lo: int = 0,
+    hi: int = 10,
+    clamp_result: bool = True,
+) -> int:
+    if raw is None:
+        return clamp(default, lo, hi) if clamp_result else default
+    value: Any = raw
+    if isinstance(raw, bool):
+        value = int(raw)
+    elif isinstance(raw, (int, float)):
+        value = raw
+    elif isinstance(raw, str):
+        stripped = raw.strip()
+        if not stripped:
+            return clamp(default, lo, hi) if clamp_result else default
+        try:
+            value = float(stripped)
+        except ValueError:
+            match = re.search(r"-?\d+(?:\.\d+)?", stripped)
+            if match:
+                try:
+                    value = float(match.group(0))
+                except ValueError:
+                    return clamp(default, lo, hi) if clamp_result else default
+            else:
+                return clamp(default, lo, hi) if clamp_result else default
+    else:
+        return clamp(default, lo, hi) if clamp_result else default
+    try:
+        numeric = int(round(float(value)))
+    except (TypeError, ValueError):
+        return clamp(default, lo, hi) if clamp_result else default
+    if clamp_result:
+        return clamp(numeric, lo, hi)
+    return numeric

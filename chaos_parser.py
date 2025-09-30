@@ -2,9 +2,10 @@
 Minimal parser: PROGRAM -> [STRUCTURED_CORE, EMOTIVE_LAYER, CHAOSFIELD_LAYER]
 """
 from enum import Enum, auto
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
-from chaos_lexer import TokenType, Token
+from chaos_lexer import Token, TokenType
+from chaos_stdlib import soft_intensity
 
 
 class NodeType(Enum):
@@ -147,16 +148,15 @@ class ChaosParser:
                 if self.is_at_end():
                     raise SyntaxError(": without value")
                 extras.append(self.advance())
-            self.consume(TokenType.RIGHT_BRACKET, "] after tag")
-            intensity_token = extras[0] if extras else None
-            if intensity_token and intensity_token.type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
-                raise SyntaxError("intensity")
+            trailing = []
             if tag == "EMOTION":
-                raw_value = intensity_token.value if intensity_token is not None else None
-                try:
-                    intensity_value = int(raw_value) if raw_value is not None else 5
-                except Exception:
-                    intensity_value = 5
+                while not self.check(TokenType.RIGHT_BRACKET) and not self.is_at_end():
+                    trailing.append(self.advance())
+            self.consume(TokenType.RIGHT_BRACKET, "] after tag")
+            if tag == "EMOTION":
+                tokens = extras + trailing
+                raw_value = "".join(str(token.value) for token in tokens).strip() if tokens else None
+                intensity_value = soft_intensity(raw_value, clamp_result=False)
                 emotions.append({"name": kind.upper(), "intensity": intensity_value})
             # SYMBOL/RELATIONSHIP ignored in minimal core; can extend later
         return Node(NodeType.EMOTIVE_LAYER, value=emotions)
