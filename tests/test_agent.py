@@ -12,3 +12,15 @@ def test_agent_step_minimal():
     assert isinstance(rep.symbols, dict)
     assert rep.action is None or isinstance(rep.action, Action)
     assert isinstance(rep.dreams, list)
+
+
+def test_agent_respects_zero_intensity_emotions():
+    sn = """
+    [EVENT]: grounding
+    [EMOTION:CALM:0]
+    { breathing together }
+    """
+    agent = ChaosAgent("Test")
+    agent.perceive_sn(sn)
+    assert agent.emotions.stack[-1].name == "CALM"
+    assert agent.emotions.stack[-1].intensity == 0

@@ -55,8 +55,15 @@ class ChaosAgent:
             self.log.log(f"symbol {symbol_key}={value}")
         for entry in emotive_layer:
             name = norm_key(entry.get("type") or entry.get("name") or "FEELING")
-            raw = entry.get("intensity") or 5
-            intensity = clamp(int(raw) if str(raw).isdigit() else 5, 0, 10)
+            raw = entry.get("intensity")
+            if raw is None:
+                parsed = 5
+            else:
+                try:
+                    parsed = int(raw)
+                except (TypeError, ValueError):
+                    parsed = 5
+            intensity = clamp(parsed, 0, 10)
             self.emotions.push(name, intensity)
             self.log.log(f"emotion {name}:{intensity}")
         if chaosfield_layer:
