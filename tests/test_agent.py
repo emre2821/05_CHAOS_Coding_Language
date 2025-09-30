@@ -24,3 +24,15 @@ def test_agent_respects_zero_intensity_emotions():
     agent.perceive_sn(sn)
     assert agent.emotions.stack[-1].name == "CALM"
     assert agent.emotions.stack[-1].intensity == 0
+
+
+def test_agent_accepts_fuzzy_intensity_strings():
+    sn = """
+    [EVENT]: listening
+    [EMOTION:HOPE:approx 7 among friends]
+    { tuning to the horizon }
+    """
+    agent = ChaosAgent("Test")
+    agent.perceive_sn(sn)
+    assert agent.emotions.stack[-1].name == "HOPE"
+    assert agent.emotions.stack[-1].intensity == 7
