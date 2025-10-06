@@ -11,7 +11,7 @@ from chaos_graph import ChaosGraph
 from chaos_logger import ChaosLogger
 from chaos_protocols import ProtocolRegistry
 from chaos_runtime import run_chaos
-from chaos_stdlib import clamp, norm_key, text_snippet
+from chaos_stdlib import norm_key, soft_intensity, text_snippet
 
 
 @dataclass
@@ -55,8 +55,8 @@ class ChaosAgent:
             self.log.log(f"symbol {symbol_key}={value}")
         for entry in emotive_layer:
             name = norm_key(entry.get("type") or entry.get("name") or "FEELING")
-            raw = entry.get("intensity") or 5
-            intensity = clamp(int(raw) if str(raw).isdigit() else 5, 0, 10)
+            raw = entry.get("intensity")
+            intensity = soft_intensity(raw)
             self.emotions.push(name, intensity)
             self.log.log(f"emotion {name}:{intensity}")
         if chaosfield_layer:
@@ -118,3 +118,4 @@ class ChaosAgent:
             for emotion in self.emotions.stack
             if emotion.is_active()
         ]
+
