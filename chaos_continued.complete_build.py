@@ -13,6 +13,7 @@ This script creates:
 
 import os, sys, time, json, getpass, shutil
 from pathlib import Path
+from string import Template
 
 USERNAME = getpass.getuser()
 EDEN_ROOT = Path(fr"C:\EdenOS_{USERNAME}")
@@ -32,7 +33,13 @@ def ensure_dirs():
 # -----------------------------
 def write_autoloop():
     path = EDEN_ROOT / "eden_loop.py"
-    content = f'''# eden_loop.py
+    dropbox_path = str(DROPBOX)
+    structured_core_line = "        print(f\"Symbols: {env.get('structured_core', {})}\")"
+    emotive_line = "        print(f\"Emotions: {env.get('emotive_layer', [])}\")"
+    chaosfield_line = "        print(f\"Narrative: {env.get('chaosfield_layer', '')[:120]}...\")"
+
+    script_template = Template(
+        """# eden_loop.py
 import os, sys, time, json
 from pathlib import Path
 
@@ -41,7 +48,7 @@ sys.path.append(r"C:\\EdenOS_Origin\\05_CHAOS_Coding_Language")
 
 from chaos_runtime import run_chaos
 
-WATCH_DIR = Path(r"{DROPBOX}")
+WATCH_DIR = Path(r"$dropbox_path")
 LOG_DIR = WATCH_DIR / "logs"
 CHECK_INTERVAL = 5
 
@@ -53,21 +60,21 @@ def process_file(path: Path):
         with open(path, "r", encoding="utf-8") as f:
             src = f.read()
         env = run_chaos(src, verbose=False)
-        out_file = LOG_DIR / f"{{path.stem}}_result.json"
+        out_file = LOG_DIR / f"{path.stem}_result.json"
         with open(out_file, "w", encoding="utf-8") as out:
             json.dump(env, out, indent=2)
-        print("\\n=== Eden Report ===")
-        print(f"File: {{path.name}}")
-        print(f"Symbols: {{env.get('structured_core', {})}}")
-        print(f"Emotions: {{env.get('emotive_layer', [])}}")
-        print(f"Narrative: {{env.get('chaosfield_layer', '')[:120]}}...")
-        print("===================\\n")
+        print("\n=== Eden Report ===")
+        print(f"File: {path.name}")
+$structured_core_line
+$emotive_line
+$chaosfield_line
+        print("===================\n")
     except Exception as e:
-        print(f"[ERROR] {{path.name}}: {{e}}")
+        print(f"[ERROR] {path.name}: {e}")
 
 def main():
-    seen = {{}}
-    print(f"Watching {{WATCH_DIR.resolve()}} ... drop or edit .chaos/.sn files here.")
+    seen = {}
+    print(f"Watching {WATCH_DIR.resolve()} ... drop or edit .chaos/.sn files here.")
     while True:
         for file in list(WATCH_DIR.glob("*.chaos")) + list(WATCH_DIR.glob("*.sn")):
             try:
@@ -81,7 +88,15 @@ def main():
 
 if __name__ == "__main__":
     main()
-'''
+"""
+    )
+
+    content = script_template.substitute(
+        dropbox_path=dropbox_path,
+        structured_core_line=structured_core_line,
+        emotive_line=emotive_line,
+        chaosfield_line=chaosfield_line,
+    )
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"✓ Wrote {path}")
