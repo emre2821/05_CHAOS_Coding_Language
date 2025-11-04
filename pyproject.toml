@@ -49,7 +49,6 @@ py-modules = [
     "chaos_stdlib",
     "chaos_validator",
     "chaos_fuzz",
-    "chaos_monorepo",
     "EdenCore",
 ]
 
