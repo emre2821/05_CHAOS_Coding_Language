@@ -38,7 +38,7 @@ def write_autoloop():
     emotive_setup = "        emotive_layer = env.get('emotive_layer', [])"
     chaosfield_setup = "\n".join(
         [
-            "        raw_chaosfield = env.get('chaosfield_layer', '') or ''",
+            "        raw_chaosfield = env.get('chaosfield_layer', '')",
             "        chaosfield_preview = raw_chaosfield[:120]",
             "        chaosfield_display = chaosfield_preview + ('...' if len(raw_chaosfield) > 120 else '')",
         ]
