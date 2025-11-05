@@ -54,6 +54,7 @@ chaos-agent --name Concord
 | `chaos_agent.py` | Emotion-aware agent orchestrating dreams and protocols. |
 | `chaos_reports.py` | Business-facing environment reporting utilities. |
 | `chaos_corpus/` | Example `.sn` scripts for inspiration and tests. |
+| `docs/chaos_monorepo.md` | Reference dump of the full CHAOS core stack modules. |
 
 ## Embedding CHAOS in Your Systems
 
