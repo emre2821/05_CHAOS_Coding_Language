@@ -34,9 +34,18 @@ def ensure_dirs():
 def write_autoloop():
     path = EDEN_ROOT / "eden_loop.py"
     dropbox_path = str(DROPBOX)
-    structured_core_line = "        print(f\"Symbols: {env.get('structured_core', {})}\")"
-    emotive_line = "        print(f\"Emotions: {env.get('emotive_layer', [])}\")"
-    chaosfield_line = "        print(f\"Narrative: {env.get('chaosfield_layer', '')[:120]}...\")"
+    structured_core_setup = "        structured_core = env.get('structured_core', {})"
+    emotive_setup = "        emotive_layer = env.get('emotive_layer', [])"
+    chaosfield_setup = "\n".join(
+        [
+            "        raw_chaosfield = env.get('chaosfield_layer', '')",
+            "        chaosfield_preview = raw_chaosfield[:120]",
+            "        chaosfield_display = chaosfield_preview + ('...' if len(raw_chaosfield) > 120 else '')",
+        ]
+    )
+    structured_core_line = "        print(f\"Symbols: {structured_core}\")"
+    emotive_line = "        print(f\"Emotions: {emotive_layer}\")"
+    chaosfield_line = "        print(f\"Narrative: {chaosfield_display}\")"
 
     script_template = Template(
         """# eden_loop.py
@@ -60,6 +69,9 @@ def process_file(path: Path):
         with open(path, "r", encoding="utf-8") as f:
             src = f.read()
         env = run_chaos(src, verbose=False)
+$structured_core_setup
+$emotive_setup
+$chaosfield_setup
         out_file = LOG_DIR / f"{path.stem}_result.json"
         with open(out_file, "w", encoding="utf-8") as out:
             json.dump(env, out, indent=2)
@@ -93,6 +105,9 @@ if __name__ == "__main__":
 
     content = script_template.substitute(
         dropbox_path=dropbox_path,
+        structured_core_setup=structured_core_setup,
+        emotive_setup=emotive_setup,
+        chaosfield_setup=chaosfield_setup,
         structured_core_line=structured_core_line,
         emotive_line=emotive_line,
         chaosfield_line=chaosfield_line,
