@@ -25,7 +25,7 @@ class DreamEngine:
             seq = list(seq)
             if not seq:
                 return default
-            return rng.choice(seq)
+            return self._rng.choice(seq)
 
         keys = uniq(list(symbols.keys()))
         emotion_names = [
