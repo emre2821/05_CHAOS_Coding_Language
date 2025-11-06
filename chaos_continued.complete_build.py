@@ -1,5 +1,5 @@
 # chaos_continued.complete_build.py
-"""
+r"""
 Continuation build script for EdenOS CHAOS environment.
 Triggered by chaos_language.complete_build.py
 

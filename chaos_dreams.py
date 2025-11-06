@@ -2,9 +2,9 @@
 Dream engine: concise visions generated from state.
 """
 import random
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
-from chaos_stdlib import pick, text_snippet, uniq
+from chaos_stdlib import text_snippet, uniq
 
 
 class DreamEngine:
@@ -19,6 +19,13 @@ class DreamEngine:
         count: int = 3,
     ) -> List[str]:
         rng = random.Random(self._seed)
+        
+        def choose(seq: Iterable[Any], default: str) -> str:
+            seq = list(seq)
+            if not seq:
+                return default
+            return rng.choice(seq)
+
         keys = uniq(list(symbols.keys()))
         emotion_names = [
             emotion["name"]
@@ -28,8 +35,8 @@ class DreamEngine:
         base = text_snippet(narrative, 160)
         dreams = []
         for _ in range(count):
-            first = pick(keys, "MEMORY")
-            second = pick(keys, "LIGHT")
-            emotion_name = pick(emotion_names, "CALM")
+            first = choose(keys, "MEMORY")
+            second = choose(keys, "LIGHT")
+            emotion_name = choose(emotion_names, "CALM")
             dreams.append(f"Dream of {first} meeting {second} under {emotion_name}; context: {base}")
         return dreams
