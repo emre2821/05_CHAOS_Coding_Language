@@ -19,6 +19,8 @@ class DreamEngine:
         narrative: str,
         count: int = 3,
     ) -> List[str]:
+        rng = self._rng
+        
         def choose(seq: Iterable[Any], default: str) -> str:
             seq = list(seq)
             if not seq:
