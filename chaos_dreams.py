@@ -10,6 +10,7 @@ from chaos_stdlib import text_snippet, uniq
 class DreamEngine:
     def __init__(self, seed: Optional[int] = None):
         self._seed = seed
+        self._rng = random.Random(seed)
 
     def visions(
         self,
@@ -18,13 +19,11 @@ class DreamEngine:
         narrative: str,
         count: int = 3,
     ) -> List[str]:
-        rng = random.Random(self._seed)
-        
         def choose(seq: Iterable[Any], default: str) -> str:
             seq = list(seq)
             if not seq:
                 return default
-            return rng.choice(seq)
+            return self._rng.choice(seq)
 
         keys = uniq(list(symbols.keys()))
         emotion_names = [
