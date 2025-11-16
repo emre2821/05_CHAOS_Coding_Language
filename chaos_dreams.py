@@ -12,6 +12,7 @@ class DreamEngine:
         self._rng = random.Random(seed)
 
     def _choose(self, rng: random.Random, seq: Iterable[Any], default: str) -> str:
+        """Return a deterministic choice from *seq* or the provided *default*."""
         seq = list(seq)
         return default if not seq else rng.choice(seq)
 
