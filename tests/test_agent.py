@@ -1,4 +1,5 @@
 from chaos_agent import ChaosAgent, Action
+from chaos_dreams import DreamEngine
 
 def test_agent_step_minimal():
     sn = '''
@@ -36,3 +37,20 @@ def test_agent_accepts_fuzzy_intensity_strings():
     agent.perceive_sn(sn)
     assert agent.emotions.stack[-1].name == "HOPE"
     assert agent.emotions.stack[-1].intensity == 7
+
+
+def test_dream_engine_is_deterministic_with_seed():
+    symbols = {"sun": "bright", "moon": "quiet"}
+    emotions = [
+        {"name": "JOY", "intensity": 8},
+        {"name": "CALM", "intensity": 4},
+    ]
+    narrative = "listening to the tide together"
+
+    engine_a = DreamEngine(seed=1234)
+    engine_b = DreamEngine(seed=1234)
+
+    visions_a = engine_a.visions(symbols, emotions, narrative, count=5)
+    visions_b = engine_b.visions(symbols, emotions, narrative, count=5)
+
+    assert visions_a == visions_b
