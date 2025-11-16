@@ -25,3 +25,23 @@ def test_cli_executes_sn_file(tmp_path):
     lines = [line for line in result.stdout.splitlines() if line.strip()]
     assert any("structured_core" in line for line in lines)
 
+
+def test_complete_build_runs_without_warnings(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    output_path = tmp_path / "chaos_digest.md"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "chaos_language.complete_build.py",
+            "--output",
+            str(output_path),
+        ],
+        capture_output=True,
+        text=True,
+        cwd=repo_root,
+        check=True,
+    )
+
+    assert output_path.exists()
+    assert result.stderr.strip() == ""
+
