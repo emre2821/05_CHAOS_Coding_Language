@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -28,20 +29,29 @@ def test_cli_executes_sn_file(tmp_path):
 
 def test_complete_build_runs_without_warnings(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
+    script_path = repo_root / "chaos_language" / "complete_build.py"
+    assert script_path.exists(), "Complete-build script is missing"
+
     output_path = tmp_path / "chaos_digest.md"
+    env = os.environ.copy()
+    env.setdefault("PYTHONWARNINGS", "error")
+
     result = subprocess.run(
         [
             sys.executable,
-            "chaos_language.complete_build.py",
+            str(script_path.relative_to(repo_root)),
             "--output",
             str(output_path),
         ],
         capture_output=True,
         text=True,
         cwd=repo_root,
+        env=env,
         check=True,
     )
 
     assert output_path.exists()
     assert result.stderr.strip() == ""
+    combined = (result.stdout + result.stderr).lower()
+    assert "warning" not in combined
 

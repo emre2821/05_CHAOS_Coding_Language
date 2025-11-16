@@ -1,7 +1,7 @@
 # chaos_continued.complete_build.py
 r"""
 Continuation build script for EdenOS CHAOS environment.
-Triggered by chaos_language.complete_build.py
+Triggered by chaos_language/complete_build.py
 
 This script creates:
 - EdenOS root under C:\EdenOS_<USERNAME>\
