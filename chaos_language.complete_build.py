@@ -1,4 +1,4 @@
-"""CHAOS language complete-build generator.
+r"""CHAOS language complete-build generator.
 
 This module used to be a static Markdown dump that could not be executed as
 Python.  When Dreambearers attempted to run it they would hit a SyntaxError
