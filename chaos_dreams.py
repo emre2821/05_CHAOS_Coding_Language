@@ -13,9 +13,7 @@ class DreamEngine:
 
     def _choose(self, rng: random.Random, seq: Iterable[Any], default: str) -> str:
         seq = list(seq)
-        if not seq:
-            return default
-        return rng.choice(seq)
+        return default if not seq else rng.choice(seq)
 
     def visions(
         self,
