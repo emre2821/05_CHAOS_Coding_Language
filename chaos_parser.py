@@ -170,4 +170,5 @@ class ChaosParser:
             parts.append(str(tok.value))
         if self.check(TokenType.RIGHT_BRACE):
             self.advance()
-        return Node(NodeType.CHAOSFIELD_LAYER, value=(" ".join(parts)).strip())
+            return Node(NodeType.CHAOSFIELD_LAYER, value=(" ".join(parts)).strip())
+        raise SyntaxError("Unterminated chaosfield narrative; missing '}'")
