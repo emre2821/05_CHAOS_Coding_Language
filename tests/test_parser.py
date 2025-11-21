@@ -1,3 +1,5 @@
+import pytest
+
 from chaos_lexer import ChaosLexer
 from chaos_parser import ChaosParser, NodeType
 
@@ -11,3 +13,13 @@ def test_parse_three_layers():
     ast = ChaosParser(ChaosLexer().tokenize(src)).parse()
     assert ast.type == NodeType.PROGRAM
     assert len(ast.children) == 3
+
+
+def test_chaosfield_requires_closing_brace():
+    src = """
+    [EVENT]: memory
+    [EMOTION:JOY:7]
+    { The garden was alive.
+    """
+    with pytest.raises(SyntaxError):
+        ChaosParser(ChaosLexer().tokenize(src)).parse()
