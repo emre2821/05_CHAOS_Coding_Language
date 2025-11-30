@@ -1,0 +1,13 @@
+# CHAOS Production Dependencies
+# ==============================
+# This file lists pinned dependencies for reproducible installs.
+# For development, use: pip install -e ".[dev]"
+#
+# Note: CHAOS has no required dependencies beyond Python stdlib.
+# This file exists for explicit documentation and future extensions.
+#
+# Generated for CHAOS v0.1.0
+# Python >= 3.9 required
+
+# No external dependencies required for core functionality.
+# CHAOS uses Python standard library only.

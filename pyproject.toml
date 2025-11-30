@@ -12,6 +12,10 @@ license = { text = "Eden Cooperative License" }
 requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Intended Audience :: Information Technology",
     "License :: Other/Proprietary License",
     "Topic :: Office/Business",
@@ -19,9 +23,22 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pylint>=3.0.0",
+    "pre-commit>=3.6.0",
+    "isort>=5.13.0",
+    "build>=1.0.0",
+]
+
 [project.urls]
-Homepage = "https://example.com/eden-chaos"
-Source = "https://example.com/eden-chaos/source"
+Homepage = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language"
+Source = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language"
+Documentation = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language#readme"
+Issues = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/issues"
+Changelog = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/blob/main/CHANGELOG.md"
 
 [project.scripts]
 chaos-cli = "scripts.chaos_cli:main"
@@ -37,3 +54,34 @@ chaos_language = ["*.py"]
 [tool.pytest.ini_options]
 addopts = "-q"
 pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.pylint.main]
+ignore-patterns = ["__pycache__", ".*\\.egg-info"]
+py-version = "3.9"
+
+[tool.pylint.messages_control]
+# Disable checks that conflict with narrative-first coding style
+disable = [
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "W0511",  # fixme (allow TODO comments)
+    "C0301",  # line-too-long (handled by max-line-length)
+    "R0801",  # duplicate-code (narrative patterns may repeat)
+]
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.design]
+max-args = 10
+max-locals = 20
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+skip = [".venv", "venv", "build", "dist"]

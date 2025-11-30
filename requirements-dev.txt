@@ -1,0 +1,26 @@
+# CHAOS Development Dependencies
+# ===============================
+# Install with: pip install -r requirements-dev.txt
+# Or use: pip install -e ".[dev]"
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Linting and Code Quality
+pylint>=3.0.0
+isort>=5.13.0
+
+# Pre-commit hooks
+pre-commit>=3.6.0
+
+# Build tools
+build>=1.0.0
+wheel>=0.42.0
+
+# Type checking (optional)
+# mypy>=1.8.0
+
+# Documentation (optional)
+# sphinx>=7.0.0
+# sphinx-rtd-theme>=2.0.0
