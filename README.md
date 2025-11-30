@@ -1,5 +1,10 @@
 # CHAOS: Coding Language of Business
 
+[![Tests](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/tests.yml/badge.svg)](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/tests.yml)
+[![Pylint](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/pylint.yml/badge.svg)](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/pylint.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: Eden Cooperative](https://img.shields.io/badge/license-Eden%20Cooperative-purple.svg)](LICENSE)
+
 CHAOS (Contextual Harmonics and Operational Stories) is a narrative-first scripting
 language for organizations that want to capture structured telemetry, emotional
 signals, and qualitative story fragments in a single artifact. This repository
@@ -22,22 +27,41 @@ business memories into actionable intelligence.
 
 ## Quick Start
 
-```bash
-# create & activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate
+### Installation
 
-# install CHAOS in editable mode
+```bash
+# Create & activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install CHAOS in editable mode
 pip install -e .
 
-# inspect a script
+# Or with development dependencies
+pip install -e ".[dev]"
+```
+
+### Basic Usage
+
+```bash
+# Inspect a script
 chaos-cli chaos_corpus/memory_garden.sn --json
 
-# run with reporting outputs
+# Run with reporting outputs
 chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
 
-# open an empathic agent loop
+# Open an empathic agent loop
 chaos-agent --name Concord
+```
+
+### Using the Makefile
+
+```bash
+make dev      # Install development dependencies
+make test     # Run test suite
+make lint     # Run linter
+make coverage # Run tests with coverage report
+make help     # Show all available commands
 ```
 
 ## Project Layout
@@ -85,7 +109,13 @@ chaos-agent --name Concord
 ## Testing & Quality
 
 ```bash
+# Run all tests
 pytest
+
+# Run with coverage
+pytest --cov=chaos_language --cov-report=term-missing
+
+# Validate corpus integrity
 python scripts/chaos_fuzz.py
 ```
 
@@ -93,7 +123,65 @@ The `pytest` suite covers lexer, parser, interpreter, emotion stack, agent, CLI
 execution, and the reporting utilities. The fuzz harness ensures the sample
 corpus stays valid as the language evolves.
 
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md)
+for details on how to get started.
+
+Before contributing, please read our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Development
+
+### Prerequisites
+
+- Python 3.9 or higher
+- pip
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate
+
+# Install with dev dependencies
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+### Running Tests
+
+```bash
+make test     # Quick test run
+make coverage # With coverage report
+make lint     # Code quality check
+make check    # All checks
+```
+
+## Docker
+
+```bash
+# Build the image
+docker build -t chaos-language .
+
+# Run the agent
+docker run -it chaos-language
+
+# Run a specific command
+docker run chaos-language chaos-cli chaos_corpus/memory_garden.sn --json
+```
+
 ## License
 
 This project is released under the **Eden Cooperative License**—share with care,
 attribute with love, and keep the memories safe.
+
+---
+
+**Built with 💜 by Paradigm Eden**

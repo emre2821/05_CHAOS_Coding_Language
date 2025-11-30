@@ -15,23 +15,35 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest
+        pip install pytest pytest-cov
         pip install -e .
-    
-    - name: Run tests
+
+    - name: Run tests with coverage
       run: |
-        python -m pytest -v
+        python -m pytest -v --cov=chaos_language --cov-report=xml --cov-report=term-missing
       env:
         PYTHONPATH: src
+
+    - name: Upload coverage to Codecov
+      if: matrix.python-version == '3.11'
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./coverage.xml
+        fail_ci_if_error: false
+        verbose: true
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      # To enable coverage uploads, add CODECOV_TOKEN to repository secrets.
+      # See: https://docs.codecov.com/docs/adding-the-codecov-token

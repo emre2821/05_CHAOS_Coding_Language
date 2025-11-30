@@ -1,0 +1,61 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.sn$'  # Preserve narrative file formatting
+      - id: end-of-file-fixer
+        exclude: '\.sn$'
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: debug-statements
+
+  # Python syntax checking
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-blanket-type-ignore
+      - id: python-no-eval
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--line-length", "100"]
+        exclude: '\.sn$'
+
+  # Type checking (optional, non-blocking)
+  # Uncomment when ready to enforce type hints
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.8.0
+  #   hooks:
+  #     - id: mypy
+  #       args: [--ignore-missing-imports]
+  #       additional_dependencies: []
+
+# Configuration
+default_language_version:
+  python: python3
+
+# Files to exclude globally
+exclude: |
+  (?x)^(
+    chaos_corpus/.*\.sn$|  # Narrative files
+    \.git/|
+    \.venv/|
+    __pycache__/|
+    \.egg-info/|
+    build/|
+    dist/
+  )$
