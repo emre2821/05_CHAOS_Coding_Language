@@ -4,14 +4,14 @@ Emotion-driven agent that executes CHAOS scripts, updates memory, runs protocols
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
-from chaos_context import ChaosContext
-from chaos_dreams import DreamEngine
-from chaos_emotion import ChaosEmotionStack
-from chaos_graph import ChaosGraph
-from chaos_logger import ChaosLogger
-from chaos_protocols import ProtocolRegistry
-from chaos_runtime import run_chaos
-from chaos_stdlib import norm_key, soft_intensity, text_snippet
+from .chaos_context import ChaosContext
+from .chaos_dreams import DreamEngine
+from .chaos_emotion import ChaosEmotionStack
+from .chaos_graph import ChaosGraph
+from .chaos_logger import ChaosLogger
+from .chaos_protocols import ProtocolRegistry
+from .chaos_runtime import run_chaos
+from .chaos_stdlib import norm_key, soft_intensity, text_snippet
 
 
 @dataclass

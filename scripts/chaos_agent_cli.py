@@ -5,7 +5,7 @@ import argparse
 import os
 from typing import Optional
 
-from chaos_agent import ChaosAgent
+from chaos_language import ChaosAgent
 
 BANNER = """\
 CHAOS Agent CLI 🌌

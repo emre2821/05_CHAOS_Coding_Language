@@ -5,10 +5,7 @@ import os
 from pathlib import Path
 from typing import Any, Dict
 
-from chaos_agent import ChaosAgent
-from chaos_reports import generate_business_report, render_report_lines
-from chaos_runtime import run_chaos
-from chaos_validator import validate_chaos
+from chaos_language import ChaosAgent, generate_business_report, render_report_lines, run_chaos, validate_chaos
 
 
 def main():

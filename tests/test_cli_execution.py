@@ -15,11 +15,14 @@ def test_cli_executes_sn_file(tmp_path):
     )
 
     repo_root = Path(__file__).resolve().parents[1]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(repo_root / "src")
     result = subprocess.run(
-        [sys.executable, "chaos_cli.py", str(script), "--json"],
+        [sys.executable, "scripts/chaos_cli.py", str(script), "--json"],
         capture_output=True,
         text=True,
         cwd=repo_root,
+        env=env,
         check=True,
     )
 
@@ -29,7 +32,7 @@ def test_cli_executes_sn_file(tmp_path):
 
 def test_complete_build_runs_without_warnings(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
-    script_path = repo_root / "chaos_language" / "complete_build.py"
+    script_path = repo_root / "src" / "chaos_language" / "complete_build.py"
     assert script_path.exists(), "Complete-build script is missing"
 
     output_path = tmp_path / "chaos_digest.md"

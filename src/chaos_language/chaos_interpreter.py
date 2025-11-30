@@ -3,7 +3,7 @@ Interpreter: walk parse tree -> environment dict.
 """
 from typing import Dict, Any
 
-from chaos_parser import NodeType, Node
+from .chaos_parser import NodeType, Node
 
 
 class ChaosInterpreter:

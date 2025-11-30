@@ -1,5 +1,4 @@
-from chaos_reports import generate_business_report, render_report_lines
-from chaos_runtime import run_chaos
+from chaos_language import generate_business_report, render_report_lines, run_chaos
 
 
 def test_generate_business_report_highlights_top_emotion():
