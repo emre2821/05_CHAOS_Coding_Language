@@ -4,8 +4,7 @@ Run every .sn in chaos_corpus/ through the runtime.
 import glob
 import os
 
-from chaos_runtime import run_chaos
-from chaos_validator import validate_chaos
+from chaos_language import run_chaos, validate_chaos
 
 
 def main():

@@ -24,34 +24,16 @@ Homepage = "https://example.com/eden-chaos"
 Source = "https://example.com/eden-chaos/source"
 
 [project.scripts]
-chaos-cli = "chaos_cli:main"
-chaos-exec = "chaos_exec:main"
-chaos-agent = "chaos_agent_cli:main"
+chaos-cli = "scripts.chaos_cli:main"
+chaos-exec = "scripts.chaos_exec:main"
+chaos-agent = "scripts.chaos_agent_cli:main"
 
-[tool.setuptools]
-py-modules = [
-    "chaos_agent",
-    "chaos_agent_cli",
-    "chaos_cli",
-    "chaos_context",
-    "chaos_dreams",
-    "chaos_emotion",
-    "chaos_errors",
-    "chaos_exec",
-    "chaos_graph",
-    "chaos_interpreter",
-    "chaos_lexer",
-    "chaos_logger",
-    "chaos_parser",
-    "chaos_protocols",
-    "chaos_reports",
-    "chaos_runtime",
-    "chaos_stdlib",
-    "chaos_validator",
-    "chaos_fuzz",
-    "EdenCore",
-]
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+chaos_language = ["*.py"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
-pythonpath = ["."]
+pythonpath = ["src", "."]

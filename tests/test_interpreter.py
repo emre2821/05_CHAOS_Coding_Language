@@ -1,6 +1,6 @@
 # File: tests/test_interpreter.py
 
-from chaos_runtime import run_chaos
+from chaos_language import run_chaos
 
 def test_interpreter_env_keys():
     src = '''

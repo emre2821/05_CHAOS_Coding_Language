@@ -42,29 +42,42 @@ chaos-agent --name Concord
 
 ## Project Layout
 
-| Path | Purpose |
-| ---- | ------- |
-| `chaos_lexer.py` | Tokenizes CHAOS syntax into typed tokens. |
-| `chaos_parser.py` | Produces the three-layer abstract syntax tree. |
-| `chaos_interpreter.py` | Walks the AST into the runtime environment. |
-| `chaos_runtime.py` | High-level helper that runs lexer → parser → interpreter. |
-| `chaos_validator.py` | Preflight validation to guarantee all three layers exist. |
-| `chaos_exec.py` | Command-line runner with JSON and business report output. |
-| `chaos_cli.py` | Interactive shell and script inspector. |
-| `chaos_agent.py` | Emotion-aware agent orchestrating dreams and protocols. |
-| `chaos_reports.py` | Business-facing environment reporting utilities. |
-| `chaos_corpus/` | Example `.sn` scripts for inspiration and tests. |
-| `docs/chaos_monorepo.md` | Reference dump of the full CHAOS core stack modules. |
+```
+/
+├── src/
+│   └── chaos_language/       # Main package code/modules
+│       ├── __init__.py       # Package exports
+│       ├── chaos_lexer.py    # Tokenizes CHAOS syntax
+│       ├── chaos_parser.py   # Produces three-layer AST
+│       ├── chaos_interpreter.py  # Walks AST into runtime environment
+│       ├── chaos_runtime.py  # High-level lexer → parser → interpreter
+│       ├── chaos_validator.py    # Preflight validation
+│       ├── chaos_agent.py    # Emotion-aware agent
+│       ├── chaos_reports.py  # Business-facing reporting utilities
+│       └── ...               # Additional modules
+├── tests/                    # Unit/integration tests
+├── scripts/                  # CLI entry points and utilities
+│   ├── chaos_cli.py          # Interactive shell and script inspector
+│   ├── chaos_exec.py         # Command-line runner with JSON/report output
+│   ├── chaos_agent_cli.py    # Agent REPL
+│   └── chaos_fuzz.py         # Corpus validation runner
+├── docs/                     # Documentation
+├── chaos_corpus/             # Example .sn scripts for inspiration and tests
+├── .github/workflows/        # CI/CD workflows
+├── .gitignore
+├── README.md
+├── pyproject.toml            # Project configuration
+└── conftest.py               # Pytest configuration
+```
 
 ## Embedding CHAOS in Your Systems
 
 1. **Capture rituals.** Compose `.sn` scripts during customer calls, incident
    reviews, or strategic planning. Include structured fields (e.g., `ACCOUNT_ID`,
    `STAGE`) along with emotional annotations.
-2. **Automate ingestion.** Use `run_chaos` from `chaos_runtime` or the CLI to
+2. **Automate ingestion.** Use `run_chaos` from `chaos_language` or the CLI to
    convert scripts into JSON for data pipelines, or call
-   `chaos_reports.generate_business_report` to produce stakeholder-friendly
-   snapshots.
+   `generate_business_report` to produce stakeholder-friendly snapshots.
 3. **Close the loop.** Feed transcripts into `ChaosAgent` to elicit protocol
    recommendations (`stabilize`, `transform`, `relate`) and dream summaries that
    surface hidden connections.
@@ -73,7 +86,7 @@ chaos-agent --name Concord
 
 ```bash
 pytest
-python chaos_fuzz.py
+python scripts/chaos_fuzz.py
 ```
 
 The `pytest` suite covers lexer, parser, interpreter, emotion stack, agent, CLI

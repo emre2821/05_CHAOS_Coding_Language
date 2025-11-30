@@ -1,8 +1,6 @@
 # chaos_cli.py
 
-from chaos_lexer import ChaosLexer
-from chaos_parser import ChaosParser
-from chaos_interpreter import ChaosInterpreter
+from chaos_language import ChaosLexer, ChaosParser, ChaosInterpreter
 
 import argparse
 import json

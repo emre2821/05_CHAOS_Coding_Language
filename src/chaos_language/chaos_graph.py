@@ -3,7 +3,7 @@ Undirected lightweight graph for symbols/entities.
 """
 from typing import Any, Dict, Set
 
-from chaos_errors import ChaosGraphError
+from .chaos_errors import ChaosGraphError
 
 
 class ChaosGraph:

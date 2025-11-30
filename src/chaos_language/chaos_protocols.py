@@ -4,7 +4,7 @@ Oaths, rituals, contracts w/ scoring.
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
-from chaos_stdlib import text_snippet, weighted_pick
+from .chaos_stdlib import text_snippet, weighted_pick
 
 
 @dataclass

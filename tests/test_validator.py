@@ -1,7 +1,6 @@
 import pytest
 
-from chaos_errors import ChaosValidationError
-from chaos_validator import validate_chaos
+from chaos_language import ChaosValidationError, validate_chaos
 
 
 def test_validate_chaos_accepts_valid_script():

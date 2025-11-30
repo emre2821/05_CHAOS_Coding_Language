@@ -4,8 +4,8 @@ Minimal parser: PROGRAM -> [STRUCTURED_CORE, EMOTIVE_LAYER, CHAOSFIELD_LAYER]
 from enum import Enum, auto
 from typing import Any, Dict, List
 
-from chaos_lexer import Token, TokenType
-from chaos_stdlib import soft_intensity
+from .chaos_lexer import Token, TokenType
+from .chaos_stdlib import soft_intensity
 
 
 class NodeType(Enum):

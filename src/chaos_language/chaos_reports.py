@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Dict, Iterable, List
 
-from chaos_stdlib import text_snippet, uniq
+from .chaos_stdlib import text_snippet, uniq
 
 
 def _normalize_emotions(emotions: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:

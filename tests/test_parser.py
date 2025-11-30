@@ -1,7 +1,7 @@
 import pytest
 
-from chaos_lexer import ChaosLexer
-from chaos_parser import ChaosParser, NodeType
+from chaos_language import ChaosLexer, ChaosParser
+from chaos_language.chaos_parser import NodeType
 
 
 def test_parse_three_layers():

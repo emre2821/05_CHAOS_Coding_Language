@@ -1,5 +1,5 @@
 import pytest
-from chaos_lexer import ChaosLexer, TokenType
+from chaos_language import ChaosLexer, TokenType
 
 def test_lex_basic_pairs():
     src = '[EVENT]: memory\n[CONTEXT]: garden\n'

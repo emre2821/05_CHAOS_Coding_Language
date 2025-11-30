@@ -17,9 +17,9 @@ from __future__ import annotations
 
 from typing import Dict, List
 
-from chaos_errors import ChaosValidationError
-from chaos_lexer import ChaosLexer
-from chaos_parser import ChaosParser, Node, NodeType
+from .chaos_errors import ChaosValidationError
+from .chaos_lexer import ChaosLexer
+from .chaos_parser import ChaosParser, Node, NodeType
 
 
 def validate_chaos(source: str) -> None:

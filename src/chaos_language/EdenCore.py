@@ -1,6 +1,6 @@
 import os
 
-from chaos_agent import ChaosAgent
+from .chaos_agent import ChaosAgent
 
 
 class EdenCore:

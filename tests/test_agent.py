@@ -1,5 +1,6 @@
-from chaos_agent import ChaosAgent, Action
-from chaos_dreams import DreamEngine
+from chaos_language import ChaosAgent
+from chaos_language.chaos_agent import Action
+from chaos_language.chaos_dreams import DreamEngine
 
 def test_agent_step_minimal():
     sn = '''

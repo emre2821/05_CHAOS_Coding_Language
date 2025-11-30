@@ -18,18 +18,27 @@ from pathlib import Path
 from typing import Iterable, List, Sequence
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent
+# Script is now in src/chaos_language/, so go up two levels to reach repo root
+REPO_ROOT = SCRIPT_DIR.parent.parent
 DEFAULT_OUTPUT = REPO_ROOT / "chaos_language.complete_build.md"
 LEGACY_ENTRYPOINT = "chaos_language.complete_build.py"
-TOP_LEVEL_EXCLUDES = {LEGACY_ENTRYPOINT}
-DEFAULT_EMBED_DIRS = ("chaos_corpus",)
+TOP_LEVEL_EXCLUDES = {LEGACY_ENTRYPOINT, "conftest.py"}
+DEFAULT_EMBED_DIRS = ("chaos_corpus", "scripts")
 
 
 def _default_targets(include_tests: bool = False) -> List[Path]:
     """Return the ordered list of repository files to embed in the digest."""
-    top_level_modules = sorted(
-        path for path in REPO_ROOT.glob("*.py") if path.name not in TOP_LEVEL_EXCLUDES
+    # Get modules from src/chaos_language/
+    package_dir = REPO_ROOT / "src" / "chaos_language"
+    package_modules = sorted(
+        path for path in package_dir.glob("*.py")
+        if path.name not in TOP_LEVEL_EXCLUDES and not path.name.startswith("_")
     )
+
+    # Also include the __init__.py
+    init_file = package_dir / "__init__.py"
+    if init_file.exists() and init_file not in package_modules:
+        package_modules.insert(0, init_file)
 
     extras = [REPO_ROOT / "README.md", REPO_ROOT / "pyproject.toml"]
 
@@ -41,14 +50,14 @@ def _default_targets(include_tests: bool = False) -> List[Path]:
             sorted(
                 path
                 for path in dir_path.rglob("*")
-                if path.is_file()
+                if path.is_file() and path.suffix in {".py", ".sn", ".md"}
             )
         )
 
     if include_tests:
         extras.extend(sorted(REPO_ROOT.joinpath("tests").rglob("*.py")))
 
-    ordered = top_level_modules + extras
+    ordered = package_modules + extras
     return _deduplicate_preserving_order(ordered)
 
 

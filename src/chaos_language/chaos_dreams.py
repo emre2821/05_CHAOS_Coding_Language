@@ -4,7 +4,7 @@ Dream engine: concise visions generated from state.
 import random
 from typing import Any, Dict, Iterable, List, Optional
 
-from chaos_stdlib import text_snippet, uniq
+from .chaos_stdlib import text_snippet, uniq
 
 
 class DreamEngine:

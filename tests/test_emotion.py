@@ -1,4 +1,4 @@
-from chaos_emotion import ChaosEmotionStack
+from chaos_language import ChaosEmotionStack
 
 def test_emotion_triggers_and_transition():
     es = ChaosEmotionStack()
