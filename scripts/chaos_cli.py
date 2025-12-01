@@ -1,11 +1,11 @@
 # chaos_cli.py
 
-from chaos_language import ChaosLexer, ChaosParser, ChaosInterpreter
-
 import argparse
 import json
 import sys
 from pathlib import Path
+
+from chaos_language import ChaosLexer, ChaosParser, ChaosInterpreter
 
 def run_chaos(code, show_tokens=False, show_ast=False, output_json=False):
     lexer = ChaosLexer()
