@@ -47,10 +47,13 @@ chaos-exec = "chaos_language.cli.chaos_exec:main"
 chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
 
 [tool.setuptools.packages.find]
+where = ["src", "."]
+include = ["*"]
+exclude = ["tests", "tests.*"]
 
 [tool.setuptools.package-data]
 chaos_language = ["*.py"]
-chaos_corpus = ["*.sn"]
+chaos_corpus = ["**/*.sn"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
