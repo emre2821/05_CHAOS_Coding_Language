@@ -42,13 +42,11 @@ Issues = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/issues"
 Changelog = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/blob/main/CHANGELOG.md"
 
 [project.scripts]
-chaos-cli = "scripts.chaos_cli:main"
-chaos-exec = "scripts.chaos_exec:main"
-chaos-agent = "scripts.chaos_agent_cli:main"
+chaos-cli = "chaos_language.cli.chaos_cli:main"
+chaos-exec = "chaos_language.cli.chaos_exec:main"
+chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
 
 [tool.setuptools.packages.find]
-where = ["src", "."]
-include = ["chaos_language*", "chaos_corpus", "scripts*"]
 
 [tool.setuptools.package-data]
 chaos_language = ["*.py"]
