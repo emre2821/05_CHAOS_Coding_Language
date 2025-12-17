@@ -3,27 +3,10 @@
 import argparse
 import json
 import sys
-from importlib import resources
 from pathlib import Path
 
 from chaos_language import ChaosLexer, ChaosParser, ChaosInterpreter
-
-
-def resolve_packaged_script(script_path):
-    try:
-        corpus_root = resources.files("chaos_corpus")
-    except ModuleNotFoundError:
-        return None
-
-    relative_path = script_path
-    if relative_path.parts and relative_path.parts[0] == "chaos_corpus":
-        relative_path = Path(*relative_path.parts[1:])
-
-    candidate = corpus_root.joinpath(relative_path)
-    if candidate.is_file():
-        with resources.as_file(candidate) as resolved:
-            return resolved
-    return None
+from chaos_language.cli.packaged_scripts import resolve_packaged_script
 
 
 def run_chaos(code, show_tokens=False, show_ast=False, output_json=False):
@@ -65,15 +48,16 @@ def main():
         if script_path.suffix.lower() != ".sn":
             parser.error("CHAOS scripts must use the .sn extension")
 
+        resolved_path = script_path
         if not script_path.exists():
             packaged_script = resolve_packaged_script(script_path)
             if packaged_script is None:
                 print(f"💥 File not found: {script_path}")
                 sys.exit(1)
-            script_path = packaged_script
+            resolved_path = packaged_script
 
         try:
-            source = script_path.read_text(encoding="utf-8")
+            source = resolved_path.read_text(encoding="utf-8")
         except OSError as err:
             print(f"💥 Could not read {script_path}: {err}")
             sys.exit(1)

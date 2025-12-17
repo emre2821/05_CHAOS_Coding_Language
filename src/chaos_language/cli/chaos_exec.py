@@ -1,28 +1,18 @@
 """CHAOS executor for scripts with optional agent mode."""
 import argparse
 import json
-from importlib import resources
+from importlib.abc import Traversable
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
-from chaos_language import ChaosAgent, generate_business_report, render_report_lines, run_chaos, validate_chaos
-
-
-def resolve_packaged_script(script_path: Path):
-    try:
-        corpus_root = resources.files("chaos_corpus")
-    except ModuleNotFoundError:
-        return None
-
-    relative_path = script_path
-    if relative_path.parts and relative_path.parts[0] == "chaos_corpus":
-        relative_path = Path(*relative_path.parts[1:])
-
-    candidate = corpus_root.joinpath(relative_path)
-    if candidate.is_file():
-        with resources.as_file(candidate) as resolved:
-            return resolved
-    return None
+from chaos_language import (
+    ChaosAgent,
+    generate_business_report,
+    render_report_lines,
+    run_chaos,
+    validate_chaos,
+)
+from chaos_language.cli.packaged_scripts import resolve_packaged_script
 
 
 def main():
@@ -50,7 +40,7 @@ def main():
 
     if args.file:
         script_path = Path(args.file)
-        resolved_path = script_path
+        resolved_path: Union[Path, Traversable] = script_path
 
         if not script_path.exists():
             packaged_script = resolve_packaged_script(script_path)
@@ -59,7 +49,7 @@ def main():
                 return
             resolved_path = packaged_script
 
-        with open(resolved_path, "r", encoding="utf-8") as handle:
+        with resolved_path.open("r", encoding="utf-8") as handle:  # type: ignore[arg-type]
             src = handle.read()
         validate_chaos(src)
         env = run_chaos(src, verbose=args.verbose)

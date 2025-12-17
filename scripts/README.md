@@ -1,6 +1,8 @@
 # Scripts
 
 This directory contains CLI entry points and utility scripts for the CHAOS language.
+The CLI files are thin shims that delegate to the maintained implementations in
+`chaos_language.cli`, keeping the legacy `scripts/` paths working for tooling and docs.
 
 ## CLI Tools
 
