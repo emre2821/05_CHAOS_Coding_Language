@@ -1,11 +1,28 @@
 """CHAOS executor for scripts with optional agent mode."""
 import argparse
 import json
-import os
+from importlib import resources
 from pathlib import Path
 from typing import Any, Dict
 
 from chaos_language import ChaosAgent, generate_business_report, render_report_lines, run_chaos, validate_chaos
+
+
+def resolve_packaged_script(script_path: Path):
+    try:
+        corpus_root = resources.files("chaos_corpus")
+    except ModuleNotFoundError:
+        return None
+
+    relative_path = script_path
+    if relative_path.parts and relative_path.parts[0] == "chaos_corpus":
+        relative_path = Path(*relative_path.parts[1:])
+
+    candidate = corpus_root.joinpath(relative_path)
+    if candidate.is_file():
+        with resources.as_file(candidate) as resolved:
+            return resolved
+    return None
 
 
 def main():
@@ -32,10 +49,17 @@ def main():
     agent = ChaosAgent("Concord") if args.agent else None
 
     if args.file:
-        if not os.path.exists(args.file):
-            print("File not found.")
-            return
-        with open(args.file, "r", encoding="utf-8") as handle:
+        script_path = Path(args.file)
+        resolved_path = script_path
+
+        if not script_path.exists():
+            packaged_script = resolve_packaged_script(script_path)
+            if packaged_script is None:
+                print("File not found.")
+                return
+            resolved_path = packaged_script
+
+        with open(resolved_path, "r", encoding="utf-8") as handle:
             src = handle.read()
         validate_chaos(src)
         env = run_chaos(src, verbose=args.verbose)
