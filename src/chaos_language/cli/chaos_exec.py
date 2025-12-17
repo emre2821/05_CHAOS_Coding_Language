@@ -1,9 +1,8 @@
 """CHAOS executor for scripts with optional agent mode."""
 import argparse
 import json
-from importlib.abc import Traversable
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Dict, Protocol
 
 from chaos_language import (
     ChaosAgent,
@@ -13,6 +12,11 @@ from chaos_language import (
     validate_chaos,
 )
 from chaos_language.cli.packaged_scripts import resolve_packaged_script
+
+
+class ReadableTextResource(Protocol):
+    def read_text(self, encoding: str | None = ...) -> str:
+        ...
 
 
 def main():
@@ -40,7 +44,7 @@ def main():
 
     if args.file:
         script_path = Path(args.file)
-        resolved_path: Union[Path, Traversable] = script_path
+        resolved_path: ReadableTextResource = script_path
 
         if not script_path.exists():
             packaged_script = resolve_packaged_script(script_path)
@@ -49,8 +53,7 @@ def main():
                 return
             resolved_path = packaged_script
 
-        with resolved_path.open("r", encoding="utf-8") as handle:  # type: ignore[arg-type]
-            src = handle.read()
+        src = resolved_path.read_text(encoding="utf-8")
         validate_chaos(src)
         env = run_chaos(src, verbose=args.verbose)
         print(json.dumps(env, indent=2))
