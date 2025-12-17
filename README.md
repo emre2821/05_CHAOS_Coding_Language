@@ -54,6 +54,19 @@ CHAOS is not for:
 - **Rejection of hollow optimization.** Performance or automation must not erase
   meaning, context, or ethical posture.
 
+## Key Terms
+
+- **Artifact.** A CHAOS `.sn` document that pairs symbolic, emotional, and
+  ethical context with optional execution hooks; it is the primary unit of work
+  in this repository.
+- **Ritual object.** The form an artifact takes when it is meant to be held and
+  read as a living agreement—something to be honored, not just executed.
+- **Symbolic memory.** The motifs, roles, and relationships an artifact carries
+  forward so agents can remember context and obligations across interactions.
+- **Governance layer.** The portion of an artifact that encodes consent flows,
+  boundaries, and decision rights so tooling can align with the declared
+  ethics before any action is attempted.
+
 ## File Philosophy
 
 A CHAOS file is a living ritual object. It typically names:
@@ -86,7 +99,7 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 
 - **EdenOS substrate.** CHAOS binds rituals, governance, and operational stories
   within EdenOS.
-- **CHAOS CLI and scripts.** Use `chaos-cli` and `chaos-exec` to inspect,
+- **CHAOS CLI and artifacts.** Use `chaos-cli` and `chaos-exec` to inspect,
   interpret, or optionally execute `.sn` artifacts with reporting outputs.
 - **Agent runtimes.** `ChaosAgent` and related runtimes maintain symbols,
   emotions, and relationships in sync with declared boundaries.
@@ -158,12 +171,12 @@ make help     # Show all available commands
 │       └── ...               # Additional modules
 ├── tests/                    # Unit/integration tests
 ├── scripts/                  # CLI entry points and utilities
-│   ├── chaos_cli.py          # Interactive shell and script inspector
-│   ├── chaos_exec.py         # Command-line runner with JSON/report output
+│   ├── chaos_cli.py          # Interactive shell and artifact inspector
+│   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
-│   └── chaos_fuzz.py         # Corpus validation runner
+│   └── chaos_fuzz.py         # Artifact corpus validation runner
 ├── docs/                     # Documentation
-├── chaos_corpus/             # Example .sn scripts for inspiration and tests
+├── chaos_corpus/             # Example .sn artifacts for inspiration and tests
 ├── .github/workflows/        # CI/CD workflows
 ├── .gitignore
 ├── README.md
