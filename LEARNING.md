@@ -58,11 +58,11 @@ Choose your path based on your background and goals:
 
 ### Path 3: "I'm an EdenOS Contributor"
 
-1. [CHAOS in the EdenOS Ecosystem](#chaos-in-edenos)
+1. [What is CHAOS?](#what-is-chaos)
 2. [Governance Layer Usage](#tutorial-5-governance-artifacts)
 3. [Agent Protocols](#tutorial-6-protocol-definition)
-4. [Embedding CHAOS in Services](#embedding-chaos)
-5. [Extending the Runtime](#extending-chaos)
+4. [Embedding CHAOS in Services](#embedding-chaos-in-python)
+5. [Extending the Runtime](#extending-the-validator)
 
 **Time investment:** 6-10 hours to master integration patterns
 
