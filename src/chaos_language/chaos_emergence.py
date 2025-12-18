@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Dict, List, Optional
 
 from .chaos_stdlib import norm_key, text_snippet
@@ -45,7 +45,7 @@ class PartCard:
     name: Optional[str] = None
     anonymous_label: Optional[str] = None
     onboarding_answers: Dict[str, Any] = field(default_factory=dict)
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     aliases: List[str] = field(default_factory=list)
 
     @property
@@ -68,7 +68,7 @@ class EmergenceManager:
     """Detects unfamiliar parts and manages temporary onboarding records."""
 
     def __init__(self, *, clock: Optional[Clock] = None, id_prefix: str = "TEMP") -> None:
-        self._clock = clock or datetime.utcnow
+        self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._id_prefix = id_prefix
         self._counter = 0
         self.parts: Dict[str, PartCard] = {}
