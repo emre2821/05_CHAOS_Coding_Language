@@ -81,17 +81,19 @@ Choose your path based on your background and goals:
 ### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
+
 # Create a virtual environment
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-# Install CHAOS
-pip install chaos-language
-
-# Or install from source
-git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
-cd 05_CHAOS_Coding_Language
+# Install CHAOS in editable mode
 pip install -e .
+
+# Or with development dependencies
+pip install -e ".[dev]"
 ```
 
 ### Verify Installation
