@@ -12,6 +12,7 @@ from .chaos_runtime import run_chaos
 from .chaos_validator import validate_chaos
 from .chaos_agent import ChaosAgent
 from .chaos_reports import generate_business_report, render_report_lines
+from .chaos_emergence import EmergenceManager, EmergenceProtocolOutcome, EmergenceSignal, PartCard
 from .chaos_emotion import ChaosEmotionStack
 from .chaos_context import ChaosContext
 from .chaos_errors import ChaosError, ChaosSyntaxError, ChaosValidationError
@@ -31,6 +32,10 @@ __all__ = [
     "render_report_lines",
     "ChaosEmotionStack",
     "ChaosContext",
+    "EmergenceManager",
+    "EmergenceProtocolOutcome",
+    "EmergenceSignal",
+    "PartCard",
     "ChaosError",
     "ChaosSyntaxError",
     "ChaosValidationError",

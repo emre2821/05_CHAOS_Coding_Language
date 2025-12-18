@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 from .chaos_context import ChaosContext
 from .chaos_dreams import DreamEngine
 from .chaos_emotion import ChaosEmotionStack
+from .chaos_emergence import EmergenceManager, EmergenceProtocolOutcome
 from .chaos_graph import ChaosGraph
 from .chaos_logger import ChaosLogger
 from .chaos_protocols import ProtocolRegistry
@@ -39,6 +40,7 @@ class ChaosAgent:
         self.graph = ChaosGraph()
         self.protocols = ProtocolRegistry()
         self.dreams = DreamEngine(seed=seed)
+        self.emergence = EmergenceManager()
 
     def perceive_text(self, text: str) -> None:
         self.log.log(f"{self.name} perceived: {text_snippet(text)}")
@@ -112,10 +114,14 @@ class ChaosAgent:
             log=self.log.export(),
         )
 
+    def detect_emergence(self, session_data: Dict[str, Any]) -> EmergenceProtocolOutcome:
+        """Shortcut to run the unfamiliar-part detection protocol."""
+
+        return self.emergence.trigger_emergence_protocol(session_data)
+
     def _emotion_snapshot(self) -> List[Dict[str, Any]]:
         return [
             {"name": emotion.name, "intensity": emotion.intensity}
             for emotion in self.emotions.stack
             if emotion.is_active()
         ]
-
