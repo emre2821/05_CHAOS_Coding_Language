@@ -14,7 +14,7 @@ Welcome to the CHAOS learning guide. Whether you're new to CHAOS or looking to d
 - [Advanced Topics](#advanced-topics)
 - [Practice Exercises](#practice-exercises)
 - [Additional Resources](#additional-resources)
-- [Community & Support](#community--support)
+- [Community & Support](#community-support)
 
 ## What is CHAOS?
 
@@ -42,7 +42,7 @@ Choose your path based on your background and goals:
 2. [Reading CHAOS Artifacts](#reading-your-first-artifact)
 3. [Writing Simple Artifacts](#tutorial-1-hello-chaos)
 4. [Using the CLI Tools](#tutorial-2-using-the-cli)
-5. [Exploring Example Corpus](#exploring-the-corpus)
+5. [Practice Exercises](#practice-exercises)
 
 **Time investment:** 4-6 hours to get comfortable
 
@@ -72,7 +72,7 @@ Choose your path based on your background and goals:
 2. [Consent & Refusal Mechanisms](#consent-and-refusal)
 3. [Emotional Safety](#emotional-safety)
 4. [Traceability & Intent](#traceability)
-5. [Ethical Boundaries in Code](#ethical-boundaries)
+5. [Governance Artifacts](#tutorial-5-governance-artifacts)
 
 **Time investment:** 3-5 hours for philosophical grounding
 
