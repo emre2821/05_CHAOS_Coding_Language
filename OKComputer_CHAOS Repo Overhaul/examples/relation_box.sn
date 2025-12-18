@@ -1,0 +1,12 @@
+[EVENT]: relation
+[TYPE]: connection
+[SYMBOL:PERSONA:ALLY]
+[SYMBOL:PERSONA:TRUST]
+[RELATIONSHIP:ALLY:TRUST:8]
+[EMOTION:WARMTH:6]
+[EMOTION:BELONGING:7]
+{
+The threads between us shimmer with shared understanding.
+Each connection strengthens the whole, each relationship a bridge
+across the spaces that once seemed insurmountable.
+}

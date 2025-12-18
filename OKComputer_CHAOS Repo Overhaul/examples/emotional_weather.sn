@@ -1,0 +1,13 @@
+[PHENOMENON]: emotional_weather
+[LOCATION]: inner_landscape
+[SYMBOL:STATE:STORM]
+[SYMBOL:STATE:CLEARING]
+[EMOTION:FEAR:8]
+[EMOTION:HOPE:3]
+[TRANSITION:STORM_TO_CLEAR]
+{
+The storm rages through the landscape of feeling,
+But even in the darkest turbulence, there are signs of clearing.
+Each flash of lightning illuminates what needs to be seen.
+Each peal of thunder speaks truths that silence cannot hold.
+}

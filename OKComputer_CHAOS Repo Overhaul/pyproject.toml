@@ -1,0 +1,130 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaos-lang"
+description = "CHAOS: A Symbolic-Emotional Programming Language"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "CHAOS Community", email = "chaos@edenos.org"},
+]
+keywords = ["language", "symbolic", "emotional", "programming", "chaos", "eden"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Interpreters",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Artistic Software",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "pre-commit",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "myst-parser",
+]
+
+[project.urls]
+Homepage = "https://github.com/chaos-lang/chaos"
+Repository = "https://github.com/chaos-lang/chaos"
+Documentation = "https://chaos-lang.readthedocs.io"
+"Bug Tracker" = "https://github.com/chaos-lang/chaos/issues"
+
+[project.scripts]
+chaos = "chaos.chaos_cli:main"
+chaos-agent = "chaos.chaos_agent_cli:main"
+chaos-exec = "chaos.chaos_exec:main"
+chaos-fuzz = "chaos.chaos_fuzz:main"
+edencore = "chaos.eden_core:main"
+
+[tool.setuptools_scm]
+write_to = "src/chaos/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "tests/*",
+    "setup.py",
+    "src/chaos/_version.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
