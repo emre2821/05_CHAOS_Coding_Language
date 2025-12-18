@@ -215,6 +215,12 @@ corpus stays valid as the language evolves.
 We welcome contributions. Please see our [Contributing Guide](CONTRIBUTING.md)
 for details on how to get started, and read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
+For comprehensive project information, see:
+- **[GOVERNANCE.md](GOVERNANCE.md)** — Project governance and decision-making
+- **[DEV.md](DEV.md)** — Developer guide and architecture
+- **[LEARNING.md](LEARNING.md)** — Tutorials and learning resources
+- **[GLOSSARY.md](GLOSSARY.md)** — Complete terminology reference
+
 ## Development
 
 ### Prerequisites
