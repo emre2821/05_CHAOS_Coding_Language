@@ -54,6 +54,30 @@ CHAOS is not for:
 - **Rejection of hollow optimization.** Performance or automation must not erase
   meaning, context, or ethical posture.
 
+## Specification & File Format
+
+CHAOS has a formal specification that defines the canonical file format:
+
+- **[SPEC.md](SPEC.md)** — Complete language specification (single source of truth)
+- **[schema/chaos.schema.json](schema/chaos.schema.json)** — Machine-checkable JSON Schema
+- **[examples/](examples/)** — Reference files demonstrating the format
+- **[templates/](templates/)** — Ready-to-use templates for new files
+
+### File Structure
+
+CHAOS files consist of:
+1. **Header section** with key-value metadata (required: `file_type`, `tags`)
+2. **Content section** enclosed in `[CONTENT BEGIN]` ... `[CONTENT END]` markers
+
+### Ethics & Safety Fields
+
+CHAOS includes optional fields for consent-aware and safety-conscious systems:
+- `consent`: `explicit` | `implicit` | `none`
+- `safety_tier`: `low` | `med` | `high`
+- `sensitive`: `pii` | `trauma` | `none`
+
+See [SPEC.md](SPEC.md) for complete field definitions and validation rules.
+
 ## Key Terms
 
 - **Artifact.** A CHAOS `.sn` document that pairs symbolic, emotional, and
@@ -134,7 +158,17 @@ pip install -e ".[dev]"
 ### Basic Usage
 
 ```bash
-# Inspect a CHAOS artifact (human-readable first)
+# Validate CHAOS files (new format with headers)
+chaos-validate examples/memory_vow.chaos -v
+
+# Validate multiple files or directories
+chaos-validate examples/*.chaos
+chaos-validate --dir examples/
+
+# Check for ethical compliance
+chaos-validate examples/config_with_pii.chaos --fail-on-sensitive
+
+# Inspect legacy .sn artifacts (human-readable first)
 chaos-cli chaos_corpus/memory_garden.sn --json
 
 # Run with reporting outputs (execution remains bounded by declared ethics)
@@ -143,6 +177,24 @@ chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
 # Open an empathic agent loop
 chaos-agent --name Concord
 ```
+
+### CHAOS File Format
+
+CHAOS files use a simple header + content structure:
+
+```chaos
+file_type: memory
+tags: garden, growth, 🌱
+consent: explicit
+safety_tier: med
+
+[CONTENT BEGIN]
+Your narrative, data, or operational content here.
+Unicode and emojis are fully supported! ✨
+[CONTENT END]
+```
+
+See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
 
 ### Using the Makefile
 

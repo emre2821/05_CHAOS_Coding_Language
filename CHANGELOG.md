@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **SPEC.md** - Canonical language specification with formal file format definition
+- **JSON Schema** (schema/chaos.schema.json) for machine-checkable validation
+- **chaos-validate** CLI tool for validating CHAOS files against specification
+  - Support for single files, multiple files, and directory validation
+  - Human-friendly error messages with line numbers
+  - Security flags: `--fail-on-sensitive` and `--require-consent`
+- **Examples directory** with reference implementations:
+  - memory_vow.chaos - Memory/vow with ethics fields
+  - memory_garden.chaos - Simple memory file
+  - persona_language_flowers.chaos - Language palette
+  - config_with_pii.chaos - Configuration with PII handling
+  - protocol_stability_call.chaos - System daemon protocol
+- **Templates directory** with ready-to-use templates:
+  - minimal.chaos - Bare minimum template
+  - standard.chaos - Standard template with common fields
+  - ethical.chaos - Template with ethics/consent fields
+- **New file format** with header section and content markers:
+  - Required fields: file_type, tags
+  - Optional ethics fields: consent, safety_tier, sensitive
+  - Content enclosure with [CONTENT BEGIN]/[CONTENT END] markers
+  - Full Unicode and emoji support
+- **Comprehensive test suite** for new validator (23+ tests)
+- **Makefile validate target** for quick validation
+- **CI validation step** to ensure example files remain valid
 - CONTRIBUTING.md with contributor guidelines
 - CODE_OF_CONDUCT.md with community standards
 - SECURITY.md with vulnerability reporting instructions
@@ -23,8 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Development dependencies in pyproject.toml
 
 ### Changed
-- Updated README.md with badges and improved documentation
-- Enhanced pylint configuration for narrative-first codebase
+- **README.md** updated with new file format documentation and quickstart
+- **CI workflows** enhanced with validation step for example files
+- Updated pylint configuration for narrative-first codebase
 - Improved CI/CD workflows with coverage reporting
 
 ## [0.1.0] - 2024-01-01

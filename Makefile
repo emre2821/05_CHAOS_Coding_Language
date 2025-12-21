@@ -2,7 +2,7 @@
 # ==============
 # Developer commands for building, testing, and maintaining CHAOS.
 
-.PHONY: help dev install test lint format clean build docs fuzz coverage check all
+.PHONY: help dev install test lint format clean build docs fuzz coverage check validate all
 
 # Default target
 help:
@@ -21,6 +21,7 @@ help:
 	@echo "  make check       Run all checks (lint + test)"
 	@echo ""
 	@echo "Validation:"
+	@echo "  make validate    Validate example CHAOS files"
 	@echo "  make fuzz        Run corpus validation"
 	@echo ""
 	@echo "Build:"
@@ -66,6 +67,11 @@ check: lint test
 	@echo "✓ All checks passed!"
 
 # Validation targets
+validate:
+	chaos-validate examples/*.chaos -v
+	@echo ""
+	@echo "✓ Example files validated"
+
 fuzz:
 	python scripts/chaos_fuzz.py
 	@echo ""
