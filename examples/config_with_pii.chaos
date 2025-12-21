@@ -1,0 +1,29 @@
+file_type: configuration
+classification: system/user-profile
+tags: user, settings, profile
+consent: explicit
+safety_tier: high
+sensitive: pii
+created: 2025-04-30T10:00:00Z
+
+[CONTENT BEGIN]
+{
+  "user_id": "user_12345",
+  "email": "user@example.com",
+  "name": "Alex Rivera",
+  "preferences": {
+    "theme": "dark",
+    "notifications": true,
+    "language": "en-US",
+    "timezone": "America/New_York"
+  },
+  "consent": {
+    "data_collection": true,
+    "analytics": false,
+    "marketing": false
+  }
+}
+
+⚠️ This file contains PII. Handle with care.
+Do not log, cache, or transmit without encryption.
+[CONTENT END]

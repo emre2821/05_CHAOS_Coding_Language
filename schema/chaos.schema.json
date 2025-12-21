@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/schema/chaos.schema.json",
+  "title": "CHAOS Language Schema",
+  "description": "Schema for validating CHAOS (Contextual Harmonics and Operational Stories) file structure",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["file_type", "tags", "content"],
+  "properties": {
+    "file_type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary purpose or category of the artifact",
+      "examples": ["memory", "ritual", "vow", "protocol", "configuration", "persona"]
+    },
+    "classification": {
+      "type": "string",
+      "description": "Hierarchical or symbolic classification",
+      "examples": ["personal/memory", "system/daemon", "🔒 confidential"]
+    },
+    "tags": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^.+$",
+          "description": "Comma-separated list of tags"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "description": "Array of tag strings"
+        }
+      ],
+      "description": "Searchable keywords (supports Unicode/emojis)",
+      "examples": ["memory, garden, growth", "🌸, ritual, spring"]
+    },
+    "symbolic_identity": {
+      "type": "string",
+      "description": "Persona, role, or entity associated with the artifact",
+      "examples": ["Eden.Seiros", "ConcordAgent", "Memory Keeper"]
+    },
+    "consent": {
+      "type": "string",
+      "enum": ["explicit", "implicit", "none"],
+      "description": "Consent posture of the artifact"
+    },
+    "safety_tier": {
+      "type": "string",
+      "enum": ["low", "med", "high"],
+      "description": "Safety or risk sensitivity level"
+    },
+    "sensitive": {
+      "type": "string",
+      "enum": ["pii", "trauma", "none"],
+      "description": "Presence of sensitive content types"
+    },
+    "author": {
+      "type": "string",
+      "description": "Creator or author of the artifact"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version identifier"
+    },
+    "depends_on": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "Dependencies or prerequisites"
+    },
+    "emotion": {
+      "type": "string",
+      "description": "Emotional tone or affect",
+      "examples": ["joy:7", "hope:5", "fear:3"]
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Content between [CONTENT BEGIN] and [CONTENT END] markers"
+    }
+  },
+  "additionalProperties": true,
+  "examples": [
+    {
+      "file_type": "memory",
+      "tags": "garden, growth, 🌱",
+      "emotion": "joy:7",
+      "content": "The garden was alive with color and quiet courage."
+    },
+    {
+      "file_type": "memory",
+      "classification": "personal/vow",
+      "tags": "commitment, healing, 💙",
+      "symbolic_identity": "Eden.Seiros",
+      "consent": "explicit",
+      "safety_tier": "med",
+      "sensitive": "none",
+      "created": "2025-04-30T14:30:00Z",
+      "content": "I vow to honor the boundaries spoken and unspoken."
+    }
+  ]
+}
