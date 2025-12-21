@@ -1,0 +1,6 @@
+file_type: [REQUIRED - memory, ritual, vow, protocol, configuration, persona, etc.]
+tags: [REQUIRED - comma-separated list]
+
+[CONTENT BEGIN]
+[Your content goes here]
+[CONTENT END]

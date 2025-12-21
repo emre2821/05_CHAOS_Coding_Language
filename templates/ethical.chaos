@@ -1,0 +1,21 @@
+file_type: [memory, ritual, vow, protocol, configuration, persona]
+classification: [optional]
+tags: [comma-separated keywords]
+symbolic_identity: [optional]
+consent: [explicit | implicit | none]
+safety_tier: [low | med | high]
+sensitive: [pii | trauma | none]
+author: [optional]
+created: [optional - ISO 8601 timestamp]
+
+[CONTENT BEGIN]
+[Your content here]
+
+This template includes ethics and safety fields for consent-aware systems.
+Use these fields to declare consent posture and sensitivity levels.
+
+Guidelines:
+- consent: explicit (clear permission), implicit (reasonably assumed), none
+- safety_tier: high (requires special handling), med (handle with care), low (general)
+- sensitive: pii (personal data), trauma (sensitive narratives), none
+[CONTENT END]

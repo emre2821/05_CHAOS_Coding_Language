@@ -45,6 +45,7 @@ Changelog = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/blob/main
 chaos-cli = "chaos_language.cli.chaos_cli:main"
 chaos-exec = "chaos_language.cli.chaos_exec:main"
 chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
+chaos-validate = "chaos_language.cli.chaos_validate:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]

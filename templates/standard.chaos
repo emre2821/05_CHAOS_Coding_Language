@@ -1,0 +1,14 @@
+file_type: [memory, ritual, vow, protocol, configuration, persona]
+classification: [optional - e.g., personal/memory, system/daemon]
+tags: [comma-separated keywords, emojis welcome]
+symbolic_identity: [optional - e.g., Eden.Seiros]
+author: [optional]
+created: [optional - ISO 8601 timestamp]
+version: [optional]
+
+[CONTENT BEGIN]
+[Your narrative, data, or operational content here]
+
+This template includes all common optional fields.
+Remove any fields you don't need.
+[CONTENT END]

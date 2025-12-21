@@ -1,0 +1,22 @@
+file_type: protocol
+classification: system/daemon
+tags: stability, check-in, emotional-support
+symbolic_identity: ConcordAgent
+consent: implicit
+safety_tier: med
+sensitive: none
+
+[CONTENT BEGIN]
+Stability Check-In Protocol
+============================
+
+When triggered, this protocol:
+1. Asks: "How are you holding up?"
+2. Listens without judgment
+3. Offers grounding techniques if needed
+4. Records emotional state (with consent)
+5. Connects to support resources if requested
+
+This is a gentle check-in, not a clinical assessment.
+Always respect boundaries and honor "not now" responses.
+[CONTENT END]
