@@ -1,14 +1,21 @@
-file_type: [memory, ritual, vow, protocol, configuration, persona]
-classification: [optional - e.g., personal/memory, system/daemon]
-tags: [comma-separated keywords, emojis welcome]
-symbolic_identity: [optional - e.g., Eden.Seiros]
-author: [optional]
-created: [optional - ISO 8601 timestamp]
-version: [optional]
+file_type: note
+classification: example/template
+tags: example, template, documentation
+symbolic_identity: YourNameHere
+author: Your Name
+created: 2025-01-01T00:00:00Z
+version: 1.0
 
 [CONTENT BEGIN]
-[Your narrative, data, or operational content here]
+This is a standard CHAOS template with common optional fields.
 
-This template includes all common optional fields.
-Remove any fields you don't need.
+Instructions:
+1. Change file_type to match your artifact type (memory, ritual, protocol, etc.)
+2. Update classification to categorize your artifact (e.g., personal/memory, system/daemon)
+3. Modify tags to describe your content (comma-separated, emojis welcome)
+4. Set symbolic_identity to identify who is speaking or acting
+5. Update author and created timestamp
+6. Replace this content with your narrative, data, or operational content
+
+All fields except file_type and tags are optional - remove any you don't need.
 [CONTENT END]

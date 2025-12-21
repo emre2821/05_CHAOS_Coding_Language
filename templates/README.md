@@ -101,10 +101,13 @@ See [SPEC.md](../SPEC.md) for complete field definitions.
 
 ## Validation
 
-All templates are designed to be invalid until you fill them in (they contain placeholder values). After editing:
+All templates are valid CHAOS files that can be used as-is or customized:
 
 ```bash
-# Validate your file
+# Templates are valid and will pass validation
+chaos-validate templates/*.chaos
+
+# After customizing, validate your file
 chaos-validate my_file.chaos
 
 # Validate with security checks

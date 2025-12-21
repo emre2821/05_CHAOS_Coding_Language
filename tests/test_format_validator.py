@@ -305,6 +305,19 @@ def test_example_files_are_valid(tmp_path):
         validate_chaos_file(file_path)
 
 
+def test_template_files_are_valid(tmp_path):
+    """Test that all template files in templates/ directory are valid."""
+    templates_dir = Path(__file__).parent.parent / "templates"
+    if not templates_dir.exists():
+        pytest.skip("Templates directory not found")
+    
+    chaos_files = list(templates_dir.glob("*.chaos"))
+    assert len(chaos_files) > 0, "No template files found"
+    
+    for file_path in chaos_files:
+        validate_chaos_file(file_path)
+
+
 def test_content_with_special_characters():
     """Test that content can contain special characters."""
     source = """file_type: note

@@ -1,6 +1,13 @@
-file_type: [REQUIRED - memory, ritual, vow, protocol, configuration, persona, etc.]
-tags: [REQUIRED - comma-separated list]
+file_type: note
+tags: example, template
 
 [CONTENT BEGIN]
-[Your content goes here]
+Replace this content with your own narrative, data, or operational content.
+
+This is a minimal valid CHAOS template. You can:
+- Change file_type to: memory, ritual, vow, protocol, configuration, persona, etc.
+- Add or modify tags as needed
+- Write your content here
+
+Keep the [CONTENT BEGIN] and [CONTENT END] markers intact.
 [CONTENT END]

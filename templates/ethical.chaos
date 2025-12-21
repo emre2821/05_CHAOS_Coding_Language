@@ -1,21 +1,35 @@
-file_type: [memory, ritual, vow, protocol, configuration, persona]
-classification: [optional]
-tags: [comma-separated keywords]
-symbolic_identity: [optional]
-consent: [explicit | implicit | none]
-safety_tier: [low | med | high]
-sensitive: [pii | trauma | none]
-author: [optional]
-created: [optional - ISO 8601 timestamp]
+file_type: note
+classification: example/template
+tags: example, template, ethics
+symbolic_identity: YourNameHere
+consent: explicit
+safety_tier: low
+sensitive: none
+author: Your Name
+created: 2025-01-01T00:00:00Z
 
 [CONTENT BEGIN]
-[Your content here]
+This template emphasizes ethics and safety fields for consent-aware systems.
 
-This template includes ethics and safety fields for consent-aware systems.
-Use these fields to declare consent posture and sensitivity levels.
+Instructions:
+1. Change file_type to match your artifact type
+2. Update tags and other metadata fields
+3. Set consent field appropriately:
+   - explicit: Clear, affirmative consent obtained
+   - implicit: Consent reasonably assumed from context
+   - none: No consent obtained or not applicable
+4. Set safety_tier based on sensitivity:
+   - high: Requires special handling (personal data, trauma, high-risk)
+   - med: Handle with care (moderately sensitive)
+   - low: General content, minimal risk
+5. Set sensitive field if applicable:
+   - pii: Contains personally identifiable information
+   - trauma: Contains trauma-related content
+   - none: No specific sensitive content
+6. Replace this content with your own
 
-Guidelines:
-- consent: explicit (clear permission), implicit (reasonably assumed), none
-- safety_tier: high (requires special handling), med (handle with care), low (general)
-- sensitive: pii (personal data), trauma (sensitive narratives), none
+When to use these fields:
+- Always specify consent when handling user data
+- Use safety_tier for risk-sensitive content
+- Flag sensitive content appropriately for proper handling
 [CONTENT END]

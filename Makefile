@@ -69,8 +69,9 @@ check: lint test
 # Validation targets
 validate:
 	chaos-validate examples/*.chaos -v
+	chaos-validate templates/*.chaos -v
 	@echo ""
-	@echo "✓ Example files validated"
+	@echo "✓ Example and template files validated"
 
 fuzz:
 	python scripts/chaos_fuzz.py
