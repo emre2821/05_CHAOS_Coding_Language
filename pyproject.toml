@@ -46,6 +46,9 @@ chaos-cli = "chaos_language.cli.chaos_cli:main"
 chaos-exec = "chaos_language.cli.chaos_exec:main"
 chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
 chaos-validate = "chaos_language.cli.chaos_validate:main"
+chaos = "chaos.chaos_cli:main"
+chaos-fuzz = "chaos.chaos_fuzz:main"
+edencore = "chaos.eden_core:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]
