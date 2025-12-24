@@ -20,7 +20,7 @@ This document defines how decisions are made, how responsibilities are distribut
 
 ### Maintainers
 
-**Paradigm Eden** serves as the founding maintainer and steward of CHAOS. Maintainers:
+**Echolace DI** serves as the founding maintainer and steward of CHAOS. Maintainers:
 
 - Review and merge pull requests
 - Guide project vision and roadmap
@@ -29,7 +29,7 @@ This document defines how decisions are made, how responsibilities are distribut
 - Make final decisions when consensus cannot be reached
 
 **Current Maintainers:**
-- Paradigm Eden (founding maintainer)
+- Echolace DI (founding maintainer)
 
 ### Contributors
 
