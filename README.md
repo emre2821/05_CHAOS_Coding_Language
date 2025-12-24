@@ -211,7 +211,7 @@ make help     # Show all available commands
 ```
 /
 ├── src/
-│   └── chaos_language/       # Main package code/modules
+│   ├── chaos_language/       # Main package code/modules
 │       ├── __init__.py       # Package exports
 │       ├── chaos_lexer.py    # Tokenizes CHAOS syntax
 │       ├── chaos_parser.py   # Produces three-layer AST
@@ -221,14 +221,22 @@ make help     # Show all available commands
 │       ├── chaos_agent.py    # Emotion-aware agent
 │       ├── chaos_reports.py  # Reporting utilities
 │       └── ...               # Additional modules
+│   └── chaos/                # Modernized CHAOS package
+│       ├── chaos_lexer.py    # Token recognition (modernized)
+│       ├── chaos_parser.py   # Three-layer structure weaving
+│       ├── chaos_runtime.py  # Execution pipeline
+│       └── ...               # Additional modules
 ├── tests/                    # Unit/integration tests
+│   └── chaos_modern/         # Modernized CHAOS test suite
 ├── scripts/                  # CLI entry points and utilities
 │   ├── chaos_cli.py          # Interactive shell and artifact inspector
 │   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
 │   └── chaos_fuzz.py         # Artifact corpus validation runner
 ├── docs/                     # Documentation
+│   └── modernization/        # Modernization notes and docs
 ├── chaos_corpus/             # Example .sn artifacts for inspiration and tests
+├── experiments/modernization/ # Modernization experimental syntax ideas
 ├── .github/workflows/        # CI/CD workflows
 ├── .gitignore
 ├── README.md
