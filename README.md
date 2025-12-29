@@ -148,7 +148,10 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Install CHAOS in editable mode
+# Install CHAOS from PyPI
+pip install chaos-language
+
+# Or install from source in editable mode
 pip install -e .
 
 # Or with development dependencies
