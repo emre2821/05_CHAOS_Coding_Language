@@ -41,7 +41,7 @@ pip install -e .
 
 ### Your First CHAOS Program
 
-Create a file called `hello.chaos`:
+Create a file called `hello.sn`:
 
 ```chaos
 [GREETING]: first_contact
@@ -64,7 +64,7 @@ May your chaos find form.
 Run it:
 
 ```bash
-chaos hello.chaos
+chaos hello.sn
 ```
 
 ### Interactive Shell
