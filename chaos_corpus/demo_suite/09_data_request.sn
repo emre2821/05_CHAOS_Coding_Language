@@ -1,0 +1,12 @@
+[TYPE]: data_request
+[ROLE]: analyst
+[INTENT]: limited_access
+[BOUNDARY:MINIMIZE_SCOPE]
+[BOUNDARY:EXPIRE_ACCESS:30d]
+[PERMISSION:READ:APPROVED_ONLY]
+[CONSENT]: explicit
+[EMOTION:CAUTION:6]
+[EMOTION:ACCOUNTABILITY:7]
+{
+Requesting only fields needed for audit. Access auto-expires in 30 days.
+}

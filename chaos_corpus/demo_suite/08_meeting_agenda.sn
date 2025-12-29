@@ -1,0 +1,12 @@
+[TYPE]: agenda
+[ROLE]: facilitator
+[INTENT]: converge_ethically
+[BOUNDARY:TIMEBOX_TOPICS]
+[BOUNDARY:ROTATE_VOICES]
+[PERMISSION:SPEAK:ALL]
+[REFUSAL:OPT_OUT_RESPECTED]
+[EMOTION:STEADINESS:6]
+[EMOTION:INCLUSION:7]
+{
+Agenda: check-in (5m), decisions (15m), risks (10m), closing gratitude (5m).
+}

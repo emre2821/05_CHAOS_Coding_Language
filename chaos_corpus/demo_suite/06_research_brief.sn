@@ -1,0 +1,11 @@
+[TYPE]: research_brief
+[ROLE]: researcher
+[INTENT]: share_findings
+[CONSENT]: explicit
+[BOUNDARY:NO_PII]
+[BOUNDARY:ANONYMIZE_QUOTES]
+[EMOTION:RESPECT:7]
+[EMOTION:CURIOSITY:6]
+{
+Findings shared with consent. Quotes anonymized. Data leaves no shadows.
+}
