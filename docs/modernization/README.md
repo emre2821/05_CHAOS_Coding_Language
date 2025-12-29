@@ -77,8 +77,10 @@ Run it:
 
 ```bash
 chaos-cli hello.chaos
-chaos hello.sn
 chaos-cli hello.chaos --json
+
+# Legacy shim for .sn programs
+chaos hello.sn
 ```
 
 > **Extension note:** Modern CHAOS programs use the `.chaos` extension. The legacy compatibility shim continues to accept `.sn` files (as shown above) for existing flows; new examples should prefer `.chaos` unless you are testing legacy migration.
@@ -230,6 +232,8 @@ chaos-fuzz --corpus examples/ --verbose
 # Ecosystem coordinator (legacy EdenCore launcher)
 edencore
 ```
+
+Within the agent session, use `:open program.chaos` to merge a file. Legacy `.sn` programs remain supported through the `chaos` shim and compatibility layer; keep the `.sn` extension when invoking that legacy entry point.
 
 ### Programmatic Usage
 
