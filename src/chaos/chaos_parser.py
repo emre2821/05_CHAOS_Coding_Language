@@ -55,10 +55,19 @@ class ChaosParser:
         Returns:
             The root node of the CHAOS parse tree
         """
+        self.current = 0
+        structured_core = self._parse_structured_core()
+        
+        self.current = 0
+        emotive_layer = self._parse_emotive_layer()
+        
+        self.current = 0
+        chaosfield_layer = self._parse_chaosfield_layer()
+        
         return Node(NodeType.PROGRAM, children=[
-            self._parse_structured_core(),
-            self._parse_emotive_layer(),
-            self._parse_chaosfield_layer(),
+            structured_core,
+            emotive_layer,
+            chaosfield_layer,
         ])
     
     # ---- Token utilities ----
@@ -108,27 +117,37 @@ class ChaosParser:
         
         while not self._is_at_end():
             if not self._check(TokenType.LEFT_BRACKET):
-                break
+                self._advance()
+                continue
             
             # Check if this is a simple key-value pair
             start_index = self.current
             self._advance()  # Consume [
             
             if not self._check(TokenType.IDENTIFIER):
-                # Not a simple key-value pair, rewind and let other layers handle
-                self.current -= 1
-                break
+                # Not a simple key-value pair, move past the bracket
+                self.current = start_index + 1
+                continue
             
             key = self._advance().value
 
-            if self._check(TokenType.COLON):
-                # This is likely a tag triplet ([EMOTION:...]) - hand off to other layers
-                self.current = start_index
-                break
-            self._consume(TokenType.RIGHT_BRACKET, 'Expected "]" after key')
-            self._consume(TokenType.COLON, 'Expected ":" after ]')
+            if self._check(TokenType.COLON) and self._looks_like_tag_triplet(key):
+                # Skip the tag so the emotive layer can weave it later
+                self._skip_to_matching_right_bracket(start_index)
+                continue
+            if not self._check(TokenType.RIGHT_BRACKET):
+                self.current = start_index + 1
+                continue
+            self._advance()  # Consume ]
+
+            if not self._check(TokenType.COLON):
+                self.current = start_index + 1
+                continue
+            self._advance()  # Consume :
             
-            value_token = self._advance()
+            if self._is_at_end():
+                break
+            value_token = self._advance()  # Consume value token
             
             # Extract the value based on token type
             if value_token.type in (TokenType.STRING, TokenType.NUMBER, TokenType.BOOLEAN):
@@ -138,11 +157,50 @@ class ChaosParser:
             elif value_token.type == TokenType.NULL:
                 pairs[key] = None
             else:
-                # Not a valid value, rewind and let other layers handle
-                self.current -= 1
-                break
+                # Not a valid value, move past the current bracket and continue
+                self.current = start_index + 1
+                continue
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
+
+    def _skip_to_matching_right_bracket(self, start_index: int) -> None:
+        """Advance the cursor past the matching right bracket, if present."""
+        self.current = start_index
+        while not self._is_at_end():
+            token = self._advance()
+            if token.type == TokenType.RIGHT_BRACKET:
+                break
+
+    def _looks_like_tag_triplet(self, tag_name: str) -> bool:
+        """
+        Peek ahead to determine if the current position represents a tag triplet.
+        
+        Tag triplets follow the pattern [TAG:KIND[:VALUE]], and only certain tags
+        (e.g., EMOTION, SYMBOL) are routed away from the structured core.
+        """
+        if not self._check(TokenType.COLON):
+            return False
+        
+        idx = self.current
+        tokens = self.tokens
+        
+        if idx + 1 >= len(tokens) or tokens[idx + 1].type != TokenType.IDENTIFIER:
+            return False
+        
+        idx += 2  # Skip COLON and KIND identifier
+        has_second_colon = False
+        
+        if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
+            has_second_colon = True
+            idx += 1
+            if idx >= len(tokens) or tokens[idx].type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
+                return False
+            idx += 1
+        
+        if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
+            return False
+        
+        return tag_name in {"EMOTION", "SYMBOL"} or has_second_colon
     
     def _parse_tag_triplet(self) -> Optional[Dict[str, Any]]:
         """
@@ -197,12 +255,14 @@ class ChaosParser:
         
         while not self._is_at_end():
             if not self._check(TokenType.LEFT_BRACKET):
-                break
+                self._advance()
+                continue
             
             entry = self._parse_tag_triplet()
             if entry is None:
-                # Hand back to next layer
-                break
+                # Not a tag triplet; move forward
+                self._advance()
+                continue
             
             tag = entry["tag"]
             kind = entry["kind"]
@@ -225,7 +285,10 @@ class ChaosParser:
     
     def _parse_chaosfield_layer(self) -> Node:
         """Parse the chaosfield layer - the narrative free text."""
-        if not self._match(TokenType.LEFT_BRACE):
+        while not self._is_at_end() and not self._match(TokenType.LEFT_BRACE):
+            self._advance()
+        
+        if self._is_at_end():
             return Node(NodeType.CHAOSFIELD_LAYER, value="")
         
         parts = []
