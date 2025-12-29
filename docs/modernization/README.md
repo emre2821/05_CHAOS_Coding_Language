@@ -81,6 +81,8 @@ chaos hello.sn
 chaos-cli hello.chaos --json
 ```
 
+> **Extension note:** Modern CHAOS programs use the `.chaos` extension. The legacy compatibility shim continues to accept `.sn` files (as shown above) for existing flows; new examples should prefer `.chaos` unless you are testing legacy migration.
+
 ### Interactive Shell
 
 Start the CHAOS interactive shell:
@@ -201,16 +203,19 @@ edencore
 
 ```bash
 # Execute with detailed output
-chaos-cli --tokens --ast --json program.sn
+chaos-cli --tokens --ast --json program.chaos
 
 # Generate business reports
-chaos-exec program.sn --report --emit results.json
+chaos-exec program.chaos --report --emit results.json
 
 # Fuzz testing
 chaos-fuzz --corpus examples/ --verbose
 
 # Validation only
-chaos-exec program.sn --validate-only
+chaos-exec program.chaos --validate-only
+
+# Agent operations
+chaos-agent --name Concord --open program.chaos
 ```
 
 ### Programmatic Usage
