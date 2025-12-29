@@ -89,6 +89,7 @@ chaos-language/
 ## 🚀 Developer Experience Enhancements
 
 ### Command-Line Interfaces
+- **Modern CLI suite**: `chaos-cli`, `chaos-agent`, `chaos-exec`, `chaos-validate`, `chaos-fuzz`, `edencore`
 - **`chaos-cli`** - Main interpreter with interactive shell
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting

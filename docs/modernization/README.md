@@ -77,9 +77,13 @@ Run it:
 
 ```bash
 chaos-cli hello.chaos
-chaos hello.sn
 chaos-cli hello.chaos --json
+
+# Legacy shim for .sn programs
+chaos hello.sn
 ```
+
+Use the `.chaos` extension with the modern CLI tools (`chaos-cli`, `chaos-exec`, `chaos-agent`, `chaos-validate`). The legacy `chaos` shim continues to expect `.sn` files for backward compatibility.
 
 ### Interactive Shell
 
@@ -201,17 +205,23 @@ edencore
 
 ```bash
 # Execute with detailed output
-chaos-cli --tokens --ast --json program.sn
+chaos-cli --tokens --ast --json program.chaos
+
+# Agent-first session (load program with :open inside)
+chaos-agent --name Concord
 
 # Generate business reports
-chaos-exec program.sn --report --emit results.json
+chaos-exec program.chaos --report --emit results.json
 
 # Fuzz testing
 chaos-fuzz --corpus examples/ --verbose
 
 # Validation only
-chaos-exec program.sn --validate-only
+chaos-validate program.chaos
+chaos-exec program.chaos --validate-only
 ```
+
+Within the agent session, use `:open program.chaos` to merge a file. Legacy `.sn` programs remain supported through the `chaos` shim and compatibility layer; keep the `.sn` extension when invoking that legacy entry point.
 
 ### Programmatic Usage
 
