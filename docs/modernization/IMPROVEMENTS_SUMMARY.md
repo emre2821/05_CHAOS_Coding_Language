@@ -85,6 +85,8 @@ chaos-language/
 - **`chaos-exec`** - Advanced execution with reporting
 - **`chaos-fuzz`** - Fuzz testing suite
 - **`edencore`** - Ecosystem coordinator
+- Modern CLIs live under the `chaos_language.cli.*` namespace, while `chaos-fuzz`,
+  `edencore`, and the `chaos` shim remain available for legacy compatibility.
 
 ### Package Management
 - **`pyproject.toml`** - Modern Python packaging configuration
@@ -165,7 +167,7 @@ chaos-language/
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn`
+4. **Explore the examples**: `chaos-cli examples/hello_chaos.chaos --json`
 
 ## 📈 Quality Metrics
 

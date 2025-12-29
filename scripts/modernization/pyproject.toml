@@ -53,9 +53,14 @@ Documentation = "https://chaos-lang.readthedocs.io"
 "Bug Tracker" = "https://github.com/chaos-lang/chaos/issues"
 
 [project.scripts]
+# Modern CHAOS Language toolchain
+chaos-cli = "chaos_language.cli.chaos_cli:main"
+chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
+chaos-exec = "chaos_language.cli.chaos_exec:main"
+chaos-validate = "chaos_language.cli.chaos_validate:main"
+
+# Legacy compatibility shims (old `chaos` namespace)
 chaos = "chaos.chaos_cli:main"
-chaos-agent = "chaos.chaos_agent_cli:main"
-chaos-exec = "chaos.chaos_exec:main"
 chaos-fuzz = "chaos.chaos_fuzz:main"
 edencore = "chaos.eden_core:main"
 
