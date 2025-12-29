@@ -131,6 +131,9 @@ class ChaosLexer:
             return
         
         # Numbers - the measurement of intensity
+        if c == '-' and self._peek_next().isdigit():
+            self._scan_number(allow_negative=True)
+            return
         if c.isdigit():
             self._scan_number()
             return
@@ -182,9 +185,17 @@ class ChaosLexer:
         self.tokens.append(Token(TokenType.STRING, value, self.line, self.col))
         self.col += len(value) + 2  # Account for quotes
     
-    def _scan_number(self) -> None:
+    def _peek_next(self) -> str:
+        """Look at the next character without consuming it."""
+        if self.i + 1 >= len(self.source):
+            return '\0'
+        return self.source[self.i + 1]
+
+    def _scan_number(self, allow_negative: bool = False) -> None:
         """Extract a numeric value."""
         start = self.i
+        if allow_negative and self.source[self.i] == '-':
+            self.i += 1
         while self.i < len(self.source) and self.source[self.i].isdigit():
             self.i += 1
         
