@@ -9,11 +9,23 @@ import pytest
 from pathlib import Path
 
 from chaos_language.chaos_format_validator import (
-    parse_chaos_text,
-    validate_chaos_text,
-    validate_chaos_file,
     ChaosValidationError,
+    parse_chaos_text,
+    validate_chaos_file,
+    validate_chaos_text,
 )
+
+
+def make_source(header_lines: list[str], content: str = "Content here") -> str:
+    header = "\n".join(header_lines)
+    return f"{header}\n\n[CONTENT BEGIN]\n{content}\n[CONTENT END]\n"
+
+
+def assert_validation_error(source: str, expected_substring: str) -> str:
+    with pytest.raises(ChaosValidationError) as exc:
+        validate_chaos_text(source)
+    assert expected_substring.lower() in str(exc.value).lower()
+    return str(exc.value)
 
 
 def test_minimal_valid_file():
@@ -59,42 +71,20 @@ I vow to honor the boundaries spoken and unspoken.
 
 def test_missing_file_type():
     """Test that missing file_type raises error."""
-    source = """tags: example
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "file_type" in str(exc.value)
+    source = make_source(["tags: example"])
+    assert_validation_error(source, "file_type")
 
 
 def test_missing_tags():
     """Test that missing tags raises error."""
-    source = """file_type: note
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "tags" in str(exc.value)
+    source = make_source(["file_type: note"])
+    assert_validation_error(source, "tags")
 
 
 def test_empty_tags():
     """Test that empty tags raise error."""
-    source = """file_type: note
-tags:
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "tags" in str(exc.value).lower()
+    source = make_source(["file_type: note", "tags:"])
+    assert_validation_error(source, "tags")
 
 
 def test_missing_content_begin():
@@ -125,61 +115,33 @@ Content here
 
 def test_empty_content():
     """Test that empty content raises error."""
-    source = """file_type: note
-tags: example
-
-[CONTENT BEGIN]
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "empty" in str(exc.value).lower()
+    source = make_source(["file_type: note", "tags: example"], content="")
+    assert_validation_error(source, "empty")
 
 
 def test_invalid_consent_value():
     """Test that invalid consent value raises error."""
-    source = """file_type: note
-tags: example
-consent: maybe
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "consent" in str(exc.value).lower()
-    assert "maybe" in str(exc.value)
+    source = make_source(
+        ["file_type: note", "tags: example", "consent: maybe"]
+    )
+    message = assert_validation_error(source, "consent")
+    assert "maybe" in message
 
 
 def test_invalid_safety_tier_value():
     """Test that invalid safety_tier value raises error."""
-    source = """file_type: note
-tags: example
-safety_tier: critical
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "safety_tier" in str(exc.value).lower()
+    source = make_source(
+        ["file_type: note", "tags: example", "safety_tier: critical"]
+    )
+    assert_validation_error(source, "safety_tier")
 
 
 def test_invalid_sensitive_value():
     """Test that invalid sensitive value raises error."""
-    source = """file_type: note
-tags: example
-sensitive: secret
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "sensitive" in str(exc.value).lower()
+    source = make_source(
+        ["file_type: note", "tags: example", "sensitive: secret"]
+    )
+    assert_validation_error(source, "sensitive")
 
 
 def test_unicode_support():
@@ -216,70 +178,44 @@ Multiple tags work fine
 
 def test_header_without_colon():
     """Test that header lines without colons raise error."""
-    source = """file_type: note
-tags: example
-invalid header line
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
-    with pytest.raises(ChaosValidationError) as exc:
-        validate_chaos_text(source)
-    assert "Invalid header format" in str(exc.value)
+    source = make_source(
+        ["file_type: note", "tags: example", "invalid header line"]
+    )
+    assert_validation_error(source, "Invalid header format")
 
 
 def test_valid_consent_values():
     """Test all valid consent values."""
     for consent_value in ["explicit", "implicit", "none"]:
-        source = f"""file_type: note
-tags: example
-consent: {consent_value}
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
+        source = make_source(
+            ["file_type: note", "tags: example", f"consent: {consent_value}"]
+        )
         validate_chaos_text(source)
 
 
 def test_valid_safety_tier_values():
     """Test all valid safety_tier values."""
     for tier in ["low", "med", "high"]:
-        source = f"""file_type: note
-tags: example
-safety_tier: {tier}
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
+        source = make_source(
+            ["file_type: note", "tags: example", f"safety_tier: {tier}"]
+        )
         validate_chaos_text(source)
 
 
 def test_valid_sensitive_values():
     """Test all valid sensitive values."""
     for sensitive in ["pii", "trauma", "none"]:
-        source = f"""file_type: note
-tags: example
-sensitive: {sensitive}
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
+        source = make_source(
+            ["file_type: note", "tags: example", f"sensitive: {sensitive}"]
+        )
         validate_chaos_text(source)
 
 
 def test_whitespace_handling():
     """Test that whitespace in headers is handled correctly."""
-    source = """file_type:   note   
-tags:  example , test  
-
-[CONTENT BEGIN]
-Content here
-[CONTENT END]
-"""
+    source = make_source(
+        ["file_type:   note   ", "tags:  example , test  "]
+    )
     validate_chaos_text(source)
     header, _ = parse_chaos_text(source)
     assert header["file_type"] == "note"
