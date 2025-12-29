@@ -57,10 +57,8 @@ class TagTriplet:
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
-_ROUTED_TAGS = {"EMOTION", "SYMBOL"}
-    
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
-    
+
     def __init__(self, tokens: List[Token]) -> None:
         """Initialize the parser with sacred tokens."""
         self.tokens = tokens
@@ -219,14 +217,15 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         kind = tokens[idx].value
         idx += 1
 
-        value_token = None
-        has_second_colon = False
+        value_token: Optional[Token] = None
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
             has_second_colon = True
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
-                idx += 1
+            else:
+                return None
+            idx += 1
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
             return None
@@ -287,7 +286,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
             if tag == "EMOTION":
                 # Parse emotion intensity
                 try:
-                    intensity = int(value) if value_type == "NUMBER" else int(str(value)) if value else 5
+                    intensity = int(value) if value_type == TokenType.NUMBER else int(str(value)) if value else 5
                 except Exception:
                     intensity = 5
                 intensity = max(0, min(intensity, 10))  # Clamp to 0-10
