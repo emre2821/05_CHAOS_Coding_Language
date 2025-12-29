@@ -111,6 +111,7 @@ class ChaosParser:
                 break
             
             # Check if this is a simple key-value pair
+            start_index = self.current
             self._advance()  # Consume [
             
             if not self._check(TokenType.IDENTIFIER):
@@ -119,6 +120,11 @@ class ChaosParser:
                 break
             
             key = self._advance().value
+
+            if self._check(TokenType.COLON):
+                # This is likely a tag triplet ([EMOTION:...]) - hand off to other layers
+                self.current = start_index
+                break
             self._consume(TokenType.RIGHT_BRACKET, 'Expected "]" after key')
             self._consume(TokenType.COLON, 'Expected ":" after ]')
             
