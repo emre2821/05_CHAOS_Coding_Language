@@ -39,6 +39,8 @@ class Node:
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
+
+    _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
     def __init__(self, tokens: List[Token]) -> None:
         """Initialize the parser with sacred tokens."""
@@ -122,6 +124,7 @@ class ChaosParser:
             
             # Check if this is a simple key-value pair
             start_index = self.current
+            tag_triplet = self._peek_tag_triplet(start_index)
             self._advance()  # Consume [
             
             if not self._check(TokenType.IDENTIFIER):
@@ -131,7 +134,11 @@ class ChaosParser:
             
             key = self._advance().value
 
-            if self._check(TokenType.COLON) and self._looks_like_tag_triplet(key):
+            if (
+                self._check(TokenType.COLON)
+                and tag_triplet
+                and self._should_route_tag_triplet(tag_triplet)
+            ):
                 # Skip the tag so the emotive layer can weave it later
                 self._skip_to_matching_right_bracket(start_index)
                 continue
@@ -171,36 +178,45 @@ class ChaosParser:
             if token.type == TokenType.RIGHT_BRACKET:
                 break
 
-    def _looks_like_tag_triplet(self, tag_name: str) -> bool:
-        """
-        Peek ahead to determine if the current position represents a tag triplet.
-        
-        Tag triplets follow the pattern [TAG:KIND[:VALUE]], and only certain tags
-        (e.g., EMOTION, SYMBOL) are routed away from the structured core.
-        """
-        if not self._check(TokenType.COLON):
-            return False
-        
-        idx = self.current
+    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Dict[str, Any]]:
+        """Look ahead from the current position to see if a tag triplet is present."""
+        idx = self.current if start_index is None else start_index
         tokens = self.tokens
-        
-        if idx + 1 >= len(tokens) or tokens[idx + 1].type != TokenType.IDENTIFIER:
-            return False
-        
-        idx += 2  # Skip COLON and KIND identifier
-        has_second_colon = False
-        
+
+        if idx >= len(tokens) or tokens[idx].type != TokenType.LEFT_BRACKET:
+            return None
+
+        idx += 1
+        if idx >= len(tokens) or tokens[idx].type != TokenType.IDENTIFIER:
+            return None
+        tag = tokens[idx].value
+
+        idx += 1
+        if idx >= len(tokens) or tokens[idx].type != TokenType.COLON:
+            return None
+
+        idx += 1
+        if idx >= len(tokens) or tokens[idx].type != TokenType.IDENTIFIER:
+            return None
+        kind = tokens[idx].value
+
+        idx += 1
+        has_value = False
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
-            has_second_colon = True
+            has_value = True
             idx += 1
             if idx >= len(tokens) or tokens[idx].type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
-                return False
+                return None
             idx += 1
-        
+
         if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
-            return False
-        
-        return tag_name in {"EMOTION", "SYMBOL"} or has_second_colon
+            return None
+
+        return {"tag": tag, "kind": kind, "has_value": has_value}
+
+    def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
+        """Determine if a tag triplet should bypass structured core parsing."""
+        return entry["tag"] in self._ROUTED_TAGS or entry["has_value"]
     
     def _parse_tag_triplet(self) -> Optional[Dict[str, Any]]:
         """
