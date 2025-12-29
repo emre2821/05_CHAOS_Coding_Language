@@ -6,9 +6,11 @@ providing the elemental operations that support the larger ritual of
 symbolic-emotional computation.
 """
 
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 from typing import Any, Dict, Iterable, List, Tuple, Optional, Sequence
 import random
 import re
+import time
 
 
 def clamp(value: int, minimum: int, maximum: int) -> int:
@@ -222,12 +224,12 @@ class SacredTimer:
     
     def start(self) -> None:
         """Start the timer."""
-        self.start_time = random.time.time()
+        self.start_time = time.time()
         self.end_time = None
     
     def stop(self) -> float:
         """Stop the timer and return duration."""
-        self.end_time = random.time.time()
+        self.end_time = time.time()
         return self.duration()
     
     def duration(self) -> float:
@@ -235,7 +237,7 @@ class SacredTimer:
         if self.start_time is None:
             return 0.0
         
-        end = self.end_time or random.time.time()
+        end = self.end_time or time.time()
         return end - self.start_time
     
     def reset(self) -> None:
