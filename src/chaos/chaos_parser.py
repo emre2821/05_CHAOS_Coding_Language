@@ -8,9 +8,17 @@ resonance, creating the mythic architecture of the language.
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from .chaos_lexer import TokenType, Token
 from .chaos_errors import ChaosSyntaxError
+
+
+class TagTriplet(NamedTuple):
+    tag: str
+    kind: str
+    value: Any
+    value_type: Optional[str]
+    has_value: bool
 
 
 class NodeType(Enum):
@@ -179,7 +187,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
 
-    def _peek_tag_triplet(self, start_index: int) -> Optional[Tuple[TagTriplet, int]]:
+    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[TagTriplet, int]]:
         """
         Non-destructively inspect whether a tag triplet starts at ``start_index``.
 
@@ -237,7 +245,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
         
         Returns:
-            TagTriplet with tag components or None if not a triplet pattern
+            TagTriplet with tag components or None if not a triplet pattern.
         """
         probe = self._peek_tag_triplet(self.current)
         if probe is None:
