@@ -198,12 +198,13 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         idx += 1
 
         value_token = None
-        has_second_colon = False
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
                 idx += 1
+            else:
+                return None
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
             return None
@@ -214,7 +215,6 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
             "kind": kind,
             "value": value_token.value if value_token else None,
             "value_type": value_token.type.name if value_token else None,
-            "has_value": has_second_colon
         }
         return entry, idx
 
@@ -235,7 +235,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
 
     def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
         """Determine if a tag triplet should bypass structured core parsing."""
-        return entry["tag"] in self._ROUTED_TAGS or bool(entry.get("has_value"))
+        return entry["tag"] in self._ROUTED_TAGS or entry.get("value") is not None
     
     def _parse_emotive_layer(self) -> Node:
         """Parse the emotive layer - the heart of the ritual."""
