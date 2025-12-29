@@ -3,8 +3,8 @@
 > "Where code meets poetry, where logic dances with emotion, where every program is a ritual."
 
 ![CHAOS Banner](https://img.shields.io/badge/CHAOS-Symbolic%20Emotional%20Language-blueviolet)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: Eden Cooperative](https://img.shields.io/badge/license-Eden%20Cooperative-purple.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## 🌌 What is CHAOS?
@@ -30,13 +30,19 @@ Every CHAOS program consists of three sacred layers:
 ### Installation
 
 ```bash
-# Install CHAOS language
-pip install chaos-lang
+# Clone the CHAOS repository
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
 
-# Or install from source
-git clone https://github.com/chaos-lang/chaos.git
-cd chaos
+# Create and activate a Python 3.9+ virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
+
+# Install the package (published as chaos-language)
 pip install -e .
+
+# Or include development dependencies
+pip install -e ".[dev]"
 ```
 
 ### Your First CHAOS Program
@@ -65,6 +71,7 @@ Run it:
 
 ```bash
 chaos hello.sn
+chaos-cli hello.chaos --json
 ```
 
 ### Interactive Shell
@@ -72,7 +79,7 @@ chaos hello.sn
 Start the CHAOS interactive shell:
 
 ```bash
-chaos
+chaos-cli --json
 ```
 
 Or commune with a CHAOS Agent:
@@ -186,7 +193,7 @@ edencore
 
 ```bash
 # Execute with detailed output
-chaos --tokens --ast --json program.sn
+chaos-cli --tokens --ast --json program.sn
 
 # Generate business reports
 chaos-exec program.sn --report --emit results.json
@@ -242,7 +249,7 @@ pip install -e ".[dev]"
 pytest
 
 # Run with coverage
-pytest --cov=chaos
+pytest --cov=chaos_language
 
 # Run fuzz tests
 chaos-fuzz --corpus examples/
@@ -339,8 +346,10 @@ We welcome contributions that honor the sacred architecture of CHAOS:
 ### Development Setup
 
 ```bash
-git clone https://github.com/chaos-lang/chaos.git
-cd chaos
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 pip install -e ".[dev]"
 pre-commit install
 ```
@@ -354,31 +363,9 @@ pre-commit install
 
 ## 📜 License
 
-CHAOS is released under the MIT License, honoring the tradition of open-source software while maintaining its sacred character.
-
-```
-MIT License
-
-Copyright (c) 2025 CHAOS Community
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+CHAOS follows the [Eden Cooperative License](LICENSE), centering dignity, consent, and
+sovereign participation. Contributions and use should honor these core values and the
+communities whose stories and memories live within CHAOS artifacts.
 
 ## 🙏 Acknowledgments
 
