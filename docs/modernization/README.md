@@ -31,11 +31,11 @@ Every CHAOS program consists of three sacred layers:
 
 ```bash
 # Install CHAOS language
-pip install chaos-lang
+pip install chaos-language
 
 # Or install from source
-git clone https://github.com/chaos-lang/chaos.git
-cd chaos
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
 pip install -e .
 ```
 
@@ -64,7 +64,7 @@ May your chaos find form.
 Run it:
 
 ```bash
-chaos hello.chaos
+chaos-cli hello.chaos
 ```
 
 ### Interactive Shell
@@ -72,7 +72,7 @@ chaos hello.chaos
 Start the CHAOS interactive shell:
 
 ```bash
-chaos
+chaos-cli
 ```
 
 Or commune with a CHAOS Agent:
@@ -186,7 +186,7 @@ edencore
 
 ```bash
 # Execute with detailed output
-chaos --tokens --ast --json program.sn
+chaos-cli --tokens --ast --json program.sn
 
 # Generate business reports
 chaos-exec program.sn --report --emit results.json
@@ -201,7 +201,7 @@ chaos-exec program.sn --validate-only
 ### Programmatic Usage
 
 ```python
-from chaos import run_chaos, ChaosAgent
+from chaos_language import run_chaos, ChaosAgent
 
 # Execute CHAOS code
 environment = run_chaos("""
@@ -242,7 +242,7 @@ pip install -e ".[dev]"
 pytest
 
 # Run with coverage
-pytest --cov=chaos
+pytest --cov=chaos_language
 
 # Run fuzz tests
 chaos-fuzz --corpus examples/
@@ -339,8 +339,8 @@ We welcome contributions that honor the sacred architecture of CHAOS:
 ### Development Setup
 
 ```bash
-git clone https://github.com/chaos-lang/chaos.git
-cd chaos
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
 pip install -e ".[dev]"
 pre-commit install
 ```
