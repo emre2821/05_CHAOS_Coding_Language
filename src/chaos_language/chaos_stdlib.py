@@ -3,7 +3,7 @@ Minimal pure helpers: clamp, pick, norm_key, uniq, text_snippet, weighted_pick.
 """
 import random
 import re
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Tuple, Union
 
 
 def clamp(n: int, lo: int, hi: int) -> int:
@@ -37,9 +37,11 @@ def text_snippet(text: str, limit: int = 120) -> str:
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
-def weighted_pick(pairs: List[Tuple[Any, int]], default: Any = None) -> Any:
+def weighted_pick(pairs: Union[List[Tuple[Any, int]], Dict[Any, int]], default: Any = None) -> Any:
     if not pairs:
         return default
+    if isinstance(pairs, dict):
+        pairs = list(pairs.items())
     total = sum(max(weight, 0) for _, weight in pairs) or 1
     choice = random.randint(1, total)
     acc = 0
