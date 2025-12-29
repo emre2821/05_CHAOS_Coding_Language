@@ -81,6 +81,8 @@ chaos hello.sn
 chaos-cli hello.chaos --json
 ```
 
+> **Extension note:** Modern CHAOS programs use the `.chaos` extension. The legacy compatibility shim continues to accept `.sn` files (as shown above) for existing flows; new examples should prefer `.chaos` unless you are testing legacy migration.
+
 ### Interactive Shell
 
 Start the CHAOS interactive shell:
