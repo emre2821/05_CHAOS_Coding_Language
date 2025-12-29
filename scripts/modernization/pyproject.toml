@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "chaos-lang"
+name = "chaos-language"
 description = "CHAOS: A Symbolic-Emotional Programming Language"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -47,20 +47,16 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/chaos-lang/chaos"
-Repository = "https://github.com/chaos-lang/chaos"
-Documentation = "https://chaos-lang.readthedocs.io"
-"Bug Tracker" = "https://github.com/chaos-lang/chaos/issues"
+Homepage = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language"
+Repository = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language"
+Documentation = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language#readme"
+"Bug Tracker" = "https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/issues"
 
 [project.scripts]
-# Modern CHAOS Language toolchain
 chaos-cli = "chaos_language.cli.chaos_cli:main"
 chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
 chaos-exec = "chaos_language.cli.chaos_exec:main"
 chaos-validate = "chaos_language.cli.chaos_validate:main"
-
-# Legacy compatibility shims (old `chaos` namespace)
-chaos = "chaos.chaos_cli:main"
 chaos-fuzz = "chaos.chaos_fuzz:main"
 edencore = "chaos.eden_core:main"
 

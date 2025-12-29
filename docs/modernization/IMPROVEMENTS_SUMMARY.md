@@ -17,6 +17,7 @@ chaos_continued.complete_build.py  # Build script
 ### After (Modernized Structure)
 ```
 chaos-language/
+├── src/chaos_language/           # Main package layout
 ├── src/chaos_language/          # Proper package layout
 │   ├── __init__.py              # Package exports
 │   ├── chaos_lexer.py           # Token recognition
@@ -33,6 +34,14 @@ chaos-language/
 │   ├── chaos_stdlib.py          # Sacred utilities
 │   ├── chaos_validator.py       # Structure validation
 │   ├── chaos_agent.py           # Living agent system
+│   ├── cli/                     # CLI entrypoints
+│   │   ├── chaos_cli.py         # Command-line interface
+│   │   ├── chaos_agent_cli.py   # Agent interaction
+│   │   ├── chaos_exec.py        # Advanced execution
+│   │   └── chaos_validate.py    # Validator entrypoint
+│   └── chaos_reports.py         # Reporting utilities
+├── src/chaos/                   # Legacy compatibility layer
+│   └── ...                      # Mirrors core runtime for migration
 │   ├── cli/                     # Command-line interfaces
 │   │   ├── chaos_cli.py         # Main CLI entry point
 │   │   ├── chaos_agent_cli.py   # Agent interaction
@@ -83,6 +92,7 @@ chaos-language/
 - **`chaos-cli`** - Main interpreter with interactive shell
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting
+- **`chaos-validate`** - Schema and ethics validation
 - **`chaos-fuzz`** - Fuzz testing suite
 - **`edencore`** - Ecosystem coordinator
 - Modern CLIs live under the `chaos_language.cli.*` namespace, while `chaos-fuzz`,
