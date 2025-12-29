@@ -47,7 +47,7 @@ pip install -e ".[dev]"
 
 ### Your First CHAOS Program
 
-Create a file called `hello.chaos`:
+Create a file called `hello.sn`:
 
 ```chaos
 [GREETING]: first_contact
@@ -70,6 +70,7 @@ May your chaos find form.
 Run it:
 
 ```bash
+chaos hello.sn
 chaos-cli hello.chaos --json
 ```
 
