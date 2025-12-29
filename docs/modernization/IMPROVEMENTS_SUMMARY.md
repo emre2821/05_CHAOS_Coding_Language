@@ -89,6 +89,7 @@ chaos-language/
 ## 🚀 Developer Experience Enhancements
 
 ### Command-Line Interfaces
+- **Modern CLI suite now includes `chaos-validate`** for dedicated schema and ethics validation alongside the interpreter and agent tools
 - **`chaos-cli`** - Main interpreter with interactive shell
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting

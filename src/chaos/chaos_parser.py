@@ -8,9 +8,17 @@ resonance, creating the mythic architecture of the language.
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from .chaos_lexer import TokenType, Token
 from .chaos_errors import ChaosSyntaxError
+
+
+class TagTriplet(NamedTuple):
+    tag: str
+    kind: str
+    value: Any
+    value_type: Optional[str]
+    has_value: bool
 
 
 class NodeType(Enum):
@@ -38,16 +46,13 @@ class Node:
         return f"Node({self.type}, value={self.value!r})"
 
 
-@dataclass
+@dataclass(frozen=True)
 class TagTriplet:
     tag: str
     kind: str
     value: Optional[Any]
-    value_type: Optional[TokenType]
-
-    @property
-    def has_value(self) -> bool:
-        return self.value is not None
+    value_type: Optional[str]
+    has_value: bool
 
 
 class ChaosParser:
@@ -183,11 +188,15 @@ class ChaosParser:
     def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[TagTriplet, int]]:
         """
         Non-destructively inspect whether a tag triplet starts at ``start_index``.
-        
+
+        The caller must provide the index of a ``LEFT_BRACKET`` token to begin
+        the probe.
+
         Returns a tuple of (entry, end_index) if a triplet is found, where
         ``end_index`` is the token position immediately after the triplet.
+        ``start_index`` must point to a LEFT_BRACKET token.
         """
-        idx = self.current if start_index is None else start_index
+        idx = start_index
         tokens = self.tokens
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.LEFT_BRACKET:
@@ -210,6 +219,7 @@ class ChaosParser:
 
         value_token: Optional[Token] = None
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
+            has_second_colon = True
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
@@ -225,7 +235,8 @@ class ChaosParser:
             tag=tag,
             kind=kind,
             value=value_token.value if value_token else None,
-            value_type=value_token.type if value_token else None,
+            value_type=value_token.type.name if value_token else None,
+            has_value=has_second_colon,
         )
         return entry, idx
 
@@ -234,9 +245,9 @@ class ChaosParser:
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
         
         Returns:
-            Dictionary with tag components or None if not a triplet pattern
+            TagTriplet with tag components or None if not a triplet pattern.
         """
-        probe = self._peek_tag_triplet()
+        probe = self._peek_tag_triplet(self.current)
         if probe is None:
             return None
         
@@ -260,7 +271,7 @@ class ChaosParser:
                 self._advance()
                 continue
             
-            entry = self._parse_tag_triplet()
+            entry = self._parse_tag_triplet(self.current)
             if entry is None:
                 # Not a tag triplet; ensure forward progress without over-skipping
                 if self.current <= start_index:
