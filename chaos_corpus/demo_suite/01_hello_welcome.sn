@@ -1,0 +1,7 @@
+[EVENT]: greeting
+[INTENT]: welcome_newcomer
+[EMOTION:WARMTH:6]
+[EMOTION:CURIOSITY:5]
+{
+Welcome to CHAOS. Meaning before motion, consent before action.
+}

@@ -71,6 +71,19 @@ class TestChaosParser:
         assert ast.children[0].value == {}
         assert ast.children[1].value == [{"name": "JOY", "intensity": 7}]
 
+    def test_emotion_tag_with_structured_core(self):
+        """Ensure emotion tags following structured core data are routed correctly."""
+        source = "[META] : 1 [EMOTION:JOY:7]"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        # Structured core layer should capture the META entry
+        assert ast.children[0].value == {"META": "1"}
+        # Emotive layer should capture the emotion tag
+        assert ast.children[1].value == [{"name": "JOY", "intensity": 7}]
+
     def test_symbol_tag_bypasses_structured_core(self):
         """Regression: ensure symbol tags are not consumed as structured keys."""
         source = "[SYMBOL:GROWTH:PRESENT]"

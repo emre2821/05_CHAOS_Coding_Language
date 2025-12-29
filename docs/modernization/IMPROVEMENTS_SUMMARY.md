@@ -18,6 +18,7 @@ chaos_continued.complete_build.py  # Build script
 ```
 chaos-language/
 ├── src/chaos_language/           # Main package layout
+├── src/chaos_language/          # Proper package layout
 │   ├── __init__.py              # Package exports
 │   ├── chaos_lexer.py           # Token recognition
 │   ├── chaos_parser.py          # Three-layer parsing
@@ -41,6 +42,13 @@ chaos-language/
 │   └── chaos_reports.py         # Reporting utilities
 ├── src/chaos/                   # Legacy compatibility layer
 │   └── ...                      # Mirrors core runtime for migration
+│   ├── cli/                     # Command-line interfaces
+│   │   ├── chaos_cli.py         # Main CLI entry point
+│   │   ├── chaos_agent_cli.py   # Agent interaction
+│   │   ├── chaos_exec.py        # Advanced execution
+│   │   └── chaos_validate.py    # Validation entry point
+│   ├── chaos_fuzz.py            # Fuzz testing
+│   └── eden_core.py             # Ecosystem coordinator
 ├── tests/                       # Comprehensive test suite
 │   ├── __init__.py
 │   ├── test_lexer.py
@@ -81,7 +89,7 @@ chaos-language/
 ## 🚀 Developer Experience Enhancements
 
 ### Command-Line Interfaces
-- **`chaos-cli`** - Interactive shell and artifact inspector
+- **`chaos-cli`** - Main interpreter with interactive shell
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting
 - **`chaos-validate`** - Schema and ethics validation
@@ -160,14 +168,14 @@ chaos-language/
 ### For Existing Users
 1. **Install the new package**: `pip install chaos-language`
 2. **Update import statements**: `from chaos_language import run_chaos`
-3. **Use new CLI tools**: `chaos-cli program.chaos` instead of direct script execution
-4. **Explore new features**: Agent system, fuzz testing, and CLI tooling
+3. **Use new CLI tools**: `chaos-cli program.sn` instead of direct script execution
+4. **Explore new features**: Agent system, fuzz testing, ecosystem tools
 
 ### For Developers
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn --json`
+4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn`
 
 ## 📈 Quality Metrics
 

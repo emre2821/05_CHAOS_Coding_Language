@@ -1,0 +1,11 @@
+[TYPE]: retrospective
+[ROLE]: facilitator
+[INTENT]: learn_without_blame
+[BOUNDARY:NO_SHAMING]
+[BOUNDARY:HONOR_OPT_OUT]
+[PERMISSION:SPEAK:ALL]
+[EMOTION:CURIOSITY:6]
+[EMOTION:CARE:6]
+{
+What went well, what hurt, what we’ll tend next. No blame—only learning.
+}

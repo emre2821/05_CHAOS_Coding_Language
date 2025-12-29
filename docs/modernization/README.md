@@ -30,6 +30,12 @@ Every CHAOS program consists of three sacred layers:
 ### Installation
 
 ```bash
+# Install CHAOS language
+pip install chaos-language
+
+# Or install from source
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
 # Clone the CHAOS repository
 git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
@@ -71,6 +77,7 @@ Run it:
 
 ```bash
 chaos-cli hello.chaos
+chaos hello.sn
 chaos-cli hello.chaos --json
 ```
 
@@ -79,6 +86,7 @@ chaos-cli hello.chaos --json
 Start the CHAOS interactive shell:
 
 ```bash
+chaos-cli
 chaos-cli --json
 ```
 
@@ -208,7 +216,7 @@ chaos-exec program.sn --validate-only
 ### Programmatic Usage
 
 ```python
-from chaos_language import ChaosAgent, run_chaos
+from chaos_language import run_chaos, ChaosAgent
 
 # Execute CHAOS code
 environment = run_chaos("""
