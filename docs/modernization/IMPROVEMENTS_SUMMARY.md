@@ -16,8 +16,8 @@ chaos_continued.complete_build.py  # Build script
 
 ### After (Modernized Structure)
 ```
-chaos-lang/
-├── src/chaos/                    # Proper package layout
+chaos-language/
+├── src/chaos_language/           # Main package layout
 │   ├── __init__.py              # Package exports
 │   ├── chaos_lexer.py           # Token recognition
 │   ├── chaos_parser.py          # Three-layer parsing
@@ -33,11 +33,14 @@ chaos-lang/
 │   ├── chaos_stdlib.py          # Sacred utilities
 │   ├── chaos_validator.py       # Structure validation
 │   ├── chaos_agent.py           # Living agent system
-│   ├── chaos_cli.py             # Command-line interface
-│   ├── chaos_agent_cli.py       # Agent interaction
-│   ├── chaos_exec.py            # Advanced execution
-│   ├── chaos_fuzz.py            # Fuzz testing
-│   └── eden_core.py             # Ecosystem coordinator
+│   ├── cli/                     # CLI entrypoints
+│   │   ├── chaos_cli.py         # Command-line interface
+│   │   ├── chaos_agent_cli.py   # Agent interaction
+│   │   ├── chaos_exec.py        # Advanced execution
+│   │   └── chaos_validate.py    # Validator entrypoint
+│   └── chaos_reports.py         # Reporting utilities
+├── src/chaos/                   # Legacy compatibility layer
+│   └── ...                      # Mirrors core runtime for migration
 ├── tests/                       # Comprehensive test suite
 │   ├── __init__.py
 │   ├── test_lexer.py
@@ -78,9 +81,10 @@ chaos-lang/
 ## 🚀 Developer Experience Enhancements
 
 ### Command-Line Interfaces
-- **`chaos`** - Main interpreter with interactive shell
+- **`chaos-cli`** - Interactive shell and artifact inspector
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting
+- **`chaos-validate`** - Schema and ethics validation
 - **`chaos-fuzz`** - Fuzz testing suite
 - **`edencore`** - Ecosystem coordinator
 
@@ -154,16 +158,16 @@ chaos-lang/
 ## 🔄 Migration Guide
 
 ### For Existing Users
-1. **Install the new package**: `pip install chaos-lang`
-2. **Update import statements**: `from chaos import run_chaos`
-3. **Use new CLI tools**: `chaos program.sn` instead of direct script execution
-4. **Explore new features**: Agent system, fuzz testing, ecosystem tools
+1. **Install the new package**: `pip install chaos-language`
+2. **Update import statements**: `from chaos_language import run_chaos`
+3. **Use new CLI tools**: `chaos-cli program.chaos` instead of direct script execution
+4. **Explore new features**: Agent system, fuzz testing, and CLI tooling
 
 ### For Developers
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos examples/hello_chaos.sn`
+4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn --json`
 
 ## 📈 Quality Metrics
 
