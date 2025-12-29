@@ -6,6 +6,8 @@ the sacred three-layer structure before they are brought to life
 through execution.
 """
 
+from typing import Any, Dict, List
+
 from .chaos_errors import ChaosValidationError
 from .chaos_lexer import ChaosLexer
 from .chaos_parser import ChaosParser

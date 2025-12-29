@@ -59,7 +59,29 @@ class TestChaosParser:
         # Other layers should be empty
         assert ast.children[0].value == {}
         assert ast.children[2].value == ""
-    
+
+    def test_emotion_tag_routed_to_emotive_layer(self):
+        """Regression: ensure emotion tags bypass structured core parsing."""
+        source = "[EMOTION:JOY:7]"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        assert ast.children[0].value == {}
+        assert ast.children[1].value == [{"name": "JOY", "intensity": 7}]
+
+    def test_symbol_tag_bypasses_structured_core(self):
+        """Regression: ensure symbol tags are not consumed as structured keys."""
+        source = "[SYMBOL:GROWTH:PRESENT]"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        assert ast.children[0].value == {}
+        assert ast.children[1].value == []
+
     def test_chaosfield_only(self):
         """Test parsing chaosfield layer only."""
         source = '{ "Sacred narrative text" }'
