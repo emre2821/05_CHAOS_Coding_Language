@@ -53,7 +53,7 @@ pip install -e ".[dev]"
 
 ### Your First CHAOS Program
 
-Create a file called `hello.sn`:
+Create a file called `hello.chaos`:
 
 ```chaos
 [GREETING]: first_contact
@@ -278,7 +278,7 @@ Explore the `examples/` directory for complete CHAOS programs:
 ### Core Components
 
 ```
-src/chaos/
+src/chaos_language/
 ├── __init__.py              # Package exports
 ├── chaos_lexer.py           # Token recognition
 ├── chaos_parser.py          # Three-layer structure weaving
@@ -294,11 +294,16 @@ src/chaos/
 ├── chaos_validator.py       # Structure validation
 ├── chaos_stdlib.py          # Sacred utilities
 ├── chaos_agent.py           # Living agent system
-├── chaos_cli.py             # Command-line interface
-├── chaos_agent_cli.py       # Agent interaction
-├── chaos_exec.py            # Advanced execution
-├── chaos_fuzz.py            # Fuzz testing
-└── eden_core.py             # Ecosystem coordinator
+├── chaos_reports.py         # Reporting utilities
+├── cli/                     # CLI entrypoints
+│   ├── chaos_cli.py         # Command-line interface
+│   ├── chaos_agent_cli.py   # Agent interaction
+│   ├── chaos_exec.py        # Advanced execution
+│   └── chaos_validate.py    # Validation interface
+└── EdenCore.py              # Ecosystem coordinator
+
+src/chaos/
+└── ...                      # Legacy compatibility layer
 ```
 
 ### The Three Layers
