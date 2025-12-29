@@ -1,0 +1,14 @@
+[TYPE]: protocol
+[NAME]: gentle_check_in
+[INTENT]: maintain_connection
+[STEP:1]: greet_with_care
+[STEP:2]: ask_state
+[STEP:3]: listen_deeply
+[STEP:4]: offer_support
+[STEP:5]: honor_refusal
+[BOUNDARY:RESPECT_SILENCE]
+[BOUNDARY:ASK_BEFORE_ACTION]
+[EMOTION:WARMTH:6]
+{
+Silence counts as an answer. Consent is renewed at every step.
+}

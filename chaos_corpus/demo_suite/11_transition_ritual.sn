@@ -1,0 +1,11 @@
+[TYPE]: transition
+[ROLE]: outgoing_steward
+[INTENT]: hand_over_with_memory
+[SYMBOL:TORCH:PASSING]
+[BOUNDARY:NO_LOST_CONTEXT]
+[BOUNDARY:NAME_CARETAKERS]
+[EMOTION:GRATITUDE:8]
+[EMOTION:BITTERSWEET:6]
+{
+I pass the torch. Here are the stories, risks, and promises that travel with it.
+}
