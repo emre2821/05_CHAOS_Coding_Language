@@ -7,7 +7,7 @@ resonance, creating the mythic architecture of the language.
 """
 
 from enum import Enum, auto
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional, Tuple
 from .chaos_lexer import TokenType, Token
 from .chaos_errors import ChaosSyntaxError
 
@@ -39,6 +39,8 @@ class Node:
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
+    _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
+    
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
     def __init__(self, tokens: List[Token]) -> None:
@@ -117,18 +119,19 @@ class ChaosParser:
         pairs: Dict[str, Any] = {}
         
         while not self._is_at_end():
+            start_index = self.current
+
+            probe = self._peek_tag_triplet(start_index)
+            if probe:
+                entry, end_index = probe
+                if self._should_route_tag_triplet(entry):
+                    self.current = end_index
+                    continue
+
             if not self._check(TokenType.LEFT_BRACKET):
                 self._advance()
                 continue
             
-            start_index = self.current
-            triplet_probe = self._peek_tag_triplet()
-            if triplet_probe and self._should_route_tag_triplet(triplet_probe):
-                # Skip routed tag triplets so the emotive layer can weave them
-                self._skip_to_matching_right_bracket(start_index)
-                continue
-
-            # Check if this is a simple key-value pair
             self._advance()  # Consume [
             
             if not self._check(TokenType.IDENTIFIER):
@@ -166,54 +169,55 @@ class ChaosParser:
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
 
-    def _skip_to_matching_right_bracket(self, start_index: int) -> None:
-        """Advance the cursor past the matching right bracket, if present."""
-        self.current = start_index
-        while not self._is_at_end():
-            token = self._advance()
-            if token.type == TokenType.RIGHT_BRACKET:
-                break
-
-    def _peek_tag_triplet(self) -> Optional[Dict[str, Any]]:
-        """Non-destructively inspect whether the current position is a tag triplet."""
-        idx = self.current
+    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[Dict[str, Any], int]]:
+        """
+        Non-destructively inspect whether a tag triplet starts at ``start_index``.
+        
+        Returns a tuple of (entry, end_index) if a triplet is found, where
+        ``end_index`` is the token position immediately after the triplet.
+        """
+        idx = self.current if start_index is None else start_index
         tokens = self.tokens
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.LEFT_BRACKET:
             return None
+        idx += 1
 
-        idx += 1  # Skip [
         if idx >= len(tokens) or tokens[idx].type != TokenType.IDENTIFIER:
             return None
         tag = tokens[idx].value
-
         idx += 1
+
         if idx >= len(tokens) or tokens[idx].type != TokenType.COLON:
             return None
-
         idx += 1
+
         if idx >= len(tokens) or tokens[idx].type != TokenType.IDENTIFIER:
             return None
         kind = tokens[idx].value
-
         idx += 1
-        has_value = False
+
+        value_token = None
+        has_second_colon = False
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
             idx += 1
-            if idx >= len(tokens) or tokens[idx].type not in (TokenType.IDENTIFIER, TokenType.NUMBER):
-                return None
-            has_value = True
-            idx += 1
+            if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
+                value_token = tokens[idx]
+                idx += 1
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
             return None
+        idx += 1
 
-        return {"tag": tag, "kind": kind, "has_value": has_value}
+        entry = {
+            "tag": tag,
+            "kind": kind,
+            "value": value_token.value if value_token else None,
+            "value_type": value_token.type.name if value_token else None,
+            "has_value": has_second_colon
+        }
+        return entry, idx
 
-    def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
-        """Determine if a tag triplet should bypass structured core parsing."""
-        return entry["tag"] in self._ROUTED_TAGS or entry["has_value"]
-    
     def _parse_tag_triplet(self) -> Optional[Dict[str, Any]]:
         """
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
@@ -221,45 +225,17 @@ class ChaosParser:
         Returns:
             Dictionary with tag components or None if not a triplet pattern
         """
-        if not self._check(TokenType.LEFT_BRACKET):
+        probe = self._peek_tag_triplet()
+        if probe is None:
             return None
         
-        # Probe ahead without committing
-        save = self.current
-        self._advance()  # Consume [
-        
-        if not self._check(TokenType.IDENTIFIER):
-            self.current = save
-            return None
-        
-        tag = self._advance().value
-        
-        if not self._match(TokenType.COLON):
-            # Not a triplet pattern
-            self.current = save
-            return None
-        
-        if not self._check(TokenType.IDENTIFIER):
-            self.current = save
-            return None
-        
-        kind = self._advance().value
-        
-        # Optional value part
-        value_token = None
-        if self._match(TokenType.COLON):
-            if self._check(TokenType.IDENTIFIER) or self._check(TokenType.NUMBER):
-                value_token = self._advance()
-        
-        self._consume(TokenType.RIGHT_BRACKET, 'Expected "]" after tag')
-        
-        return {
-            "tag": tag,
-            "kind": kind,
-            "value": value_token.value if value_token else None,
-            "value_type": value_token.type.name if value_token else None,
-            "has_value": value_token is not None
-        }
+        entry, end_index = probe
+        self.current = end_index
+        return entry
+
+    def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
+        """Determine if a tag triplet should bypass structured core parsing."""
+        return entry["tag"] in self._ROUTED_TAGS or bool(entry.get("has_value"))
     
     def _parse_emotive_layer(self) -> Node:
         """Parse the emotive layer - the heart of the ritual."""
@@ -267,14 +243,17 @@ class ChaosParser:
         extras: List[Dict[str, Any]] = []
         
         while not self._is_at_end():
+            start_index = self.current
+
             if not self._check(TokenType.LEFT_BRACKET):
                 self._advance()
                 continue
             
             entry = self._parse_tag_triplet()
             if entry is None:
-                # Not a tag triplet; move forward
-                self._advance()
+                # Not a tag triplet; ensure forward progress without over-skipping
+                if self.current <= start_index:
+                    self._advance()
                 continue
             
             tag = entry["tag"]
