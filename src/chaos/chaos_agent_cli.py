@@ -8,7 +8,7 @@ agent's dreams and actions.
 
 import argparse
 import os
-from typing import Optional
+from typing import List, Optional
 
 from .chaos_agent import ChaosAgent
 
