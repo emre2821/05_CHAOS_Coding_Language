@@ -6,6 +6,7 @@ defines CHAOS. Each layer carries its own symbolic weight and emotional
 resonance, creating the mythic architecture of the language.
 """
 
+from dataclasses import dataclass
 from enum import Enum, auto
 from typing import List, Dict, Any, Optional, Tuple
 from .chaos_lexer import TokenType, Token
@@ -35,6 +36,15 @@ class Node:
         if self.children:
             return f"Node({self.type}, value={self.value!r}, children={len(self.children)})"
         return f"Node({self.type}, value={self.value!r})"
+
+
+@dataclass(frozen=True)
+class TagTriplet:
+    tag: str
+    kind: str
+    value: Optional[Any]
+    value_type: Optional[str]
+    has_value: bool
 
 
 class ChaosParser:
@@ -169,14 +179,17 @@ class ChaosParser:
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
 
-    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[Dict[str, Any], int]]:
+    def _peek_tag_triplet(self, start_index: int) -> Optional[Tuple[TagTriplet, int]]:
         """
         Non-destructively inspect whether a tag triplet starts at ``start_index``.
-        
+
+        The caller must provide the index of a ``LEFT_BRACKET`` token to begin
+        the probe.
+
         Returns a tuple of (entry, end_index) if a triplet is found, where
         ``end_index`` is the token position immediately after the triplet.
         """
-        idx = self.current if start_index is None else start_index
+        idx = start_index
         tokens = self.tokens
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.LEFT_BRACKET:
@@ -200,6 +213,7 @@ class ChaosParser:
         value_token = None
         has_second_colon = False
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
+            has_second_colon = True
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
@@ -209,23 +223,23 @@ class ChaosParser:
             return None
         idx += 1
 
-        entry = {
-            "tag": tag,
-            "kind": kind,
-            "value": value_token.value if value_token else None,
-            "value_type": value_token.type.name if value_token else None,
-            "has_value": has_second_colon
-        }
+        entry = TagTriplet(
+            tag=tag,
+            kind=kind,
+            value=value_token.value if value_token else None,
+            value_type=value_token.type.name if value_token else None,
+            has_value=has_second_colon,
+        )
         return entry, idx
 
-    def _parse_tag_triplet(self) -> Optional[Dict[str, Any]]:
+    def _parse_tag_triplet(self) -> Optional[TagTriplet]:
         """
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
         
         Returns:
-            Dictionary with tag components or None if not a triplet pattern
+            TagTriplet with tag components or None if not a triplet pattern
         """
-        probe = self._peek_tag_triplet()
+        probe = self._peek_tag_triplet(self.current)
         if probe is None:
             return None
         
@@ -233,9 +247,9 @@ class ChaosParser:
         self.current = end_index
         return entry
 
-    def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
+    def _should_route_tag_triplet(self, entry: TagTriplet) -> bool:
         """Determine if a tag triplet should bypass structured core parsing."""
-        return entry["tag"] in self._ROUTED_TAGS or bool(entry.get("has_value"))
+        return entry.tag in self._ROUTED_TAGS or entry.has_value
     
     def _parse_emotive_layer(self) -> Node:
         """Parse the emotive layer - the heart of the ritual."""
@@ -256,10 +270,10 @@ class ChaosParser:
                     self._advance()
                 continue
             
-            tag = entry["tag"]
-            kind = entry["kind"]
-            value = entry["value"]
-            value_type = entry["value_type"]
+            tag = entry.tag
+            kind = entry.kind
+            value = entry.value
+            value_type = entry.value_type
             
             if tag == "EMOTION":
                 # Parse emotion intensity
