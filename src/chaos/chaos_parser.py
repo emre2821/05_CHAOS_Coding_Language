@@ -6,10 +6,19 @@ defines CHAOS. Each layer carries its own symbolic weight and emotional
 resonance, creating the mythic architecture of the language.
 """
 
+from dataclasses import dataclass
 from enum import Enum, auto
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from .chaos_lexer import TokenType, Token
 from .chaos_errors import ChaosSyntaxError
+
+
+class TagTriplet(NamedTuple):
+    tag: str
+    kind: str
+    value: Any
+    value_type: Optional[str]
+    has_value: bool
 
 
 class NodeType(Enum):
@@ -37,12 +46,19 @@ class Node:
         return f"Node({self.type}, value={self.value!r})"
 
 
+@dataclass(frozen=True)
+class TagTriplet:
+    tag: str
+    kind: str
+    value: Optional[Any]
+    value_type: Optional[str]
+    has_value: bool
+
+
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
-_ROUTED_TAGS = {"EMOTION", "SYMBOL"}
-    
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
-    
+
     def __init__(self, tokens: List[Token]) -> None:
         """Initialize the parser with sacred tokens."""
         self.tokens = tokens
@@ -169,14 +185,18 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
 
-    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[Dict[str, Any], int]]:
+    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[TagTriplet, int]]:
         """
         Non-destructively inspect whether a tag triplet starts at ``start_index``.
-        
+
+        The caller must provide the index of a ``LEFT_BRACKET`` token to begin
+        the probe.
+
         Returns a tuple of (entry, end_index) if a triplet is found, where
         ``end_index`` is the token position immediately after the triplet.
+        ``start_index`` must point to a LEFT_BRACKET token.
         """
-        idx = self.current if start_index is None else start_index
+        idx = start_index
         tokens = self.tokens
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.LEFT_BRACKET:
@@ -197,35 +217,37 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         kind = tokens[idx].value
         idx += 1
 
-        value_token = None
+        value_token: Optional[Token] = None
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
+            has_second_colon = True
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
-                idx += 1
             else:
                 return None
+            idx += 1
 
         if idx >= len(tokens) or tokens[idx].type != TokenType.RIGHT_BRACKET:
             return None
         idx += 1
 
-        entry = {
-            "tag": tag,
-            "kind": kind,
-            "value": value_token.value if value_token else None,
-            "value_type": value_token.type.name if value_token else None,
-        }
+        entry = TagTriplet(
+            tag=tag,
+            kind=kind,
+            value=value_token.value if value_token else None,
+            value_type=value_token.type.name if value_token else None,
+            has_value=has_second_colon,
+        )
         return entry, idx
 
-    def _parse_tag_triplet(self) -> Optional[Dict[str, Any]]:
+    def _parse_tag_triplet(self) -> Optional[TagTriplet]:
         """
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
         
         Returns:
-            Dictionary with tag components or None if not a triplet pattern
+            TagTriplet with tag components or None if not a triplet pattern.
         """
-        probe = self._peek_tag_triplet()
+        probe = self._peek_tag_triplet(self.current)
         if probe is None:
             return None
         
@@ -233,9 +255,9 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
         self.current = end_index
         return entry
 
-    def _should_route_tag_triplet(self, entry: Dict[str, Any]) -> bool:
+    def _should_route_tag_triplet(self, entry: TagTriplet) -> bool:
         """Determine if a tag triplet should bypass structured core parsing."""
-        return entry["tag"] in self._ROUTED_TAGS or entry.get("value") is not None
+        return entry.tag in self._ROUTED_TAGS or entry.has_value
     
     def _parse_emotive_layer(self) -> Node:
         """Parse the emotive layer - the heart of the ritual."""
@@ -249,22 +271,22 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
                 self._advance()
                 continue
             
-            entry = self._parse_tag_triplet()
+            entry = self._parse_tag_triplet(self.current)
             if entry is None:
                 # Not a tag triplet; ensure forward progress without over-skipping
                 if self.current <= start_index:
                     self._advance()
                 continue
             
-            tag = entry["tag"]
-            kind = entry["kind"]
-            value = entry["value"]
-            value_type = entry["value_type"]
+            tag = entry.tag
+            kind = entry.kind
+            value = entry.value
+            value_type = entry.value_type
             
             if tag == "EMOTION":
                 # Parse emotion intensity
                 try:
-                    intensity = int(value) if value_type == "NUMBER" else int(str(value)) if value else 5
+                    intensity = int(value) if value_type == TokenType.NUMBER else int(str(value)) if value else 5
                 except Exception:
                     intensity = 5
                 intensity = max(0, min(intensity, 10))  # Clamp to 0-10
