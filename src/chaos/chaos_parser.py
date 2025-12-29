@@ -196,6 +196,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
 
         Returns a tuple of (entry, end_index) if a triplet is found, where
         ``end_index`` is the token position immediately after the triplet.
+        ``start_index`` must point to a LEFT_BRACKET token.
         """
         idx = start_index
         tokens = self.tokens
@@ -271,7 +272,7 @@ _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
                 self._advance()
                 continue
             
-            entry = self._parse_tag_triplet()
+            entry = self._parse_tag_triplet(self.current)
             if entry is None:
                 # Not a tag triplet; ensure forward progress without over-skipping
                 if self.current <= start_index:
