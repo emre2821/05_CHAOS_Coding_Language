@@ -4,6 +4,17 @@ import sys
 from pathlib import Path
 
 
+def run_command(args, repo_root: Path, env: dict[str, str]) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        args,
+        capture_output=True,
+        text=True,
+        cwd=repo_root,
+        env=env,
+        check=True,
+    )
+
+
 def test_cli_executes_sn_file(tmp_path):
     script = tmp_path / "ritual.sn"
     script.write_text(
@@ -17,13 +28,10 @@ def test_cli_executes_sn_file(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
     env = os.environ.copy()
     env["PYTHONPATH"] = str(repo_root / "src")
-    result = subprocess.run(
+    result = run_command(
         [sys.executable, "scripts/chaos_cli.py", str(script), "--json"],
-        capture_output=True,
-        text=True,
-        cwd=repo_root,
-        env=env,
-        check=True,
+        repo_root,
+        env,
     )
 
     lines = [line for line in result.stdout.splitlines() if line.strip()]
@@ -39,22 +47,18 @@ def test_complete_build_runs_without_warnings(tmp_path):
     env = os.environ.copy()
     env.setdefault("PYTHONWARNINGS", "error")
 
-    result = subprocess.run(
+    result = run_command(
         [
             sys.executable,
             str(script_path.relative_to(repo_root)),
             "--output",
             str(output_path),
         ],
-        capture_output=True,
-        text=True,
-        cwd=repo_root,
-        env=env,
-        check=True,
+        repo_root,
+        env,
     )
 
     assert output_path.exists()
     assert result.stderr.strip() == ""
     combined = (result.stdout + result.stderr).lower()
     assert "warning" not in combined
-

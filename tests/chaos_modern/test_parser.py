@@ -7,13 +7,17 @@ from chaos.chaos_lexer import ChaosLexer, TokenType
 
 class TestChaosParser:
     """Test the sacred weaving of tokens into three-layer structure."""
+
+    @staticmethod
+    def parse(source: str) -> Node:
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        return parser.parse()
     
     def test_empty_program(self):
         """Test parsing empty source."""
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize("")
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse("")
         
         assert ast.type == NodeType.PROGRAM
         assert len(ast.children) == 3
@@ -24,10 +28,7 @@ class TestChaosParser:
     def test_structured_core_only(self):
         """Test parsing structured core layer only."""
         source = '[NAME]: "value"\n[TYPE]: "test"'
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Check structure
         assert ast.children[0].type == NodeType.STRUCTURED_CORE
@@ -43,10 +44,7 @@ class TestChaosParser:
     def test_emotive_layer_only(self):
         """Test parsing emotive layer only."""
         source = "[EMOTION:JOY:7]\n[EMOTION:HOPE:5]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Check emotive layer
         assert ast.children[1].type == NodeType.EMOTIVE_LAYER
@@ -63,10 +61,7 @@ class TestChaosParser:
     def test_emotion_tag_routed_to_emotive_layer(self):
         """Regression: ensure emotion tags bypass structured core parsing."""
         source = "[EMOTION:JOY:7]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         assert ast.children[0].value == {}
         assert ast.children[1].value == [{"name": "JOY", "intensity": 7}]
@@ -74,10 +69,7 @@ class TestChaosParser:
     def test_emotion_tag_with_structured_core(self):
         """Ensure emotion tags following structured core data are routed correctly."""
         source = "[META] : 1 [EMOTION:JOY:7]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         # Structured core layer should capture the META entry
         assert ast.children[0].value == {"META": "1"}
@@ -93,10 +85,7 @@ class TestChaosParser:
         block beginning with the first brace.
         """
         source = "intro [EMOTION:JOY:7] middle {chaos} outro"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         # Emotive layer should still capture the emotion tag regardless of surrounding text/chaosfield
         emotive_layer = ast.children[1]
@@ -109,10 +98,7 @@ class TestChaosParser:
     def test_symbol_tag_bypasses_structured_core(self):
         """Regression: ensure symbol tags are not consumed as structured keys."""
         source = "[SYMBOL:GROWTH:PRESENT]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         assert ast.children[0].value == {}
         assert ast.children[1].value == []
@@ -120,10 +106,7 @@ class TestChaosParser:
     def test_chaosfield_only(self):
         """Test parsing chaosfield layer only."""
         source = '{ "Sacred narrative text" }'
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Check chaosfield
         assert ast.children[2].type == NodeType.CHAOSFIELD_LAYER
@@ -146,10 +129,7 @@ class TestChaosParser:
         Every bloom held a story, every leaf a whisper of wisdom.
         }
         """
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Verify three-layer structure
         assert len(ast.children) == 3
@@ -178,10 +158,7 @@ class TestChaosParser:
         [TYPE]: "example"
         [EMOTION:WONDER:8]
         """
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Should have two symbols in structured core
         assert len(ast.children[0].value) == 2
@@ -197,10 +174,7 @@ class TestChaosParser:
     def test_invalid_emotion_intensity(self):
         """Test handling of invalid emotion intensities."""
         source = "[EMOTION:JOY:invalid]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         # Should default to intensity 5 for invalid values
         assert ast.children[1].value[0]["intensity"] == 5
@@ -208,10 +182,7 @@ class TestChaosParser:
     def test_emotion_intensity_clamping(self):
         """Test that emotion intensities are properly clamped."""
         source = "[EMOTION:JOY:15]\n[EMOTION:SADNESS:-3]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
         
         emotions = {e["name"]: e["intensity"] for e in ast.children[1].value}
         assert emotions["JOY"] == 10  # Clamped to max
@@ -220,20 +191,14 @@ class TestChaosParser:
     def test_negative_emotion_intensity_is_parsed(self):
         """Ensure negative numeric intensities are processed without disrupting parsing."""
         source = "[EMOTION:SADNESS:-3]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         assert ast.children[1].value == [{"name": "SADNESS", "intensity": 0}]
 
     def test_non_emotive_tag_triplet_is_ignored_by_structured_core(self):
         """Tag-like triplets that are not routed emotions should bypass structured core."""
         source = "[META:FOO:BAR]"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         assert ast.children[0].value == {}
         assert ast.children[1].value == []
@@ -248,10 +213,7 @@ class TestChaosParser:
         ]
 
         for source, expected_emotions, expected_chaos in cases:
-            lexer = ChaosLexer()
-            tokens = lexer.tokenize(source)
-            parser = ChaosParser(tokens)
-            ast = parser.parse()
+            ast = self.parse(source)
 
             # Structured core should stay empty regardless of malformed tags
             assert ast.children[0].value == {}
@@ -265,10 +227,7 @@ class TestChaosParser:
     def test_chaosfield_after_multiple_tags(self):
         """Ensure chaosfield parsing starts at the first brace after tag-like content."""
         source = "[META] : 1 [EMOTION:JOY:2] lead-in {inside chaos} trailing"
-        lexer = ChaosLexer()
-        tokens = lexer.tokenize(source)
-        parser = ChaosParser(tokens)
-        ast = parser.parse()
+        ast = self.parse(source)
 
         assert ast.children[0].value == {"META": "1"}
         assert ast.children[1].value == [{"name": "JOY", "intensity": 2}]
