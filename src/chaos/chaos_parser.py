@@ -6,10 +6,19 @@ defines CHAOS. Each layer carries its own symbolic weight and emotional
 resonance, creating the mythic architecture of the language.
 """
 
+from dataclasses import dataclass
 from enum import Enum, auto
-from typing import List, Dict, Any, Optional, Tuple, NamedTuple
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from .chaos_lexer import TokenType, Token
 from .chaos_errors import ChaosSyntaxError
+
+
+class TagTriplet(NamedTuple):
+    tag: str
+    kind: str
+    value: Any
+    value_type: Optional[str]
+    has_value: bool
 
 
 class NodeType(Enum):
@@ -37,7 +46,8 @@ class Node:
         return f"Node({self.type}, value={self.value!r})"
 
 
-class TagTriplet(NamedTuple):
+@dataclass(frozen=True)
+class TagTriplet:
     tag: str
     kind: str
     value: Optional[Any]
@@ -47,7 +57,7 @@ class TagTriplet(NamedTuple):
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
-    _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
+_ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
@@ -177,10 +187,13 @@ class ChaosParser:
         
         return Node(NodeType.STRUCTURED_CORE, value=pairs)
 
-    def _peek_tag_triplet(self, start_index: int) -> Optional[Tuple[TagTriplet, int]]:
+    def _peek_tag_triplet(self, start_index: Optional[int] = None) -> Optional[Tuple[TagTriplet, int]]:
         """
         Non-destructively inspect whether a tag triplet starts at ``start_index``.
-        
+
+        The caller must provide the index of a ``LEFT_BRACKET`` token to begin
+        the probe.
+
         Returns a tuple of (entry, end_index) if a triplet is found, where
         ``end_index`` is the token position immediately after the triplet.
         ``start_index`` must point to a LEFT_BRACKET token.
@@ -228,14 +241,14 @@ class ChaosParser:
         )
         return entry, idx
 
-    def _parse_tag_triplet(self, start_index: int) -> Optional[TagTriplet]:
+    def _parse_tag_triplet(self) -> Optional[TagTriplet]:
         """
         Parse a tag triplet like [EMOTION:JOY:7] or [SYMBOL:GROWTH:PRESENT].
         
         Returns:
-            A TagTriplet with the parsed components, or None if not a triplet pattern.
+            TagTriplet with tag components or None if not a triplet pattern.
         """
-        probe = self._peek_tag_triplet(start_index)
+        probe = self._peek_tag_triplet(self.current)
         if probe is None:
             return None
         

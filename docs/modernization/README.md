@@ -195,22 +195,38 @@ edencore
 10. PulsePause                # Rhythm and timing daemon
 ```
 
+> Note: The `edencore` CLI ships as a legacy compatibility shim under the historical
+> `chaos` namespace. Modern CLI commands (e.g., `chaos-cli`, `chaos-exec`) live in the
+> `chaos_language` package while preserving legacy entry points for existing workflows.
+
 ## 🔧 Advanced Usage
 
 ### Command-Line Tools
 
+Modern CLI suite (packaged under `chaos_language.cli.*`):
+
 ```bash
 # Execute with detailed output
-chaos-cli --tokens --ast --json program.sn
+chaos-cli --tokens --ast --json program.chaos
 
 # Generate business reports
-chaos-exec program.sn --report --emit results.json
+chaos-exec program.chaos --report --emit results.json
 
-# Fuzz testing
+# Validate only
+chaos-validate program.chaos
+```
+
+Legacy compatibility (historical `chaos.*` namespace, kept for existing scripts and fuzzing flows):
+
+```bash
+# Execute with detailed output via legacy shim
+chaos program.sn
+
+# Fuzz testing legacy entry point
 chaos-fuzz --corpus examples/ --verbose
 
-# Validation only
-chaos-exec program.sn --validate-only
+# Ecosystem coordinator (legacy EdenCore launcher)
+edencore
 ```
 
 ### Programmatic Usage
