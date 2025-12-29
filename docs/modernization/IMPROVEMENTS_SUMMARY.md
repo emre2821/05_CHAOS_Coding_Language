@@ -89,13 +89,15 @@ chaos-language/
 ## 🚀 Developer Experience Enhancements
 
 ### Command-Line Interfaces
-- **Modern CLI suite**: `chaos-cli`, `chaos-agent`, `chaos-exec`, `chaos-validate`, `chaos-fuzz`, `edencore`
+- **Modern CLI suite now includes `chaos-validate`** for dedicated schema and ethics validation alongside the interpreter and agent tools
 - **`chaos-cli`** - Main interpreter with interactive shell
 - **`chaos-agent`** - Direct agent interaction
 - **`chaos-exec`** - Advanced execution with reporting
 - **`chaos-validate`** - Schema and ethics validation
 - **`chaos-fuzz`** - Fuzz testing suite
 - **`edencore`** - Ecosystem coordinator
+- Modern CLIs live under the `chaos_language.cli.*` namespace, while `chaos-fuzz`,
+  `edencore`, and the `chaos` shim remain available for legacy compatibility.
 
 ### Package Management
 - **`pyproject.toml`** - Modern Python packaging configuration
@@ -176,7 +178,7 @@ chaos-language/
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn`
+4. **Explore the examples**: `chaos-cli examples/hello_chaos.chaos --json`
 
 ## 📈 Quality Metrics
 

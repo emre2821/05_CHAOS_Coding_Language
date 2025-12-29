@@ -83,7 +83,7 @@ chaos-cli hello.chaos --json
 chaos hello.sn
 ```
 
-Use the `.chaos` extension with the modern CLI tools (`chaos-cli`, `chaos-exec`, `chaos-agent`, `chaos-validate`). The legacy `chaos` shim continues to expect `.sn` files for backward compatibility.
+> **Extension note:** Modern CHAOS programs use the `.chaos` extension. The legacy compatibility shim continues to accept `.sn` files (as shown above) for existing flows; new examples should prefer `.chaos` unless you are testing legacy migration.
 
 ### Interactive Shell
 
@@ -199,26 +199,38 @@ edencore
 10. PulsePause                # Rhythm and timing daemon
 ```
 
+> Note: The `edencore` CLI ships as a legacy compatibility shim under the historical
+> `chaos` namespace. Modern CLI commands (e.g., `chaos-cli`, `chaos-exec`) live in the
+> `chaos_language` package while preserving legacy entry points for existing workflows.
+
 ## 🔧 Advanced Usage
 
 ### Command-Line Tools
+
+Modern CLI suite (packaged under `chaos_language.cli.*`):
 
 ```bash
 # Execute with detailed output
 chaos-cli --tokens --ast --json program.chaos
 
-# Agent-first session (load program with :open inside)
-chaos-agent --name Concord
-
 # Generate business reports
 chaos-exec program.chaos --report --emit results.json
 
-# Fuzz testing
+# Validate only
+chaos-validate program.chaos
+```
+
+Legacy compatibility (historical `chaos.*` namespace, kept for existing scripts and fuzzing flows):
+
+```bash
+# Execute with detailed output via legacy shim
+chaos program.sn
+
+# Fuzz testing legacy entry point
 chaos-fuzz --corpus examples/ --verbose
 
-# Validation only
-chaos-validate program.chaos
-chaos-exec program.chaos --validate-only
+# Ecosystem coordinator (legacy EdenCore launcher)
+edencore
 ```
 
 Within the agent session, use `:open program.chaos` to merge a file. Legacy `.sn` programs remain supported through the `chaos` shim and compatibility layer; keep the `.sn` extension when invoking that legacy entry point.
