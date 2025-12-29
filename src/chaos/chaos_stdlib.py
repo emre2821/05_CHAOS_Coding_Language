@@ -6,7 +6,7 @@ providing the elemental operations that support the larger ritual of
 symbolic-emotional computation.
 """
 
-from typing import Any, Iterable, List, Tuple, Optional, Sequence
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import random
 import re
 
