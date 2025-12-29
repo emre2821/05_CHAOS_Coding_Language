@@ -520,9 +520,9 @@ Design a consent protocol for a specific scenario:
 
 ### External Resources
 
-- [GitHub Repository](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language)
-- [Issue Tracker](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/issues)
-- [Discussions](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/discussions)
+- [GitHub Repository](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language) — canonical source for code, releases, and updates
+- [Issue Tracker](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/issues) — report bugs or request fixes
+- [Discussions](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/discussions) — ask questions, share ideas, and propose improvements
 
 ## Community & Support
 
