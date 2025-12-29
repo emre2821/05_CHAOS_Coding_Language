@@ -39,6 +39,7 @@ class Node:
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
+    _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
@@ -199,7 +200,6 @@ class ChaosParser:
         value_token = None
         has_second_colon = False
         if idx < len(tokens) and tokens[idx].type == TokenType.COLON:
-            has_second_colon = True
             idx += 1
             if idx < len(tokens) and tokens[idx].type in (TokenType.IDENTIFIER, TokenType.NUMBER):
                 value_token = tokens[idx]
