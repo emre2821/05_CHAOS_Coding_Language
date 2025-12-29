@@ -84,6 +84,28 @@ class TestChaosParser:
         # Emotive layer should capture the emotion tag
         assert ast.children[1].value == [{"name": "JOY", "intensity": 7}]
 
+    def test_emotion_tag_interleaved_with_text_and_chaosfield(self):
+        """
+        Ensure emotion tags are detected when interleaved with free text and chaosfield content.
+
+        The parser advances through non-bracket tokens in both the structured and emotive layers,
+        so the emotive entry must still be detected and the chaosfield layer must capture the
+        block beginning with the first brace.
+        """
+        source = "intro [EMOTION:JOY:7] middle {chaos} outro"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        # Emotive layer should still capture the emotion tag regardless of surrounding text/chaosfield
+        emotive_layer = ast.children[1]
+        assert emotive_layer.value == [{"name": "JOY", "intensity": 7}]
+
+        # Chaosfield / free-text layer should capture the content inside the braces.
+        chaos_layer = ast.children[2]
+        assert chaos_layer.value == "chaos"
+
     def test_symbol_tag_bypasses_structured_core(self):
         """Regression: ensure symbol tags are not consumed as structured keys."""
         source = "[SYMBOL:GROWTH:PRESENT]"
@@ -194,3 +216,60 @@ class TestChaosParser:
         emotions = {e["name"]: e["intensity"] for e in ast.children[1].value}
         assert emotions["JOY"] == 10  # Clamped to max
         assert emotions["SADNESS"] == 0  # Clamped to min
+
+    def test_negative_emotion_intensity_is_parsed(self):
+        """Ensure negative numeric intensities are processed without disrupting parsing."""
+        source = "[EMOTION:SADNESS:-3]"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        assert ast.children[1].value == [{"name": "SADNESS", "intensity": 0}]
+
+    def test_non_emotive_tag_triplet_is_ignored_by_structured_core(self):
+        """Tag-like triplets that are not routed emotions should bypass structured core."""
+        source = "[META:FOO:BAR]"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        assert ast.children[0].value == {}
+        assert ast.children[1].value == []
+
+    def test_malformed_tag_patterns_do_not_pollute_layers(self):
+        """Malformed tag triplets should not corrupt structured core or chaosfield parsing."""
+        cases = [
+            ("[EMOTION::7]", [], ""),
+            ("[EMOTION:JOY:]", [{"name": "JOY", "intensity": 5}], ""),
+            ("[EMOTION:JOY 7]", [], ""),
+            ("prefix [EMOTION:JOY middle {chaos text} end", [], "chaos text"),
+        ]
+
+        for source, expected_emotions, expected_chaos in cases:
+            lexer = ChaosLexer()
+            tokens = lexer.tokenize(source)
+            parser = ChaosParser(tokens)
+            ast = parser.parse()
+
+            # Structured core should stay empty regardless of malformed tags
+            assert ast.children[0].value == {}
+
+            # Emotive layer should reflect any recoverable emotion tags without crashing
+            assert ast.children[1].value == expected_emotions
+
+            # Chaosfield should still parse brace-enclosed content when present
+            assert ast.children[2].value == expected_chaos
+
+    def test_chaosfield_after_multiple_tags(self):
+        """Ensure chaosfield parsing starts at the first brace after tag-like content."""
+        source = "[META] : 1 [EMOTION:JOY:2] lead-in {inside chaos} trailing"
+        lexer = ChaosLexer()
+        tokens = lexer.tokenize(source)
+        parser = ChaosParser(tokens)
+        ast = parser.parse()
+
+        assert ast.children[0].value == {"META": "1"}
+        assert ast.children[1].value == [{"name": "JOY", "intensity": 2}]
+        assert ast.children[2].value == "inside chaos"
