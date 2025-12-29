@@ -49,7 +49,7 @@ class TagTriplet:
 
 class ChaosParser:
     """Weaves tokens into the three-layer structure of CHAOS."""
-    _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
+_ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
     _ROUTED_TAGS = {"EMOTION", "SYMBOL"}
     
