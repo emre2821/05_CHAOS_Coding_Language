@@ -198,6 +198,9 @@ chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
 chaos-agent --name Concord
 ```
 
+Note: the `examples/`, `templates/`, and `schema/` paths above assume you're
+running from a local clone of the repository.
+
 ### First validation in 60 seconds
 
 Create a tiny CHAOS file, run the validator, and confirm success:
@@ -358,7 +361,7 @@ For comprehensive project information, see:
 ### Setup
 
 ```bash
-# Clone the repository
+# Clone the repository (skip this if you're already in a local clone)
 git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
 
