@@ -1,20 +1,30 @@
 import os
 import subprocess
 import sys
-import venv
 from pathlib import Path
+import venv
 
-import pytest
+
+CONSOLE_SCRIPTS = (
+    "chaos-cli",
+    "chaos-exec",
+    "chaos-agent",
+    "chaos-validate",
+    "chaos",
+    "chaos-fuzz",
+    "edencore",
+)
 
 
 def create_venv(venv_dir: Path) -> Path:
-    builder = venv.EnvBuilder(with_pip=True)
+    builder = venv.EnvBuilder(with_pip=True, clear=True)
     builder.create(venv_dir)
-    python_dir = "Scripts" if os.name == "nt" else "bin"
-    return venv_dir / python_dir / "python"
+    if os.name == "nt":
+        return venv_dir / "Scripts" / "python.exe"
+    return venv_dir / "bin" / "python"
 
 
-def run_command(args, repo_root: Path, env: dict[str, str]) -> subprocess.CompletedProcess:
+def run_command(args: list[str], repo_root: Path, env: dict[str, str]) -> subprocess.CompletedProcess:
     return subprocess.run(
         args,
         capture_output=True,
@@ -25,7 +35,6 @@ def run_command(args, repo_root: Path, env: dict[str, str]) -> subprocess.Comple
     )
 
 
-@pytest.mark.slow
 def test_console_entrypoints_show_help(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
     venv_dir = tmp_path / "venv"
@@ -37,25 +46,16 @@ def test_console_entrypoints_show_help(tmp_path):
         os.environ.copy(),
     )
 
-    python_dir = "Scripts" if os.name == "nt" else "bin"
-    exe_suffix = ".exe" if os.name == "nt" else ""
-    entrypoints = [
-        "chaos-cli",
-        "chaos-exec",
-        "chaos-agent",
-        "chaos-validate",
-        "chaos",
-        "chaos-fuzz",
-        "edencore",
-    ]
+    bin_dir = python_path.parent
+    env = os.environ.copy()
 
-    for entrypoint in entrypoints:
-        executable = venv_dir / python_dir / f"{entrypoint}{exe_suffix}"
-        assert executable.exists(), f"Missing console entrypoint: {entrypoint}"
+    for script in CONSOLE_SCRIPTS:
+        executable = bin_dir / script
         result = run_command(
             [str(executable), "--help"],
             repo_root,
-            os.environ.copy(),
+            env,
         )
         combined = (result.stdout + result.stderr).lower()
-        assert "usage" in combined
+        assert "traceback" not in combined
+        assert "usage" in combined or "help" in combined

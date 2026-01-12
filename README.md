@@ -161,6 +161,10 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install CHAOS from PyPI
 pip install chaos-language
 
+# Optional: clone the repo to access examples/, templates/, and schema files
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
+
 # Or install from source in editable mode
 pip install -e .
 
@@ -171,6 +175,9 @@ pip install -e ".[dev]"
 ### Basic Usage
 
 ```bash
+# Note: examples/ paths below assume you're in a cloned repository root.
+# If you installed via pip, clone the repo first to access these files.
+
 # Validate CHAOS files (new format with headers)
 chaos-validate examples/memory_vow.chaos -v
 
@@ -241,6 +248,10 @@ Unicode and emojis are fully supported! ✨
 ```
 
 See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
+
+To view the spec or schema locally, use a cross-platform viewer like `less`
+or your preferred file browser (for example: `less SPEC.md` or
+`less schema/chaos.schema.json`).
 
 ## Examples
 
