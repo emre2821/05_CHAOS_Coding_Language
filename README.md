@@ -13,6 +13,39 @@ human-readable ritual context alongside executable or semi-executable logic.
 CHAOS protects meaning first; execution is optional and always bounded by the
 ethics declared in the artifact.
 
+## TL;DR
+
+CHAOS is a consent-aware, symbolic language for writing artifacts that blend
+ritual, governance, and optional execution. Start by validating a `.chaos` file,
+then explore the examples and schema to see the full format.
+
+## Table of Contents
+
+- [What CHAOS Is](#what-chaos-is)
+- [What CHAOS Is Not](#what-chaos-is-not)
+- [Audience](#audience)
+- [Core Principles](#core-principles)
+- [5-Minute First Steps](#5-minute-first-steps)
+- [Hello CHAOS (Guided Example)](#hello-chaos-guided-example)
+- [Quick Start](#quick-start)
+  - [Installation](#installation)
+  - [Basic Usage](#basic-usage)
+  - [CHAOS File Format](#chaos-file-format)
+  - [Using the Makefile](#using-the-makefile)
+- [Specification & File Format](#specification--file-format)
+- [Key Terms](#key-terms)
+- [File Philosophy](#file-philosophy)
+- [How CHAOS Is Used](#how-chaos-is-used)
+- [Relationship to EdenOS](#relationship-to-edenos)
+- [Status & Scope](#status--scope)
+- [Project Layout](#project-layout)
+- [Embedding CHAOS in Your Systems](#embedding-chaos-in-your-systems)
+- [Testing & Quality](#testing--quality)
+- [Contributing](#contributing)
+- [Development](#development)
+- [Docker](#docker)
+- [License / Ethics Note](#license--ethics-note)
+
 ## What CHAOS Is
 
 - A language that lives between code, ritual, metadata, and governance.
@@ -53,6 +86,131 @@ CHAOS is not for:
   explicitly for audit and intervention.
 - **Rejection of hollow optimization.** Performance or automation must not erase
   meaning, context, or ethical posture.
+
+## 5-Minute First Steps
+
+1. **Install the CLI tools.**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   pip install chaos-language
+   ```
+2. **Grab a reference artifact.**
+   ```bash
+   cp examples/memory_vow.chaos ./hello.chaos
+   ```
+3. **Validate it.**
+   ```bash
+   chaos-validate hello.chaos -v
+   ```
+4. **Inspect a legacy `.sn` ritual file.**
+   ```bash
+   chaos-cli chaos_corpus/memory_garden.sn --json
+   ```
+5. **Explore the formal spec and schema.**
+   ```bash
+   open SPEC.md
+   open schema/chaos.schema.json
+   ```
+
+## Hello CHAOS (Guided Example)
+
+1. **Create a tiny artifact.**
+   ```bash
+   cat <<'CHAOS' > hello.chaos
+   file_type: memory
+   tags: hello, demo, ✨
+   consent: explicit
+   safety_tier: low
+
+   [CONTENT BEGIN]
+   Hello CHAOS. I intend to practice gentle, ethical automation.
+   [CONTENT END]
+   CHAOS
+   ```
+2. **Validate the file.**
+   ```bash
+   chaos-validate hello.chaos -v
+   ```
+3. **Expected output (example).**
+   ```text
+   ✅ hello.chaos: valid CHAOS artifact
+   Header fields: file_type, tags, consent, safety_tier
+   Content: 1 block(s) between [CONTENT BEGIN]/[CONTENT END]
+   ```
+
+If your output differs, check [SPEC.md](SPEC.md) for required fields and use
+`chaos-validate --help` to see additional options.
+
+## Quick Start
+
+### Installation
+
+```bash
+# Create & activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install CHAOS from PyPI
+pip install chaos-language
+
+# Or install from source in editable mode
+pip install -e .
+
+# Or with development dependencies
+pip install -e ".[dev]"
+```
+
+### Basic Usage
+
+```bash
+# Validate CHAOS files (new format with headers)
+chaos-validate examples/memory_vow.chaos -v
+
+# Validate multiple files or directories
+chaos-validate examples/*.chaos
+chaos-validate --dir examples/
+
+# Check for ethical compliance
+chaos-validate examples/config_with_pii.chaos --fail-on-sensitive
+
+# Inspect legacy .sn artifacts (human-readable first)
+chaos-cli chaos_corpus/memory_garden.sn --json
+
+# Run with reporting outputs (execution remains bounded by declared ethics)
+chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
+
+# Open an empathic agent loop
+chaos-agent --name Concord
+```
+
+### CHAOS File Format
+
+CHAOS files use a simple header + content structure:
+
+```chaos
+file_type: memory
+tags: garden, growth, 🌱
+consent: explicit
+safety_tier: med
+
+[CONTENT BEGIN]
+Your narrative, data, or operational content here.
+Unicode and emojis are fully supported! ✨
+[CONTENT END]
+```
+
+See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
+
+### Using the Makefile
+
+```bash
+make dev      # Install development dependencies
+make test     # Run test suite
+make lint     # Run linter
+make coverage # Run tests with coverage report
+make help     # Show all available commands
+```
 
 ## Specification & File Format
 
@@ -138,76 +296,6 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 - Corpus and tooling evolve with EdenOS; expect iterative refinement.
 - Scope is limited to environments that honor CHAOS ethical posture; elsewhere
   treat artifacts as read-only ritual documents.
-
-## Quick Start
-
-### Installation
-
-```bash
-# Create & activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install CHAOS from PyPI
-pip install chaos-language
-
-# Or install from source in editable mode
-pip install -e .
-
-# Or with development dependencies
-pip install -e ".[dev]"
-```
-
-### Basic Usage
-
-```bash
-# Validate CHAOS files (new format with headers)
-chaos-validate examples/memory_vow.chaos -v
-
-# Validate multiple files or directories
-chaos-validate examples/*.chaos
-chaos-validate --dir examples/
-
-# Check for ethical compliance
-chaos-validate examples/config_with_pii.chaos --fail-on-sensitive
-
-# Inspect legacy .sn artifacts (human-readable first)
-chaos-cli chaos_corpus/memory_garden.sn --json
-
-# Run with reporting outputs (execution remains bounded by declared ethics)
-chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
-
-# Open an empathic agent loop
-chaos-agent --name Concord
-```
-
-### CHAOS File Format
-
-CHAOS files use a simple header + content structure:
-
-```chaos
-file_type: memory
-tags: garden, growth, 🌱
-consent: explicit
-safety_tier: med
-
-[CONTENT BEGIN]
-Your narrative, data, or operational content here.
-Unicode and emojis are fully supported! ✨
-[CONTENT END]
-```
-
-See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
-
-### Using the Makefile
-
-```bash
-make dev      # Install development dependencies
-make test     # Run test suite
-make lint     # Run linter
-make coverage # Run tests with coverage report
-make help     # Show all available commands
-```
 
 ## Project Layout
 
