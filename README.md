@@ -191,6 +191,39 @@ chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
 chaos-agent --name Concord
 ```
 
+### First validation in 60 seconds
+
+Create a tiny CHAOS file, run the validator, and confirm success:
+
+```bash
+# 1) Create a minimal CHAOS artifact
+cat > hello.chaos <<'EOF'
+file_type: memory
+tags: quickstart, hello, 🌿
+consent: explicit
+safety_tier: low
+
+[CONTENT BEGIN]
+This is a tiny CHAOS hello to prove the toolchain is working.
+[CONTENT END]
+EOF
+
+# 2) Validate it with verbose output
+chaos-validate hello.chaos -v
+```
+
+Expected output:
+
+```
+✔ hello.chaos
+
+✓ All 1 file(s) valid
+```
+
+How to read this:
+- `✔ hello.chaos` — the file passed all schema checks (headers, tags, content markers).
+- `✓ All 1 file(s) valid` — the run succeeded; exit code is `0`. A `✖` line would call out the exact issue if validation failed.
+
 ### CHAOS File Format
 
 CHAOS files use a simple header + content structure:
