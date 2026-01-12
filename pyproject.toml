@@ -63,6 +63,9 @@ chaos_corpus = ["**/*.sn"]
 addopts = "-q"
 pythonpath = ["src", "."]
 testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow integration tests (deselect with '-m \"not slow\"')",
+]
 
 [tool.pylint.main]
 ignore-patterns = ["__pycache__", ".*\\.egg-info"]

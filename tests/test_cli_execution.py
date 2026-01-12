@@ -3,18 +3,37 @@ import subprocess
 import sys
 from pathlib import Path
 
-
-def run_command(args, repo_root: Path, env: dict[str, str]) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        args,
-        capture_output=True,
-        text=True,
-        cwd=repo_root,
-        env=env,
-        check=True,
-    )
+import pytest
 
 
+def run_command(
+    args: list[str],
+    repo_root: Path,
+    env: dict[str, str],
+    timeout: float = 30.0,
+) -> subprocess.CompletedProcess:
+    try:
+        return subprocess.run(
+            args,
+            capture_output=True,
+            text=True,
+            cwd=repo_root,
+            env=env,
+            check=True,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as exc:
+        stdout = exc.stdout or ""
+        stderr = exc.stderr or ""
+        pytest.fail(
+            "Command timed out after "
+            f"{timeout} seconds: {' '.join(map(str, args))}\n"
+            f"stdout:\n{stdout}\n"
+            f"stderr:\n{stderr}"
+        )
+
+
+@pytest.mark.slow
 def test_cli_executes_sn_file(tmp_path):
     script = tmp_path / "ritual.sn"
     script.write_text(
@@ -38,6 +57,7 @@ def test_cli_executes_sn_file(tmp_path):
     assert any("structured_core" in line for line in lines)
 
 
+@pytest.mark.slow
 def test_complete_build_runs_without_warnings(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
     script_path = repo_root / "src" / "chaos_language" / "complete_build.py"

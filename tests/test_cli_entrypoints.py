@@ -1,9 +1,9 @@
 import os
 import subprocess
-import sysconfig
+import sys
 from pathlib import Path
+import venv
 
-import pytest
 
 CONSOLE_SCRIPTS = (
     "chaos-cli",
@@ -16,42 +16,46 @@ CONSOLE_SCRIPTS = (
 )
 
 
-def run_command(args) -> subprocess.CompletedProcess:
+def create_venv(venv_dir: Path) -> Path:
+    builder = venv.EnvBuilder(with_pip=True, clear=True)
+    builder.create(venv_dir)
+    if os.name == "nt":
+        return venv_dir / "Scripts" / "python.exe"
+    return venv_dir / "bin" / "python"
+
+
+def run_command(args: list[str], repo_root: Path, env: dict[str, str]) -> subprocess.CompletedProcess:
     return subprocess.run(
         args,
         capture_output=True,
         text=True,
+        cwd=repo_root,
+        env=env,
         check=True,
     )
 
 
-def resolve_console_script(bin_dir: Path, script: str) -> Path:
-    if os.name != "nt":
-        return bin_dir / script
+def test_console_entrypoints_show_help(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    venv_dir = tmp_path / "venv"
+    python_path = create_venv(venv_dir)
 
-    candidates = [
-        bin_dir / f"{script}.exe",
-        bin_dir / f"{script}-script.py",
-        bin_dir / script,
-    ]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    return candidates[0]
+    run_command(
+        [str(python_path), "-m", "pip", "install", "-e", "."],
+        repo_root,
+        os.environ.copy(),
+    )
 
+    bin_dir = python_path.parent
+    env = os.environ.copy()
 
-def test_console_entrypoints_are_installed():
-    bin_dir = Path(sysconfig.get_path("scripts"))
-    if not bin_dir.exists():
-        pytest.skip("Script directory not available for entrypoint checks.")
-
-    missing = []
     for script in CONSOLE_SCRIPTS:
-        executable = resolve_console_script(bin_dir, script)
-        if not executable.exists():
-            missing.append(executable.name)
-            continue
-        run_command([str(executable), "--help"])
-
-    if missing:
-        pytest.skip(f"Console scripts not installed: {', '.join(missing)}")
+        executable = bin_dir / script
+        result = run_command(
+            [str(executable), "--help"],
+            repo_root,
+            env,
+        )
+        combined = (result.stdout + result.stderr).lower()
+        assert "traceback" not in combined
+        assert "usage" in combined or "help" in combined
