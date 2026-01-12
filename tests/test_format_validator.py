@@ -113,6 +113,19 @@ Content here
     assert "CONTENT END" in str(exc.value)
 
 
+def test_duplicate_content_begin_marker():
+    """Test that duplicate CONTENT BEGIN markers raise error."""
+    source = """file_type: note
+tags: example
+[CONTENT BEGIN]
+Content here
+[CONTENT BEGIN]
+More content
+[CONTENT END]
+"""
+    assert_validation_error(source, "Multiple [CONTENT BEGIN] markers")
+
+
 def test_empty_content():
     """Test that empty content raises error."""
     source = make_source(["file_type: note", "tags: example"], content="")
