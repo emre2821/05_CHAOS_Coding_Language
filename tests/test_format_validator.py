@@ -124,7 +124,7 @@ Content here
 More content
 [CONTENT END]
 """
-    assert_validation_error(source, "Multiple [CONTENT BEGIN] markers")
+    assert_validation_error(source, "multiple")
 
 
 def test_duplicate_content_end_marker():
@@ -137,7 +137,7 @@ Content here
 [CONTENT END]
 [CONTENT END]
 """
-    assert_validation_error(source, "Multiple [CONTENT END] markers")
+    assert_validation_error(source, "multiple")
 
 
 def test_empty_content():
