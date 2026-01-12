@@ -33,10 +33,7 @@ Every CHAOS program consists of three sacred layers:
 # Install CHAOS language
 pip install chaos-language
 
-# Or install from source
-git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
-cd 05_CHAOS_Coding_Language
-# Clone the CHAOS repository
+# Or install from source (skip this clone if you're already in a local repo)
 git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
 
