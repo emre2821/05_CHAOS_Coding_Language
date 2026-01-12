@@ -13,21 +13,31 @@ human-readable ritual context alongside executable or semi-executable logic.
 CHAOS protects meaning first; execution is optional and always bounded by the
 ethics declared in the artifact.
 
-## What CHAOS Is
+## Table of Contents
+
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Examples](#examples)
+- [Tools](#tools)
+- [Development](#development)
+
+## Overview
+
+### What CHAOS Is
 
 - A language that lives between code, ritual, metadata, and governance.
 - A way to write artifacts meant to be read by humans, interpreted by agents,
   constrained by ethics, and optionally executed or enforced by tooling.
 - A vessel for symbolic memory, emotional stance, and explicit intent.
 
-## What CHAOS Is Not
+### What CHAOS Is Not
 
 - Not a general-purpose programming language.
 - Not a drop-in replacement for existing runtimes or frameworks.
 - Not "just" a DSL or config file—the meaning layer is primary.
 - Not a vehicle for opaque automation or optimization that erases context.
 
-## Audience
+### Audience
 
 CHAOS is for:
 - System builders crafting EdenOS-aligned services.
@@ -39,7 +49,7 @@ CHAOS is not for:
 - People seeking a general-purpose language for arbitrary software.
 - Teams prioritizing throughput over meaning, consent, or traceability.
 
-## Core Principles
+### Core Principles
 
 - **Dignity-first design.** Human subjects, memories, and narratives stay
   sovereign; automation must defer to consent.
@@ -54,7 +64,7 @@ CHAOS is not for:
 - **Rejection of hollow optimization.** Performance or automation must not erase
   meaning, context, or ethical posture.
 
-## Specification & File Format
+### Specification & File Format
 
 CHAOS has a formal specification that defines the canonical file format:
 
@@ -78,7 +88,7 @@ CHAOS includes optional fields for consent-aware and safety-conscious systems:
 
 See [SPEC.md](SPEC.md) for complete field definitions and validation rules.
 
-## Key Terms
+### Key Terms
 
 - **Artifact.** A CHAOS `.sn` document that pairs symbolic, emotional, and
   ethical context with optional execution hooks; it is the primary unit of work
@@ -91,7 +101,7 @@ See [SPEC.md](SPEC.md) for complete field definitions and validation rules.
   boundaries, and decision rights so tooling can align with the declared
   ethics before any action is attempted.
 
-## File Philosophy
+### File Philosophy
 
 A CHAOS file is a living ritual object. It typically names:
 - **Identity** — who is speaking or acting.
@@ -106,7 +116,7 @@ A CHAOS file is a living ritual object. It typically names:
 
 This is descriptive, not a formal grammar; meaning and ethics remain primary.
 
-## How CHAOS Is Used
+### How CHAOS Is Used
 
 - **Human-readable first.** Artifacts are written for people to read before any
   tool executes them.
@@ -119,7 +129,7 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 - **Governance layer.** CHAOS can stand alone as an intent and governance layer
   even when no execution is performed.
 
-## Relationship to EdenOS
+### Relationship to EdenOS
 
 - **EdenOS substrate.** CHAOS binds rituals, governance, and operational stories
   within EdenOS.
@@ -132,7 +142,7 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 - **Independent meaning layer.** CHAOS artifacts remain useful without
   execution; they can be consumed as governance or ritual documents.
 
-## Status & Scope
+### Status & Scope
 
 - Interpreter, validator, and CLI target Python 3.9+.
 - Corpus and tooling evolve with EdenOS; expect iterative refinement.
@@ -199,6 +209,16 @@ Unicode and emojis are fully supported! ✨
 
 See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
 
+## Examples
+
+- Browse **[examples/](examples/)** for reference files using the canonical
+  header + content structure.
+- Explore **[templates/](templates/)** to start new artifacts quickly.
+- Inspect legacy ritual objects in **[chaos_corpus/](chaos_corpus/)** to see
+  how symbolic memory and ethics are expressed.
+
+## Tools
+
 ### Using the Makefile
 
 ```bash
@@ -208,6 +228,15 @@ make lint     # Run linter
 make coverage # Run tests with coverage report
 make help     # Show all available commands
 ```
+
+### Embedding CHAOS in Your Systems
+
+1. **Capture rituals.** Compose `.sn` artifacts that pair structured telemetry
+   with narrative, symbols, and consent boundaries.
+2. **Interpret with agents.** Use `run_chaos` or agent runtimes to align protocol
+   with declared intent, emotions, and ethical constraints.
+3. **Optionally execute.** Emit JSON, trigger bounded protocols, or generate
+   reports—always downstream of the declared ritual and ethics.
 
 ## Project Layout
 
@@ -246,15 +275,6 @@ make help     # Show all available commands
 ├── pyproject.toml            # Project configuration
 └── conftest.py               # Pytest configuration
 ```
-
-## Embedding CHAOS in Your Systems
-
-1. **Capture rituals.** Compose `.sn` artifacts that pair structured telemetry
-   with narrative, symbols, and consent boundaries.
-2. **Interpret with agents.** Use `run_chaos` or agent runtimes to align protocol
-   with declared intent, emotions, and ethical constraints.
-3. **Optionally execute.** Emit JSON, trigger bounded protocols, or generate
-   reports—always downstream of the declared ritual and ethics.
 
 ## Testing & Quality
 
