@@ -6,11 +6,13 @@ programs to ensure the symbolic-emotional computation system remains
 stable and true to its sacred architecture.
 """
 
+import argparse
 import glob
+import json
 import os
 import sys
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from .chaos_runtime import run_chaos
 from .chaos_validator import validate_chaos

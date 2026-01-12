@@ -5,6 +5,7 @@ This is the master coordinator that manages multiple CHAOS agents and
 provides a unified interface to the symbolic-emotional computation system.
 """
 
+import argparse
 import json
 import os
 import sys
@@ -193,6 +194,20 @@ class EdenCore:
 
 def main() -> None:
     """Entry point for EdenCore."""
+    parser = argparse.ArgumentParser(
+        description="EdenCore daemon manager for the CHAOS ecosystem."
+    )
+    parser.add_argument(
+        "--version",
+        action="store_true",
+        help="Show EdenCore version info and exit.",
+    )
+    args = parser.parse_args()
+
+    if args.version:
+        print("EdenCore: CHAOS daemon manager")
+        return
+
     try:
         EdenCore().main()
     except KeyboardInterrupt:
