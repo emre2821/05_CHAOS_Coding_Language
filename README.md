@@ -13,6 +13,17 @@ human-readable ritual context alongside executable or semi-executable logic.
 CHAOS protects meaning first; execution is optional and always bounded by the
 ethics declared in the artifact.
 
+**TL;DR**
+CHAOS is a meaning-first language that keeps story, intent, and guardrails attached to any action.
+It solves the problem of automation that forgets ethics by binding consent and boundaries to every artifact.
+It stays readable so humans and agents can agree on what should happen before anything runs.
+It’s for Eden-aligned builders, agent designers, and anyone who needs traceable, accountable intent.
+
+**What you can do in 5 minutes**
+- [Validate a sample file](#basic-usage) to confirm structure, ethics, and safety flags.
+- [View a report from a bounded run](#basic-usage) to see how CHAOS artifacts are interpreted.
+- [Open the agent REPL](#basic-usage) to explore empathic agent loops with CHAOS context.
+
 ## What CHAOS Is
 
 - A language that lives between code, ritual, metadata, and governance.
