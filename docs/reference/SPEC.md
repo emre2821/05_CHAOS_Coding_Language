@@ -300,11 +300,11 @@ Current version: **1.0.0**
 
 ## References
 
-- [README.md](README.md) - Project overview
+- [README.md](../../README.md) - Project overview
 - [GLOSSARY.md](GLOSSARY.md) - Terminology reference
 - [schema/chaos.schema.json](schema/chaos.schema.json) - JSON Schema definition
 
 ---
 
 **Canonical Authority**: This document is the single source of truth for CHAOS file format.  
-**Governance**: Changes require community review per [GOVERNANCE.md](GOVERNANCE.md).
+**Governance**: Changes require community review per [GOVERNANCE.md](../../GOVERNANCE.md).

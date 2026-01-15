@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **SPEC.md** - Canonical language specification with formal file format definition
+- **docs/reference/SPEC.md** - Canonical language specification with formal file format definition
 - **JSON Schema** (schema/chaos.schema.json) for machine-checkable validation
 - **chaos-validate** CLI tool for validating CHAOS files against specification
   - Support for single files, multiple files, and directory validation

@@ -68,7 +68,7 @@ CHAOS is not for:
 
 CHAOS has a formal specification that defines the canonical file format:
 
-- **[SPEC.md](SPEC.md)** — Complete language specification (single source of truth)
+- **[SPEC.md](docs/reference/SPEC.md)** — Complete language specification (single source of truth)
 - **[schema/chaos.schema.json](schema/chaos.schema.json)** — Machine-checkable JSON Schema
 - **[examples/](examples/)** — Reference files demonstrating the format
 - **[templates/](templates/)** — Ready-to-use templates for new files
@@ -86,7 +86,7 @@ CHAOS includes optional fields for consent-aware and safety-conscious systems:
 - `safety_tier`: `low` | `med` | `high`
 - `sensitive`: `pii` | `trauma` | `none`
 
-See [SPEC.md](SPEC.md) for complete field definitions and validation rules.
+See [SPEC.md](docs/reference/SPEC.md) for complete field definitions and validation rules.
 
 ### Key Terms
 
@@ -250,10 +250,10 @@ Unicode and emojis are fully supported! ✨
 [CONTENT END]
 ```
 
-See [SPEC.md](SPEC.md) for the complete specification and [examples/](examples/) for reference files.
+See [SPEC.md](docs/reference/SPEC.md) for the complete specification and [examples/](examples/) for reference files.
 
 To view the spec or schema locally, use a cross-platform viewer like `less`
-or your preferred file browser (for example: `less SPEC.md` or
+or your preferred file browser (for example: `less docs/reference/SPEC.md` or
 `less schema/chaos.schema.json`).
 
 ## Examples
@@ -347,9 +347,9 @@ for details on how to get started, and read our [Code of Conduct](CODE_OF_CONDUC
 
 For comprehensive project information, see:
 - **[GOVERNANCE.md](GOVERNANCE.md)** — Project governance and decision-making
-- **[DEV.md](DEV.md)** — Developer guide and architecture
-- **[LEARNING.md](LEARNING.md)** — Tutorials and learning resources
-- **[GLOSSARY.md](GLOSSARY.md)** — Complete terminology reference
+- **[DEV.md](docs/guides/DEV.md)** — Developer guide and architecture
+- **[LEARNING.md](docs/guides/LEARNING.md)** — Tutorials and learning resources
+- **[GLOSSARY.md](docs/reference/GLOSSARY.md)** — Complete terminology reference
 
 ## Development
 
