@@ -1,8 +1,8 @@
 """Tests for the CHAOS parser and three-layer structure."""
 
 import pytest
-from chaos.chaos_parser import ChaosParser, NodeType, Node
-from chaos.chaos_lexer import ChaosLexer, TokenType
+from chaos_legacy.chaos_parser import ChaosParser, NodeType, Node
+from chaos_legacy.chaos_lexer import ChaosLexer, TokenType
 
 
 class TestChaosParser:

@@ -20,8 +20,7 @@ def test_interpreter_emotion_payload():
 
 
 def test_structured_core_preserves_relation_box():
-    resource_path = resources.files("artifacts.corpus_sn").joinpath("relation_box.sn")
-    with resource_path.open("r", encoding="utf-8") as handle:
+    with open("artifacts/corpus_sn/relation_box.sn", "r", encoding="utf-8") as handle:
         src = handle.read()
     env = run_chaos(src)
     structured = env.get("structured_core", {})

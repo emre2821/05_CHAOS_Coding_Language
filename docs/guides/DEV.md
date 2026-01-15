@@ -125,10 +125,13 @@ make lint
 │   ├── test_integration.py       # End-to-end tests
 │   └── conftest.py               # Pytest fixtures
 │
-├── chaos_corpus/                 # Example .sn artifacts
-│   ├── memory_garden.sn
-│   ├── stability_call.sn
-│   └── ...
+├── artifacts/                    # Curated artifacts and templates
+│   ├── corpus_sn/                # Example .sn artifacts
+│   │   ├── memory_garden.sn
+│   │   ├── stability_call.sn
+│   │   └── ...
+│   ├── examples/                 # Reference CHAOS files
+│   └── templates/                # Ready-to-use templates
 │
 ├── tools/cli_shims/                      # Utility scripts
 │   ├── chaos_fuzz.py             # Corpus validation
@@ -552,7 +555,7 @@ CHAOS follows **Semantic Versioning**:
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) for detailed contribution guidelines.
 
 ---
 

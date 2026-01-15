@@ -73,7 +73,7 @@ def main() -> int:
         epilog="Examples:\n"
         "  chaos-validate file.chaos\n"
         "  chaos-validate dir/*.chaos\n"
-        "  chaos-validate --dir chaos_corpus/\n"
+        "  chaos-validate --dir artifacts/corpus_sn/\n"
         "  chaos-validate --require-consent file.chaos\n",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

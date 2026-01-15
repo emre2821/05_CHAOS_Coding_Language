@@ -1,5 +1,5 @@
 """
-Run every .sn in chaos_corpus/ through the runtime.
+Run every .sn in artifacts/corpus_sn/ through the runtime.
 
 Fuzz testing suite for CHAOS - systematically executes all example
 programs to ensure the symbolic-emotional computation system remains
@@ -45,7 +45,10 @@ def run_fuzz_test(file_path: str, verbose: bool = False) -> Tuple[bool, str, Dic
         return False, str(exc), {}
 
 
-def run_corpus_tests(corpus_dir: str = "chaos_corpus", verbose: bool = False) -> Dict[str, any]:
+def run_corpus_tests(
+    corpus_dir: str = os.path.join("artifacts", "corpus_sn"),
+    verbose: bool = False,
+) -> Dict[str, any]:
     """
     Run all CHAOS files in the corpus directory.
     
@@ -163,7 +166,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="CHAOS Fuzz Testing Suite",
         epilog="Examples:\n"
-               "  chaos-fuzz                      # Test all files in chaos_corpus/\n"
+               "  chaos-fuzz                      # Test all files in artifacts/corpus_sn/\n"
                "  chaos-fuzz --verbose            # Show detailed execution\n"
                "  chaos-fuzz --corpus my_tests/   # Test files in custom directory\n"
                "  chaos-fuzz --report results.json # Generate detailed report\n",
@@ -172,8 +175,8 @@ def main() -> None:
     
     parser.add_argument(
         "--corpus", 
-        default="chaos_corpus",
-        help="Directory containing CHAOS test files (default: chaos_corpus)"
+        default=os.path.join("artifacts", "corpus_sn"),
+        help="Directory containing CHAOS test files (default: artifacts/corpus_sn)"
     )
     parser.add_argument(
         "--verbose", 

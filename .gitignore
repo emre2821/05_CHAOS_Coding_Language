@@ -77,3 +77,8 @@ report.json
 *.egg-info/
 chaos_language.complete_build.md
 uv.lock
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.windsurf/rules/snyk_rules.md
+/.mypy_cache
+/.windsurf

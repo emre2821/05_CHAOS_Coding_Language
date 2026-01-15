@@ -357,7 +357,7 @@ A CLI tool for running CHAOS artifacts with reporting and JSON output capabiliti
 **Usage:** `chaos-exec artifact.sn [--report] [--emit output.json]`
 
 ### Corpus
-The collection of example CHAOS artifacts in the `chaos_corpus/` directory. The corpus serves as reference, test data, and inspiration.
+The collection of example CHAOS artifacts in the `artifacts/corpus_sn/` directory. The corpus serves as reference, test data, and inspiration.
 
 **Examples:**
 - `memory_garden.sn`
@@ -417,12 +417,12 @@ The approach where narrative (story, prose, explanation) is treated as primary, 
 
 ## Related Documentation
 
-- [README.md](README.md) — Project overview
-- [LEARNING.md](LEARNING.md) — Learning guide and tutorials
-- [DEV.md](DEV.md) — Developer guide and architecture
-- [GOVERNANCE.md](GOVERNANCE.md) — Project governance
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution guidelines
-- [API_REFERENCE.md](docs/API_REFERENCE.md) — API documentation
+- [README.md](../../README.md) — Project overview
+- [LEARNING.md](../guides/LEARNING.md) — Learning guide and tutorials
+- [DEV.md](../guides/DEV.md) — Developer guide and architecture
+- [GOVERNANCE.md](../../GOVERNANCE.md) — Project governance
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) — Contribution guidelines
+- [API_REFERENCE.md](../API_REFERENCE.md) — API documentation
 
 ---
 

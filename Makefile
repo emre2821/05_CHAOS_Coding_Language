@@ -60,6 +60,11 @@ lint:
 format:
 	@echo "Checking code formatting..."
 	python -m py_compile src/chaos_language/*.py tests/*.py tools/cli_shims/*.py
+	pylint src/chaos_language tests scripts tools/cli_shims --ignore-patterns='__pycache__'
+
+format:
+	@echo "Checking code formatting..."
+	python -m py_compile src/chaos_language/*.py tests/*.py scripts/*.py $(shell find tools/cli_shims -name "*.py")
 	@echo "✓ All files compile successfully"
 
 check: lint test
@@ -68,8 +73,8 @@ check: lint test
 
 # Validation targets
 validate:
-	chaos-validate examples/*.chaos -v
-	chaos-validate templates/*.chaos -v
+	chaos-validate artifacts/examples/*.chaos -v
+	chaos-validate artifacts/templates/*.chaos -v
 	@echo ""
 	@echo "✓ Example and template files validated"
 

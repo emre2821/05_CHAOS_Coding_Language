@@ -351,4 +351,4 @@ chaos-agent [--name <agent_name>]
 
 ---
 
-*For more examples, see the `chaos_corpus/` directory and the test suite.*
+*For more examples, see the `artifacts/corpus_sn/` directory and the test suite.*

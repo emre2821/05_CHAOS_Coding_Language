@@ -183,7 +183,7 @@ python tools/cli_shims/chaos_fuzz.py
 
 Please **do not modify** without explicit discussion:
 
-- `.sn` files in `chaos_corpus/` — These are narrative artifacts
+- `.sn` files in `artifacts/corpus_sn/` — These are narrative artifacts
 - Symbolic or emotional content embedded in the language
 - The core aesthetic or voice of CHAOS documentation
 

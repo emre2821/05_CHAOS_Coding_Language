@@ -1,6 +1,6 @@
 # CHAOS Templates
 
-Ready-to-use templates for creating new CHAOS files. Each template follows the canonical format specified in [SPEC.md](../SPEC.md).
+Ready-to-use templates for creating new CHAOS files. Each template follows the canonical format specified in [SPEC.md](../docs/reference/SPEC.md).
 
 ## Available Templates
 
@@ -14,7 +14,7 @@ The bare minimum required for a valid CHAOS file:
 **Use when:** You need a quick artifact without extra metadata
 
 ```bash
-cp templates/minimal.chaos my_note.chaos
+cp artifacts/templates/minimal.chaos my_note.chaos
 ```
 
 ### standard.chaos
@@ -27,7 +27,7 @@ Standard template with commonly used optional fields:
 **Use when:** Creating a well-documented artifact with metadata
 
 ```bash
-cp templates/standard.chaos my_artifact.chaos
+cp artifacts/templates/standard.chaos my_artifact.chaos
 ```
 
 ### ethical.chaos
@@ -41,7 +41,7 @@ Template emphasizing ethics and safety fields:
 **Use when:** Building systems that handle sensitive data or require explicit consent
 
 ```bash
-cp templates/ethical.chaos my_sensitive_artifact.chaos
+cp artifacts/templates/ethical.chaos my_sensitive_artifact.chaos
 ```
 
 ## Quick Start
@@ -61,7 +61,7 @@ cp templates/ethical.chaos my_sensitive_artifact.chaos
 
 ```bash
 # Create a new memory artifact from ethical template
-cp templates/ethical.chaos my_memory.chaos
+cp artifacts/templates/ethical.chaos my_memory.chaos
 
 # Edit it (use your preferred editor)
 nano my_memory.chaos
@@ -97,7 +97,7 @@ Use when appropriate:
 - `safety_tier`: For risk-sensitive content
 - `sensitive`: Flag PII or trauma content
 
-See [SPEC.md](../SPEC.md) for complete field definitions.
+See [SPEC.md](../docs/reference/SPEC.md) for complete field definitions.
 
 ## Validation
 
@@ -105,7 +105,7 @@ All templates are valid CHAOS files that can be used as-is or customized:
 
 ```bash
 # Templates are valid and will pass validation
-chaos-validate templates/*.chaos
+chaos-validate artifacts/templates/*.chaos
 
 # After customizing, validate your file
 chaos-validate my_file.chaos
@@ -119,7 +119,7 @@ chaos-validate my_file.chaos --fail-on-sensitive
 
 For real-world examples of valid CHAOS files, see:
 - [examples/](../examples/) - Complete, valid reference files
-- [SPEC.md](../SPEC.md) - Specification with examples
+- [SPEC.md](../docs/reference/SPEC.md) - Specification with examples
 
 ## Contributing Templates
 
@@ -127,7 +127,7 @@ Have an idea for a new template? Contributions welcome!
 
 1. Create a template following existing patterns
 2. Document it in this README
-3. Ensure it follows [SPEC.md](../SPEC.md)
+3. Ensure it follows [SPEC.md](../docs/reference/SPEC.md)
 4. Submit a PR
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
