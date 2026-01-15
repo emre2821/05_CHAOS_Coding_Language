@@ -1,7 +1,7 @@
 """Tests for the CHAOS lexical analyzer."""
 
 import pytest
-from chaos.chaos_lexer import ChaosLexer, TokenType, Token
+from chaos_legacy.chaos_lexer import ChaosLexer, TokenType, Token
 
 
 class TestChaosLexer:

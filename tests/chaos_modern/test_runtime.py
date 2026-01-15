@@ -1,8 +1,8 @@
 """Tests for the CHAOS runtime and execution engine."""
 
 import pytest
-from chaos.chaos_runtime import run_chaos
-from chaos.chaos_errors import ChaosSyntaxError, ChaosRuntimeError
+from chaos_legacy.chaos_runtime import run_chaos
+from chaos_legacy.chaos_errors import ChaosSyntaxError, ChaosRuntimeError
 
 
 class TestChaosRuntime:

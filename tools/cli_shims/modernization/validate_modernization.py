@@ -18,7 +18,7 @@ def validate_package_structure():
     print("🔍 Validating package structure...")
     
     required_dirs = [
-        "src/chaos",
+        "src/chaos_legacy",
         "tests", 
         "examples",
         "docs",
@@ -26,13 +26,13 @@ def validate_package_structure():
     ]
     
     required_files = [
-        "src/chaos/__init__.py",
-        "src/chaos/chaos_lexer.py",
-        "src/chaos/chaos_parser.py", 
-        "src/chaos/chaos_interpreter.py",
-        "src/chaos/chaos_runtime.py",
-        "src/chaos/chaos_emotion.py",
-        "src/chaos/chaos_agent.py",
+        "src/chaos_legacy/__init__.py",
+        "src/chaos_legacy/chaos_lexer.py",
+        "src/chaos_legacy/chaos_parser.py", 
+        "src/chaos_legacy/chaos_interpreter.py",
+        "src/chaos_legacy/chaos_runtime.py",
+        "src/chaos_legacy/chaos_emotion.py",
+        "src/chaos_legacy/chaos_agent.py",
         "pyproject.toml",
         "setup.cfg",
         "README.md"
@@ -65,7 +65,7 @@ def validate_imports():
     print("🔍 Validating imports...")
     
     try:
-        from chaos import (
+        from chaos_legacy import (
             run_chaos, ChaosInterpreter, ChaosLexer, ChaosParser,
             ChaosError, ChaosSyntaxError, ChaosRuntimeError,
             ChaosAgent
@@ -81,7 +81,7 @@ def validate_basic_execution():
     print("🔍 Validating basic execution...")
     
     try:
-        from chaos import run_chaos
+        from chaos_legacy import run_chaos
         
         # Test simple program
         program = """
@@ -115,7 +115,7 @@ def validate_example_programs():
     print("🔍 Validating example programs...")
     
     try:
-        from chaos import run_chaos
+        from chaos_legacy import run_chaos
         
         examples_dir = Path("examples")
         if not examples_dir.exists():
@@ -158,7 +158,7 @@ def validate_agent_functionality():
     print("🔍 Validating agent functionality...")
     
     try:
-        from chaos import ChaosAgent
+        from chaos_legacy import ChaosAgent
         
         agent = ChaosAgent("TestAgent")
         
@@ -198,7 +198,7 @@ def validate_emotional_computation():
     print("🔍 Validating emotional computation...")
     
     try:
-        from chaos import run_chaos
+        from chaos_legacy import run_chaos
         
         # Test emotional triggers
         program = """
@@ -248,7 +248,7 @@ def validate_symbolic_processing():
     print("🔍 Validating symbolic processing...")
     
     try:
-        from chaos import run_chaos
+        from chaos_legacy import run_chaos
         
         # Test symbolic relationships
         program = """
@@ -300,7 +300,7 @@ def validate_preservation_of_essence():
 
 def validate_three_layer_architecture():
     """Check that three-layer architecture is preserved."""
-    from chaos import run_chaos
+    from chaos_legacy import run_chaos
     result = run_chaos("[TEST]: value\n[EMOTION:JOY:5]\n{test}")
     return ("structured_core" in result and 
             "emotive_layer" in result and 
@@ -308,14 +308,14 @@ def validate_three_layer_architecture():
 
 def validate_symbolic_tags():
     """Check that symbolic tags work correctly."""
-    from chaos import run_chaos
+    from chaos_legacy import run_chaos
     result = run_chaos("[EVENT]: test\n[SYMBOL:TEST:VALUE]")
     return (result["structured_core"]["EVENT"] == "test" and
             result["structured_core"]["SYMBOL:TEST"] == "VALUE")
 
 def validate_emotional_system():
     """Check that emotional system works correctly."""
-    from chaos import run_chaos
+    from chaos_legacy import run_chaos
     result = run_chaos("[EMOTION:JOY:7]")
     return (len(result["emotive_layer"]) == 1 and
             result["emotive_layer"][0]["name"] == "JOY" and
@@ -323,7 +323,7 @@ def validate_emotional_system():
 
 def validate_sacred_protocols():
     """Check that sacred protocols are available."""
-    from chaos.chaos_protocols import ProtocolRegistry
+    from chaos_legacy.chaos_protocols import ProtocolRegistry
     registry = ProtocolRegistry()
     protocols = registry.list_protocols()
     return len(protocols) >= 4  # Should have at least the 4 standard protocols
@@ -338,7 +338,7 @@ def validate_mythic_language():
 
 def validate_edenos_integration():
     """Check that EdenOS integration is preserved."""
-    from chaos import ChaosAgent
+    from chaos_legacy import ChaosAgent
     agent = ChaosAgent("Test")
     return hasattr(agent, 'ctx') and hasattr(agent, 'emotions')
 

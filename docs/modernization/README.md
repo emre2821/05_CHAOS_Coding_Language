@@ -197,7 +197,7 @@ edencore
 ```
 
 > Note: The `edencore` CLI ships as a legacy compatibility shim under the historical
-> `chaos` namespace. Modern CLI commands (e.g., `chaos-cli`, `chaos-exec`) live in the
+> `chaos_legacy` namespace. Modern CLI commands (e.g., `chaos-cli`, `chaos-exec`) live in the
 > `chaos_language` package while preserving legacy entry points for existing workflows.
 
 ## 🔧 Advanced Usage
@@ -217,7 +217,7 @@ chaos-exec program.chaos --report --emit results.json
 chaos-validate program.chaos
 ```
 
-Legacy compatibility (historical `chaos.*` namespace, kept for existing scripts and fuzzing flows):
+Legacy compatibility (historical `chaos_legacy.*` namespace, kept for existing scripts and fuzzing flows):
 
 ```bash
 # Execute with detailed output via legacy shim
@@ -230,7 +230,7 @@ chaos-fuzz --corpus examples/ --verbose
 edencore
 ```
 
-Within the agent session, use `:open program.chaos` to merge a file. Legacy `.sn` programs remain supported through the `chaos` shim and compatibility layer; keep the `.sn` extension when invoking that legacy entry point.
+Within the agent session, use `:open program.chaos` to merge a file. Legacy `.sn` programs remain supported through the `chaos_legacy` shim and compatibility layer; keep the `.sn` extension when invoking that legacy entry point.
 
 ### Programmatic Usage
 
@@ -321,7 +321,7 @@ src/chaos_language/
 │   └── chaos_validate.py    # Validation interface
 └── EdenCore.py              # Ecosystem coordinator
 
-src/chaos/
+src/chaos_legacy/
 └── ...                      # Legacy compatibility layer
 ```
 
