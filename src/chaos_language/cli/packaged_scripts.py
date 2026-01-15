@@ -22,7 +22,13 @@ def resolve_packaged_script(script_path: Path) -> Optional[Traversable]:
     elif relative_path.parts and relative_path.parts[0] == "corpus_sn":
         relative_path = Path(*relative_path.parts[1:])
 
-    candidate = corpus_root.joinpath(relative_path)
-    if candidate.is_file():
-        return candidate
+    for package in ("artifacts.corpus_sn", "chaos_corpus"):
+        try:
+            corpus_root = resources.files(package)
+        except ModuleNotFoundError:
+            continue
+
+        candidate = corpus_root.joinpath(relative_path)
+        if candidate.is_file():
+            return candidate
     return None

@@ -1,5 +1,7 @@
 # File: tests/test_interpreter.py
 
+from importlib import resources
+
 from chaos_language import run_chaos
 
 def test_interpreter_env_keys():

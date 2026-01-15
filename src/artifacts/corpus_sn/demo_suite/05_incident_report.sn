@@ -1,0 +1,12 @@
+[TYPE]: incident
+[ROLE]: oncall
+[INTENT]: document_outage
+[TIME]: 2025-12-18T10:12:00Z
+[SEVERITY]: high
+[BOUNDARY:NO_BLAME]
+[BOUNDARY:PRIVACY_MASKING]
+[EMOTION:FOCUS:6]
+[EMOTION:RESPONSIBILITY:7]
+{
+Service degraded. Actions: page oncall, pause automation, gather facts without blame.
+}
