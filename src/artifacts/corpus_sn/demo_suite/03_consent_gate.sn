@@ -1,0 +1,13 @@
+[TYPE]: governance
+[ROLE]: caretaker
+[INTENT]: protect_space
+[BOUNDARY:NO_PERSONAL_DATA]
+[BOUNDARY:ASK_BEFORE_ACTION]
+[PERMISSION:READ:PUBLIC]
+[PERMISSION:WRITE:AUTHENTICATED]
+[REFUSAL:HALT_ON_REQUEST]
+[EMOTION:VIGILANCE:6]
+[EMOTION:CARE:7]
+{
+This space runs on consent. If someone says stop, everything halts.
+}

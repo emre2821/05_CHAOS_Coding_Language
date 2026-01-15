@@ -178,7 +178,7 @@ chaos-language/
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos-cli examples/hello_chaos.chaos --json`
+4. **Explore the examples**: `chaos-cli examples/hello_chaos.sn --json`
 
 ## 📈 Quality Metrics
 

@@ -1,0 +1,10 @@
+[TYPE]: wellbeing_check
+[ROLE]: peer
+[INTENT]: support_without_pressure
+[BOUNDARY:NO_DIAGNOSIS]
+[BOUNDARY:OFFER_RESOURCES_ONLY_IF_ASKED]
+[EMOTION:CARE:7]
+[EMOTION:GENTLENESS:6]
+{
+I’m here to listen. No fixing without permission. Would you like resources?
+}

@@ -1,0 +1,11 @@
+[TYPE]: handoff
+[ROLE]: reviewer
+[INTENT]: approve_ai_actions
+[BOUNDARY:HUMAN_REVIEW_REQUIRED]
+[BOUNDARY:NO_AUTONOMOUS_EXECUTION]
+[PERMISSION:REVIEW:APPROVER]
+[REFUSAL:REJECT_ACTION]
+[EMOTION:RESPONSIBILITY:7]
+{
+AI proposes; humans decide. If uncertain, refuse and request clarification.
+}
