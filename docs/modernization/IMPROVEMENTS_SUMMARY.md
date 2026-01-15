@@ -18,7 +18,6 @@ chaos_continued.complete_build.py  # Build script
 ```
 chaos-language/
 ├── src/chaos_language/           # Main package layout
-├── src/chaos_language/          # Proper package layout
 │   ├── __init__.py              # Package exports
 │   ├── chaos_lexer.py           # Token recognition
 │   ├── chaos_parser.py          # Three-layer parsing
@@ -40,7 +39,7 @@ chaos-language/
 │   │   ├── chaos_exec.py        # Advanced execution
 │   │   └── chaos_validate.py    # Validator entrypoint
 │   └── chaos_reports.py         # Reporting utilities
-├── src/chaos/                   # Legacy compatibility layer
+├── src/chaos_legacy/            # Legacy compatibility layer
 │   └── ...                      # Mirrors core runtime for migration
 │   ├── cli/                     # Command-line interfaces
 │   │   ├── chaos_cli.py         # Main CLI entry point
@@ -97,7 +96,7 @@ chaos-language/
 - **`chaos-fuzz`** - Fuzz testing suite
 - **`edencore`** - Ecosystem coordinator
 - Modern CLIs live under the `chaos_language.cli.*` namespace, while `chaos-fuzz`,
-  `edencore`, and the `chaos` shim remain available for legacy compatibility.
+  `edencore`, and the `chaos_legacy` shim remain available for legacy compatibility.
 
 ### Package Management
 - **`pyproject.toml`** - Modern Python packaging configuration

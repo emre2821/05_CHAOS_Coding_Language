@@ -57,11 +57,11 @@ chaos-cli = "chaos_language.cli.chaos_cli:main"
 chaos-agent = "chaos_language.cli.chaos_agent_cli:main"
 chaos-exec = "chaos_language.cli.chaos_exec:main"
 chaos-validate = "chaos_language.cli.chaos_validate:main"
-chaos-fuzz = "chaos.chaos_fuzz:main"
-edencore = "chaos.eden_core:main"
+chaos-fuzz = "chaos_legacy.chaos_fuzz:main"
+edencore = "chaos_legacy.eden_core:main"
 
 [tool.setuptools_scm]
-write_to = "src/chaos/_version.py"
+write_to = "src/chaos_legacy/_version.py"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -119,7 +119,7 @@ branch = true
 omit = [
     "tests/*",
     "setup.py",
-    "src/chaos/_version.py",
+    "src/chaos_legacy/_version.py",
 ]
 
 [tool.coverage.report]

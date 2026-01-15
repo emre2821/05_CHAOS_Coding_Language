@@ -1,11 +1,12 @@
 # CHAOS Internal Architecture
 
 This document provides technical details about the internal architecture of CHAOS for contributors and maintainers.
+The canonical runtime lives in `src/chaos_language`, while `src/chaos_legacy` preserves the historical layout for compatibility.
 
 ## Package Structure
 
 ```
-chaos/
+chaos_legacy/
 ├── Core Language Components
 │   ├── chaos_lexer.py      # Token recognition and lexical analysis
 │   ├── chaos_parser.py     # Three-layer structure parsing
