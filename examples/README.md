@@ -1,6 +1,6 @@
 # CHAOS Examples
 
-This directory contains reference implementations of CHAOS files using the canonical format specified in [SPEC.md](../SPEC.md).
+This directory contains reference implementations of CHAOS files using the canonical format specified in [SPEC.md](../docs/reference/SPEC.md).
 
 ## Files
 
@@ -87,7 +87,7 @@ Use these as reference for your own consent-aware systems.
 
 To add a new example:
 
-1. Create a valid CHAOS file following [SPEC.md](../SPEC.md)
+1. Create a valid CHAOS file following [SPEC.md](../docs/reference/SPEC.md)
 2. Run `chaos-validate your_file.chaos` to verify
 3. Document the example in this README
 4. Submit a PR with the new file

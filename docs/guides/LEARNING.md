@@ -52,7 +52,7 @@ Choose your path based on your background and goals:
 2. [Architecture Overview](DEV.md#architecture-overview)
 3. [Writing & Executing Artifacts](#tutorial-3-emotion-aware-artifacts)
 4. [Using the Agent Runtime](#tutorial-4-agent-interactions)
-5. [Contributing Code](CONTRIBUTING.md)
+5. [Contributing Code](../../CONTRIBUTING.md)
 
 **Time investment:** 2-4 hours to understand fundamentals
 
@@ -160,7 +160,7 @@ Each plant held a story, each bloom a promise kept.
 - **Governance Layer** — Consent flows and ethical boundaries
 - **Bounded Execution** — Actions constrained by declared ethics
 
-See [GLOSSARY.md](GLOSSARY.md) for comprehensive terminology.
+See [GLOSSARY.md](../reference/GLOSSARY.md) for comprehensive terminology.
 
 ### CHAOS vs Traditional Code
 
@@ -505,12 +505,12 @@ Design a consent protocol for a specific scenario:
 
 ### Documentation
 
-- [README.md](README.md) — Project overview and quick start
+- [README.md](../../README.md) — Project overview and quick start
 - [DEV.md](DEV.md) — Developer guide and architecture
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution guidelines
-- [GOVERNANCE.md](GOVERNANCE.md) — Project governance
-- [API_REFERENCE.md](docs/API_REFERENCE.md) — API documentation
-- [GLOSSARY.md](GLOSSARY.md) — Complete terminology reference
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) — Contribution guidelines
+- [GOVERNANCE.md](../../GOVERNANCE.md) — Project governance
+- [API_REFERENCE.md](../API_REFERENCE.md) — API documentation
+- [GLOSSARY.md](../reference/GLOSSARY.md) — Complete terminology reference
 
 ### Code Examples
 
@@ -531,7 +531,7 @@ Design a consent protocol for a specific scenario:
 - **Questions:** Open a GitHub Discussion
 - **Bugs:** File an issue with reproduction steps
 - **Ideas:** Start a discussion to gather feedback
-- **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Contributing:** See [CONTRIBUTING.md](../../CONTRIBUTING.md)
 
 ### Learning Together
 

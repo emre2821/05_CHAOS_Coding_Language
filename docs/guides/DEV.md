@@ -552,7 +552,7 @@ CHAOS follows **Semantic Versioning**:
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) for detailed contribution guidelines.
 
 ---
 
