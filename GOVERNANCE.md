@@ -107,7 +107,7 @@ Community members use CHAOS, share knowledge, report issues, and help others. Co
 
 ### Symbolic & Ethical Content
 
-Changes to `.sn` files in `chaos_corpus/`, emotional terminology, ethical boundaries, or symbolic meaning require:
+Changes to `.sn` files in `artifacts/corpus_sn/`, emotional terminology, ethical boundaries, or symbolic meaning require:
 
 - Clear articulation of intent
 - Demonstration that the change honors dignity and consent

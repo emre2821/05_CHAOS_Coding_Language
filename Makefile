@@ -73,8 +73,8 @@ check: lint test
 
 # Validation targets
 validate:
-	chaos-validate examples/*.chaos -v
-	chaos-validate templates/*.chaos -v
+	chaos-validate artifacts/examples/*.chaos -v
+	chaos-validate artifacts/templates/*.chaos -v
 	@echo ""
 	@echo "✓ Example and template files validated"
 

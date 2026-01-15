@@ -14,7 +14,7 @@ The bare minimum required for a valid CHAOS file:
 **Use when:** You need a quick artifact without extra metadata
 
 ```bash
-cp templates/minimal.chaos my_note.chaos
+cp artifacts/templates/minimal.chaos my_note.chaos
 ```
 
 ### standard.chaos
@@ -27,7 +27,7 @@ Standard template with commonly used optional fields:
 **Use when:** Creating a well-documented artifact with metadata
 
 ```bash
-cp templates/standard.chaos my_artifact.chaos
+cp artifacts/templates/standard.chaos my_artifact.chaos
 ```
 
 ### ethical.chaos
@@ -41,7 +41,7 @@ Template emphasizing ethics and safety fields:
 **Use when:** Building systems that handle sensitive data or require explicit consent
 
 ```bash
-cp templates/ethical.chaos my_sensitive_artifact.chaos
+cp artifacts/templates/ethical.chaos my_sensitive_artifact.chaos
 ```
 
 ## Quick Start
@@ -61,7 +61,7 @@ cp templates/ethical.chaos my_sensitive_artifact.chaos
 
 ```bash
 # Create a new memory artifact from ethical template
-cp templates/ethical.chaos my_memory.chaos
+cp artifacts/templates/ethical.chaos my_memory.chaos
 
 # Edit it (use your preferred editor)
 nano my_memory.chaos
@@ -105,7 +105,7 @@ All templates are valid CHAOS files that can be used as-is or customized:
 
 ```bash
 # Templates are valid and will pass validation
-chaos-validate templates/*.chaos
+chaos-validate artifacts/templates/*.chaos
 
 # After customizing, validate your file
 chaos-validate my_file.chaos

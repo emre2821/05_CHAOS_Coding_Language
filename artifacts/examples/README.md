@@ -46,7 +46,7 @@ To validate these files locally:
 
 ```bash
 # Validate all examples
-chaos-validate examples/*.chaos -v
+chaos-validate artifacts/examples/*.chaos -v
 
 # Or use Make
 make validate
@@ -58,7 +58,7 @@ You can copy any of these files as a starting point for your own CHAOS artifacts
 
 ```bash
 # Copy an example
-cp examples/memory_vow.chaos my_artifact.chaos
+cp artifacts/examples/memory_vow.chaos my_artifact.chaos
 
 # Edit as needed
 nano my_artifact.chaos

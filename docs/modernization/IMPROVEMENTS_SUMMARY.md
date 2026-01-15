@@ -53,7 +53,7 @@ chaos-language/
 │   ├── test_lexer.py
 │   ├── test_parser.py
 │   └── test_runtime.py
-├── examples/                    # Example CHAOS programs
+├── artifacts/examples/                    # Example CHAOS programs
 │   ├── hello_chaos.sn
 │   ├── memory_garden.sn
 │   ├── relation_box.sn
@@ -177,7 +177,7 @@ chaos-language/
 1. **Clone the new repository structure**
 2. **Install development dependencies**: `pip install -e ".[dev]"`
 3. **Run the test suite**: `pytest`
-4. **Explore the examples**: `chaos-cli examples/hello_chaos.chaos --json`
+4. **Explore the examples**: `chaos-cli artifacts/examples/hello_chaos.chaos --json`
 
 ## 📈 Quality Metrics
 

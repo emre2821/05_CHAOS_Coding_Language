@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reports (`chaos_reports.py`) business-facing reporting utilities
 - CLI tools: `chaos-cli`, `chaos-exec`, `chaos-agent`
 - Comprehensive test suite (19 tests)
-- Example `.sn` scripts in `chaos_corpus/`
+- Example `.sn` scripts in `artifacts/corpus_sn/`
 - GitHub Actions CI/CD workflows
 - Basic documentation
 

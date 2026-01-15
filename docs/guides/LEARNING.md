@@ -294,23 +294,23 @@ This opens an interactive REPL where you can:
 
 ```bash
 # Human-readable output
-chaos-cli chaos_corpus/memory_garden.sn
+chaos-cli artifacts/corpus_sn/memory_garden.sn
 
 # JSON output
-chaos-cli chaos_corpus/memory_garden.sn --json
+chaos-cli artifacts/corpus_sn/memory_garden.sn --json
 
 # Verbose mode (shows parsing steps)
-chaos-cli chaos_corpus/memory_garden.sn --verbose
+chaos-cli artifacts/corpus_sn/memory_garden.sn --verbose
 ```
 
 #### Executing with Reporting
 
 ```bash
 # Execute and generate report
-chaos-exec chaos_corpus/stability_call.sn --report
+chaos-exec artifacts/corpus_sn/stability_call.sn --report
 
 # Emit JSON report to file
-chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
+chaos-exec artifacts/corpus_sn/stability_call.sn --report --emit report.json
 ```
 
 ### Tutorial 3: Emotion-Aware Artifacts
@@ -514,7 +514,7 @@ Design a consent protocol for a specific scenario:
 
 ### Code Examples
 
-- `chaos_corpus/` — Curated example artifacts
+- `artifacts/corpus_sn/` — Curated example artifacts
 - `tests/` — Test suite with usage examples
 - `tools/cli_shims/` — CLI tools and utilities
 

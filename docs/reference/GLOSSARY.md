@@ -357,7 +357,7 @@ A CLI tool for running CHAOS artifacts with reporting and JSON output capabiliti
 **Usage:** `chaos-exec artifact.sn [--report] [--emit output.json]`
 
 ### Corpus
-The collection of example CHAOS artifacts in the `chaos_corpus/` directory. The corpus serves as reference, test data, and inspiration.
+The collection of example CHAOS artifacts in the `artifacts/corpus_sn/` directory. The corpus serves as reference, test data, and inspiration.
 
 **Examples:**
 - `memory_garden.sn`

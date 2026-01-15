@@ -68,10 +68,10 @@ CHAOS is not for:
 
 CHAOS has a formal specification that defines the canonical file format:
 
-- **[SPEC.md](docs/reference/SPEC.md)** — Complete language specification (single source of truth)
+- **[SPEC.md](SPEC.md)** — Complete language specification (single source of truth)
 - **[schema/chaos.schema.json](schema/chaos.schema.json)** — Machine-checkable JSON Schema
-- **[examples/](examples/)** — Reference files demonstrating the format
-- **[templates/](templates/)** — Ready-to-use templates for new files
+- **[artifacts/examples/](artifacts/examples/)** — Reference files demonstrating the format
+- **[artifacts/templates/](artifacts/templates/)** — Ready-to-use templates for new files
 
 ### File Structure
 
@@ -86,7 +86,7 @@ CHAOS includes optional fields for consent-aware and safety-conscious systems:
 - `safety_tier`: `low` | `med` | `high`
 - `sensitive`: `pii` | `trauma` | `none`
 
-See [SPEC.md](docs/reference/SPEC.md) for complete field definitions and validation rules.
+See [SPEC.md](SPEC.md) for complete field definitions and validation rules.
 
 ### Key Terms
 
@@ -161,7 +161,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install CHAOS from PyPI
 pip install chaos-language
 
-# Optional: clone the repo to access examples/, templates/, and schema files
+# Optional: clone the repo to access artifacts/examples/, artifacts/templates/, and schema files
 git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
 
@@ -175,30 +175,30 @@ pip install -e ".[dev]"
 ### Basic Usage
 
 ```bash
-# Note: examples/ paths below assume you're in a cloned repository root.
+# Note: artifacts/examples/ paths below assume you're in a cloned repository root.
 # If you installed via pip, clone the repo first to access these files.
 
 # Validate CHAOS files (new format with headers)
-chaos-validate examples/memory_vow.chaos -v
+chaos-validate artifacts/examples/memory_vow.chaos -v
 
 # Validate multiple files or directories
-chaos-validate examples/*.chaos
-chaos-validate --dir examples/
+chaos-validate artifacts/examples/*.chaos
+chaos-validate --dir artifacts/examples/
 
 # Check for ethical compliance
-chaos-validate examples/config_with_pii.chaos --fail-on-sensitive
+chaos-validate artifacts/examples/config_with_pii.chaos --fail-on-sensitive
 
 # Inspect legacy .sn artifacts (human-readable first)
-chaos-cli chaos_corpus/memory_garden.sn --json
+chaos-cli artifacts/corpus_sn/memory_garden.sn --json
 
 # Run with reporting outputs (execution remains bounded by declared ethics)
-chaos-exec chaos_corpus/stability_call.sn --report --emit report.json
+chaos-exec artifacts/corpus_sn/stability_call.sn --report --emit report.json
 
 # Open an empathic agent loop
 chaos-agent --name Concord
 ```
 
-Note: the `examples/`, `templates/`, and `schema/` paths above assume you're
+Note: the `artifacts/examples/`, `artifacts/templates/`, and `schema/` paths above assume you're
 running from a local clone of the repository.
 
 ### First validation in 60 seconds
@@ -250,18 +250,18 @@ Unicode and emojis are fully supported! ✨
 [CONTENT END]
 ```
 
-See [SPEC.md](docs/reference/SPEC.md) for the complete specification and [examples/](examples/) for reference files.
+See [SPEC.md](SPEC.md) for the complete specification and [artifacts/examples/](artifacts/examples/) for reference files.
 
 To view the spec or schema locally, use a cross-platform viewer like `less`
-or your preferred file browser (for example: `less docs/reference/SPEC.md` or
+or your preferred file browser (for example: `less SPEC.md` or
 `less schema/chaos.schema.json`).
 
 ## Examples
 
-- Browse **[examples/](examples/)** for reference files using the canonical
+- Browse **[artifacts/examples/](artifacts/examples/)** for reference files using the canonical
   header + content structure.
-- Explore **[templates/](templates/)** to start new artifacts quickly.
-- Inspect legacy ritual objects in **[chaos_corpus/](chaos_corpus/)** to see
+- Explore **[artifacts/templates/](artifacts/templates/)** to start new artifacts quickly.
+- Inspect legacy ritual objects in **[artifacts/corpus_sn/](artifacts/corpus_sn/)** to see
   how symbolic memory and ethics are expressed.
 
 ## Tools
@@ -307,14 +307,17 @@ make help     # Show all available commands
 │       └── ...               # Additional modules
 ├── tests/                    # Unit/integration tests
 │   └── chaos_modern/         # Modernized CHAOS test suite
-├── tools/cli_shims/                  # CLI entry points and utilities
+├── scripts/                  # CLI entry points and utilities
 │   ├── chaos_cli.py          # Interactive shell and artifact inspector
 │   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
 │   └── chaos_fuzz.py         # Artifact corpus validation runner
 ├── docs/                     # Documentation
 │   └── modernization/        # Modernization notes and docs
-├── chaos_corpus/             # Example .sn artifacts for inspiration and tests
+├── artifacts/                # Curated artifacts and reusable assets
+│   ├── corpus_sn/            # Example .sn artifacts for inspiration and tests
+│   ├── examples/             # Reference CHAOS files
+│   └── templates/            # Ready-made CHAOS templates
 ├── experiments/modernization/ # Modernization experimental syntax ideas
 ├── .github/workflows/        # CI/CD workflows
 ├── .gitignore
@@ -333,7 +336,7 @@ pytest
 pytest --cov=chaos_language --cov-report=term-missing
 
 # Validate corpus integrity
-python tools/cli_shims/chaos_fuzz.py
+python scripts/chaos_fuzz.py
 ```
 
 The `pytest` suite covers lexer, parser, interpreter, emotion stack, agent, CLI
@@ -347,9 +350,9 @@ for details on how to get started, and read our [Code of Conduct](CODE_OF_CONDUC
 
 For comprehensive project information, see:
 - **[GOVERNANCE.md](GOVERNANCE.md)** — Project governance and decision-making
-- **[DEV.md](docs/guides/DEV.md)** — Developer guide and architecture
-- **[LEARNING.md](docs/guides/LEARNING.md)** — Tutorials and learning resources
-- **[GLOSSARY.md](docs/reference/GLOSSARY.md)** — Complete terminology reference
+- **[DEV.md](DEV.md)** — Developer guide and architecture
+- **[LEARNING.md](LEARNING.md)** — Tutorials and learning resources
+- **[GLOSSARY.md](GLOSSARY.md)** — Complete terminology reference
 
 ## Development
 
@@ -395,7 +398,7 @@ docker build -t chaos-language .
 docker run -it chaos-language
 
 # Run a specific command
-docker run chaos-language chaos-cli chaos_corpus/memory_garden.sn --json
+docker run chaos-language chaos-cli artifacts/corpus_sn/memory_garden.sn --json
 ```
 
 ## License / Ethics Note
