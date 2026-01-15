@@ -19,13 +19,13 @@ A curated set of CHAOS artifacts showing different domains and ethics postures. 
 ## Quick usage
 ```bash
 # Inspect as JSON
-chaos-cli chaos_corpus/demo_suite/03_consent_gate.sn --json
+chaos-cli artifacts/corpus_sn/demo_suite/03_consent_gate.sn --json
 
 # Validate
-chaos-validate chaos_corpus/demo_suite/04_check_in_protocol.sn -v
+chaos-validate artifacts/corpus_sn/demo_suite/04_check_in_protocol.sn -v
 
 # Run with reporting
-chaos-exec chaos_corpus/demo_suite/05_incident_report.sn --report --emit report.json
+chaos-exec artifacts/corpus_sn/demo_suite/05_incident_report.sn --report --emit report.json
 ```
 
 Each artifact keeps CHAOS priorities: meaning-first narrative, explicit consent/boundaries, and emotional context.

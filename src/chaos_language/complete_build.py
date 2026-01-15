@@ -6,7 +6,7 @@ because the Markdown (with bare tokens such as ``[TIME]``) is not valid Python.
 
 The script now assembles the digest programmatically.  It gathers the key
 modules from the repository—including the Gizzy-guided continuation build and
-the ``chaos_corpus`` ritual snippets—wraps each one in a Markdown fence, and
+the ``artifacts/corpus_sn`` ritual snippets—wraps each one in a Markdown fence, and
 writes the result to ``chaos_language.complete_build.md`` (or to another target
 selected by CLI flags).  The generated artifact mirrors the old installer-style
 dump while remaining runnable as a standard Python utility.
@@ -23,7 +23,7 @@ REPO_ROOT = SCRIPT_DIR.parent.parent
 DEFAULT_OUTPUT = REPO_ROOT / "chaos_language.complete_build.md"
 LEGACY_ENTRYPOINT = "chaos_language.complete_build.py"
 TOP_LEVEL_EXCLUDES = {LEGACY_ENTRYPOINT, "conftest.py"}
-DEFAULT_EMBED_DIRS = ("chaos_corpus", "scripts")
+DEFAULT_EMBED_DIRS = (str(Path("artifacts") / "corpus_sn"), "scripts")
 
 
 def _default_targets(include_tests: bool = False) -> List[Path]:

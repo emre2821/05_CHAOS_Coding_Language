@@ -978,9 +978,9 @@ if __name__ == "__main__":
 
 ---
 
-## `chaos_corpus/` examples
+## `artifacts/corpus_sn/` examples
 
-### `chaos_corpus/memory_garden.sn`
+### `artifacts/corpus_sn/memory_garden.sn`
 
 ```text
 [EVENT]: memory
@@ -994,7 +994,7 @@ The garden was alive with color and quiet courage.
 }
 ```
 
-### `chaos_corpus/relation_box.sn`
+### `artifacts/corpus_sn/relation_box.sn`
 
 ```text
 [EVENT]: relation
@@ -1007,7 +1007,7 @@ We opened the box and found both a gift and a promise.
 }
 ```
 
-### `chaos_corpus/stability_call.sn`
+### `artifacts/corpus_sn/stability_call.sn`
 
 ```text
 [EVENT]: checkin
@@ -1024,14 +1024,14 @@ Tonight is heavy. I am breathing.
 
 ```python
 """
-Run every .sn in chaos_corpus/ through the runtime.
+Run every .sn in artifacts/corpus_sn/ through the runtime.
 """
 import glob, os
 from chaos_runtime import run_chaos
 from chaos_validator import validate_chaos
 
 def main():
-    for path in glob.glob(os.path.join("chaos_corpus","*.sn")):
+    for path in glob.glob(os.path.join("artifacts", "corpus_sn", "*.sn")):
         with open(path, "r", encoding="utf-8") as f: src = f.read()
         try:
             validate_chaos(src)

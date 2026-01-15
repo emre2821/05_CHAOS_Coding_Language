@@ -1,5 +1,5 @@
 """
-Run every .sn in chaos_corpus/ through the runtime.
+Run every .sn in artifacts/corpus_sn/ through the runtime.
 """
 import glob
 import os
@@ -8,7 +8,7 @@ from chaos_language import run_chaos, validate_chaos
 
 
 def main():
-    for path in glob.glob(os.path.join("chaos_corpus", "*.sn")):
+    for path in glob.glob(os.path.join("artifacts", "corpus_sn", "*.sn")):
         with open(path, "r", encoding="utf-8") as handle:
             src = handle.read()
         try:

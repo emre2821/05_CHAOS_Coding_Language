@@ -57,7 +57,7 @@ exclude = ["tests", "tests.*"]
 
 [tool.setuptools.package-data]
 chaos_language = ["*.py"]
-chaos_corpus = ["**/*.sn"]
+"artifacts.corpus_sn" = ["**/*.sn"]
 
 [tool.pytest.ini_options]
 addopts = "-q"

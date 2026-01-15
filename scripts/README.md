@@ -12,16 +12,16 @@ The CLI files are thin shims that delegate to the maintained implementations in
 
 ## Utility Scripts
 
-- **chaos_fuzz.py** - Validation runner that tests all `.sn` files in `chaos_corpus/`
+- **chaos_fuzz.py** - Validation runner that tests all `.sn` files in `artifacts/corpus_sn/`
 
 ## Usage
 
 ```bash
 # Run a CHAOS script
-python scripts/chaos_cli.py chaos_corpus/memory_garden.sn --json
+python scripts/chaos_cli.py artifacts/corpus_sn/memory_garden.sn --json
 
 # Run with business report output
-python scripts/chaos_exec.py chaos_corpus/stability_call.sn --report
+python scripts/chaos_exec.py artifacts/corpus_sn/stability_call.sn --report
 
 # Open an empathic agent loop
 python scripts/chaos_agent_cli.py --name Concord

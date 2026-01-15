@@ -34,7 +34,7 @@ RUN pip install --no-cache-dir *.whl && \
     rm -f *.whl
 
 # Copy example corpus for reference
-COPY chaos_corpus/ ./chaos_corpus/
+COPY artifacts/corpus_sn/ ./artifacts/corpus_sn/
 
 # Set up environment
 ENV PYTHONUNBUFFERED=1
@@ -56,5 +56,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD python -c "from chaos_language import run_chaos; print('healthy')" || exit 1
 
 # Alternative entry points:
-# docker run chaos-language chaos-cli chaos_corpus/memory_garden.sn --json
-# docker run chaos-language chaos-exec chaos_corpus/stability_call.sn --report
+# docker run chaos-language chaos-cli artifacts/corpus_sn/memory_garden.sn --json
+# docker run chaos-language chaos-exec artifacts/corpus_sn/stability_call.sn --report

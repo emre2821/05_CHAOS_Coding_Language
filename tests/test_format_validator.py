@@ -256,8 +256,8 @@ def test_empty_file():
 
 
 def test_example_files_are_valid(tmp_path):
-    """Test that all example files in examples/ directory are valid."""
-    examples_dir = Path(__file__).parent.parent / "examples"
+    """Test that all example files in artifacts/examples/ directory are valid."""
+    examples_dir = Path(__file__).parent.parent / "artifacts" / "examples"
     if not examples_dir.exists():
         pytest.skip("Examples directory not found")
     
@@ -269,8 +269,8 @@ def test_example_files_are_valid(tmp_path):
 
 
 def test_template_files_are_valid(tmp_path):
-    """Test that all template files in templates/ directory are valid."""
-    templates_dir = Path(__file__).parent.parent / "templates"
+    """Test that all template files in artifacts/templates/ directory are valid."""
+    templates_dir = Path(__file__).parent.parent / "artifacts" / "templates"
     if not templates_dir.exists():
         pytest.skip("Templates directory not found")
     

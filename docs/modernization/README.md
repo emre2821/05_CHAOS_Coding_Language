@@ -224,7 +224,7 @@ Legacy compatibility (historical `chaos.*` namespace, kept for existing scripts 
 chaos program.sn
 
 # Fuzz testing legacy entry point
-chaos-fuzz --corpus examples/ --verbose
+chaos-fuzz --corpus artifacts/examples/ --verbose
 
 # Ecosystem coordinator (legacy EdenCore launcher)
 edencore
@@ -279,12 +279,12 @@ pytest
 pytest --cov=chaos_language
 
 # Run fuzz tests
-chaos-fuzz --corpus examples/
+chaos-fuzz --corpus artifacts/examples/
 ```
 
 ## 📚 Examples
 
-Explore the `examples/` directory for complete CHAOS programs:
+Explore the `artifacts/examples/` directory for complete CHAOS programs:
 
 - `hello_chaos.sn` - Your first CHAOS program
 - `memory_garden.sn` - Symbolic memory with emotional resonance
