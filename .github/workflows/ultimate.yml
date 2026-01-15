@@ -42,7 +42,7 @@ jobs:
         env:
           PYTHONPATH: src
         run: |
-          pylint src/chaos_language tests scripts \
+          pylint src/chaos_language tests tools/cli_shims \
             --ignore-patterns="__pycache__" \
             --ignore="chaos_language.egg-info" \
             --max-line-length=100 \
@@ -121,7 +121,7 @@ jobs:
       - name: Fuzz CHAOS corpus
         run: |
           set -o pipefail
-          python scripts/chaos_fuzz.py | tee fuzz.log
+          python tools/cli_shims/chaos_fuzz.py | tee fuzz.log
           if grep -q "\\[FAIL\\]" fuzz.log; then
             echo "Corpus validation failures detected"
             exit 1

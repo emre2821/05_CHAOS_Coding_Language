@@ -516,7 +516,7 @@ Design a consent protocol for a specific scenario:
 
 - `chaos_corpus/` — Curated example artifacts
 - `tests/` — Test suite with usage examples
-- `scripts/` — CLI tools and utilities
+- `tools/cli_shims/` — CLI tools and utilities
 
 ### External Resources
 

@@ -307,7 +307,7 @@ make help     # Show all available commands
 │       └── ...               # Additional modules
 ├── tests/                    # Unit/integration tests
 │   └── chaos_modern/         # Modernized CHAOS test suite
-├── scripts/                  # CLI entry points and utilities
+├── tools/cli_shims/                  # CLI entry points and utilities
 │   ├── chaos_cli.py          # Interactive shell and artifact inspector
 │   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
@@ -333,7 +333,7 @@ pytest
 pytest --cov=chaos_language --cov-report=term-missing
 
 # Validate corpus integrity
-python scripts/chaos_fuzz.py
+python tools/cli_shims/chaos_fuzz.py
 ```
 
 The `pytest` suite covers lexer, parser, interpreter, emotion stack, agent, CLI

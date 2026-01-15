@@ -48,7 +48,7 @@ def test_cli_executes_sn_file(tmp_path):
     env = os.environ.copy()
     env["PYTHONPATH"] = str(repo_root / "src")
     result = run_command(
-        [sys.executable, "scripts/chaos_cli.py", str(script), "--json"],
+        [sys.executable, "tools/cli_shims/chaos_cli.py", str(script), "--json"],
         repo_root,
         env,
     )

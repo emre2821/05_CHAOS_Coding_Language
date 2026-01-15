@@ -23,7 +23,7 @@ REPO_ROOT = SCRIPT_DIR.parent.parent
 DEFAULT_OUTPUT = REPO_ROOT / "chaos_language.complete_build.md"
 LEGACY_ENTRYPOINT = "chaos_language.complete_build.py"
 TOP_LEVEL_EXCLUDES = {LEGACY_ENTRYPOINT, "conftest.py"}
-DEFAULT_EMBED_DIRS = ("chaos_corpus", "scripts")
+DEFAULT_EMBED_DIRS = ("chaos_corpus", "tools/cli_shims")
 
 
 def _default_targets(include_tests: bool = False) -> List[Path]:

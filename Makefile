@@ -55,11 +55,11 @@ coverage:
 	@echo "✓ Coverage report generated in htmlcov/"
 
 lint:
-	pylint src/chaos_language tests scripts --ignore-patterns='__pycache__'
+	pylint src/chaos_language tests tools/cli_shims --ignore-patterns='__pycache__'
 
 format:
 	@echo "Checking code formatting..."
-	python -m py_compile src/chaos_language/*.py tests/*.py scripts/*.py
+	python -m py_compile src/chaos_language/*.py tests/*.py tools/cli_shims/*.py
 	@echo "✓ All files compile successfully"
 
 check: lint test
@@ -74,7 +74,7 @@ validate:
 	@echo "✓ Example and template files validated"
 
 fuzz:
-	python scripts/chaos_fuzz.py
+	python tools/cli_shims/chaos_fuzz.py
 	@echo ""
 	@echo "✓ Corpus validation complete"
 

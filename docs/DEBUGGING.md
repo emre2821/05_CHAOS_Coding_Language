@@ -109,7 +109,7 @@ except ChaosValidationError as e:
 Run all corpus files through the validator:
 
 ```bash
-python scripts/chaos_fuzz.py
+python tools/cli_shims/chaos_fuzz.py
 ```
 
 ## Common Issues
@@ -165,7 +165,7 @@ Add to `.vscode/launch.json`:
       "name": "Debug CHAOS Script",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/scripts/chaos_cli.py",
+      "program": "${workspaceFolder}/tools/cli_shims/chaos_cli.py",
       "args": ["${file}", "--tokens", "--ast"],
       "cwd": "${workspaceFolder}",
       "env": {"PYTHONPATH": "${workspaceFolder}/src"}
