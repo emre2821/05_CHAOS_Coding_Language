@@ -99,7 +99,7 @@ make help     # Show all available commands
    ```bash
    make lint
    # or
-   pylint src/ tests/ scripts/
+   pylint src/ tests/ tools/cli_shims/
    ```
 
 ## Code Style
@@ -135,7 +135,7 @@ python -m pytest --cov=chaos_language --cov-report=term-missing
 python -m pytest tests/test_lexer.py -v
 
 # Validate corpus integrity
-python scripts/chaos_fuzz.py
+python tools/cli_shims/chaos_fuzz.py
 ```
 
 ### Test Guidelines
@@ -174,7 +174,7 @@ python scripts/chaos_fuzz.py
 
 - Code in `src/chaos_language/`
 - Tests in `tests/`
-- CLI scripts in `scripts/`
+- CLI scripts in `tools/cli_shims/`
 - Configuration files
 - Non-narrative documentation
 - CI/CD workflows

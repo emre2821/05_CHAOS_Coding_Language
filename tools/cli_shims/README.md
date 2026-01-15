@@ -2,7 +2,7 @@
 
 This directory contains CLI entry points and utility scripts for the CHAOS language.
 The CLI files are thin shims that delegate to the maintained implementations in
-`chaos_language.cli`, keeping the legacy `scripts/` paths working for tooling and docs.
+`chaos_language.cli`, keeping the legacy shim paths (formerly `scripts/`) working for tooling and docs.
 
 ## CLI Tools
 
@@ -18,14 +18,14 @@ The CLI files are thin shims that delegate to the maintained implementations in
 
 ```bash
 # Run a CHAOS script
-python scripts/chaos_cli.py chaos_corpus/memory_garden.sn --json
+python tools/cli_shims/chaos_cli.py chaos_corpus/memory_garden.sn --json
 
 # Run with business report output
-python scripts/chaos_exec.py chaos_corpus/stability_call.sn --report
+python tools/cli_shims/chaos_exec.py chaos_corpus/stability_call.sn --report
 
 # Open an empathic agent loop
-python scripts/chaos_agent_cli.py --name Concord
+python tools/cli_shims/chaos_agent_cli.py --name Concord
 
 # Run fuzz tests on corpus
-python scripts/chaos_fuzz.py
+python tools/cli_shims/chaos_fuzz.py
 ```

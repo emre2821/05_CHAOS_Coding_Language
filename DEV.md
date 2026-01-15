@@ -130,7 +130,7 @@ make lint
 │   ├── stability_call.sn
 │   └── ...
 │
-├── scripts/                      # Utility scripts
+├── tools/cli_shims/                      # Utility scripts
 │   ├── chaos_fuzz.py             # Corpus validation
 │   └── README.md
 │
@@ -303,7 +303,7 @@ pytest tests/test_lexer.py -v
 pytest --cov=chaos_language --cov-report=term-missing
 
 # Validate corpus
-python scripts/chaos_fuzz.py
+python tools/cli_shims/chaos_fuzz.py
 ```
 
 ### 4. Lint Code
@@ -313,7 +313,7 @@ python scripts/chaos_fuzz.py
 make lint
 
 # Or manually
-pylint src/chaos_language/ tests/ scripts/
+pylint src/chaos_language/ tests/ tools/cli_shims/
 ```
 
 ### 5. Commit Changes
@@ -350,7 +350,7 @@ git push origin feature/your-feature-name
    - `test_agent.py` — Agent with emotion and memory
 
 3. **Corpus Tests** — Validate example artifacts
-   - `scripts/chaos_fuzz.py` — Ensure all `.sn` files are valid
+   - `tools/cli_shims/chaos_fuzz.py` — Ensure all `.sn` files are valid
 
 ### Writing Tests
 
@@ -526,7 +526,7 @@ CHAOS follows **Semantic Versioning**:
 2. **Update CHANGELOG.md** with changes
 3. **Run full test suite:** `pytest -v`
 4. **Run linter:** `make lint`
-5. **Validate corpus:** `python scripts/chaos_fuzz.py`
+5. **Validate corpus:** `python tools/cli_shims/chaos_fuzz.py`
 6. **Update documentation** if needed
 7. **Create git tag:** `git tag -a v0.1.0 -m "Release 0.1.0"`
 8. **Push tag:** `git push origin v0.1.0`

@@ -10,7 +10,7 @@ WORKDIR /app
 # Copy only files needed for installation
 COPY pyproject.toml README.md ./
 COPY src/ ./src/
-COPY scripts/ ./scripts/
+COPY tools/cli_shims/ ./tools/cli_shims/
 
 # Install build dependencies and build wheel
 RUN pip install --no-cache-dir build && \
