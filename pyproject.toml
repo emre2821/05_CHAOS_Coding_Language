@@ -51,13 +51,12 @@ chaos-fuzz = "chaos.chaos_fuzz:main"
 edencore = "chaos.eden_core:main"
 
 [tool.setuptools.packages.find]
-where = ["src", "."]
-include = ["*"]
+where = ["src"]
+include = ["chaos", "chaos.*", "chaos_language", "chaos_language.*"]
 exclude = ["tests", "tests.*"]
 
 [tool.setuptools.package-data]
 chaos_language = ["*.py"]
-chaos_corpus = ["**/*.sn"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
