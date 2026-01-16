@@ -149,14 +149,16 @@ def parse_chaos_text(text: str) -> tuple[ChaosHeader, str]:
     begin_count = text.count(CONTENT_BEGIN)
     end_count = text.count(CONTENT_END)
 
-    if begin_count != 1:
-        if begin_count == 0:
-            raise ChaosValidationError(f"Missing {CONTENT_BEGIN} marker")
-        raise ChaosValidationError(f"Multiple {CONTENT_BEGIN} markers found")
-    if end_count != 1:
-        if end_count == 0:
-            raise ChaosValidationError(f"Missing {CONTENT_END} marker")
+    if begin_count > 1:
+        raise ChaosValidationError(
+            f"Multiple {CONTENT_BEGIN} markers found"
+        )
+    if end_count > 1:
         raise ChaosValidationError(f"Multiple {CONTENT_END} markers found")
+    if begin_count == 0:
+        raise ChaosValidationError(f"Missing {CONTENT_BEGIN} marker")
+    if end_count == 0:
+        raise ChaosValidationError(f"Missing {CONTENT_END} marker")
 
     # Split into header and content sections
     try:
