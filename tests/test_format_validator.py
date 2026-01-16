@@ -140,6 +140,21 @@ Content here
     assert_validation_error(source, "multiple")
 
 
+def test_duplicate_content_begin_and_end_markers_together():
+    """Test duplicate CONTENT BEGIN and END markers together."""
+    source = """file_type: note
+tags: example
+
+[CONTENT BEGIN]
+First content block
+[CONTENT END]
+[CONTENT BEGIN]
+Second content block
+[CONTENT END]
+"""
+    assert_validation_error(source, "multiple")
+
+
 def test_empty_content():
     """Test that empty content raises error."""
     source = make_source(["file_type: note", "tags: example"], content="")
