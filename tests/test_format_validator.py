@@ -127,12 +127,37 @@ More content
     assert_validation_error(source, "multiple")
 
 
+def test_duplicate_content_begin_marker_without_end():
+    """Test that duplicate CONTENT BEGIN markers raise error even if END is missing."""
+    source = """file_type: note
+tags: example
+
+[CONTENT BEGIN]
+Content here
+[CONTENT BEGIN]
+More content
+"""
+    assert_validation_error(source, "multiple")
+
+
 def test_duplicate_content_end_marker():
     """Test that duplicate CONTENT END markers raise error."""
     source = """file_type: note
 tags: example
 
 [CONTENT BEGIN]
+Content here
+[CONTENT END]
+[CONTENT END]
+"""
+    assert_validation_error(source, "multiple")
+
+
+def test_duplicate_content_end_marker_without_begin():
+    """Test that duplicate CONTENT END markers raise error even if BEGIN is missing."""
+    source = """file_type: note
+tags: example
+
 Content here
 [CONTENT END]
 [CONTENT END]
