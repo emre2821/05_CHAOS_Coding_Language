@@ -140,6 +140,21 @@ More content
     assert_validation_error(source, "multiple")
 
 
+def test_duplicate_content_begin_and_end_markers_together():
+    """Test duplicate CONTENT BEGIN and END markers together prefer 'multiple' over 'missing' errors."""
+    source = """file_type: note
+tags: example
+
+[CONTENT BEGIN]
+First content block
+[CONTENT END]
+[CONTENT BEGIN]
+Second content block
+[CONTENT END]
+"""
+    assert_validation_error(source, "multiple")
+
+
 def test_duplicate_content_end_marker():
     """Test that duplicate CONTENT END markers raise error."""
     source = """file_type: note
