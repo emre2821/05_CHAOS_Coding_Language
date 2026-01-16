@@ -35,22 +35,31 @@ def run_command(args: list[str], repo_root: Path, env: dict[str, str]) -> subpro
     )
 
 
+def resolve_entrypoint(bin_dir: Path, script: str) -> Path:
+    executable = bin_dir / script
+    if os.name == "nt":
+        executable = executable.with_suffix(".exe")
+    return executable
+
+
 def test_console_entrypoints_show_help(tmp_path):
     repo_root = Path(__file__).resolve().parents[1]
     venv_dir = tmp_path / "venv"
     python_path = create_venv(venv_dir)
+    bin_dir = python_path.parent
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    env["PATH"] = f"{bin_dir}{os.pathsep}{env['PATH']}"
+    env["VIRTUAL_ENV"] = str(venv_dir)
 
     run_command(
         [str(python_path), "-m", "pip", "install", "-e", "."],
         repo_root,
-        os.environ.copy(),
+        env,
     )
 
-    bin_dir = python_path.parent
-    env = os.environ.copy()
-
     for script in CONSOLE_SCRIPTS:
-        executable = bin_dir / script
+        executable = resolve_entrypoint(bin_dir, script)
         result = run_command(
             [str(executable), "--help"],
             repo_root,
