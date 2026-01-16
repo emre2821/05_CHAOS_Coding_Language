@@ -13,13 +13,191 @@ human-readable ritual context alongside executable or semi-executable logic.
 CHAOS protects meaning first; execution is optional and always bounded by the
 ethics declared in the artifact.
 
+## TL;DR
+
+CHAOS is a human-readable ritual format with formal structure: you write intent
+and ethics in headers, content in a clear block, then validators and agents can
+interpret or execute it while honoring consent and boundaries.
+
 ## Table of Contents
 
-- [Overview](#overview)
+- [TL;DR](#tldr)
 - [Quick Start](#quick-start)
+  - [Installation](#installation)
+  - [5-minute first steps](#5-minute-first-steps)
+  - [Guided Hello CHAOS (with expected output)](#guided-hello-chaos-with-expected-output)
+  - [Basic Usage](#basic-usage)
+  - [CHAOS File Format](#chaos-file-format)
 - [Examples](#examples)
 - [Tools](#tools)
+  - [Using the Makefile](#using-the-makefile)
+  - [Embedding CHAOS in Your Systems](#embedding-chaos-in-your-systems)
+- [Overview](#overview)
+  - [What CHAOS Is](#what-chaos-is)
+  - [What CHAOS Is Not](#what-chaos-is-not)
+  - [Audience](#audience)
+  - [Core Principles](#core-principles)
+  - [Specification & File Format](#specification--file-format)
+  - [File Structure](#file-structure)
+  - [Ethics & Safety Fields](#ethics--safety-fields)
+  - [Key Terms](#key-terms)
+  - [File Philosophy](#file-philosophy)
+  - [How CHAOS Is Used](#how-chaos-is-used)
+  - [Relationship to EdenOS](#relationship-to-edenos)
+  - [Status & Scope](#status--scope)
+- [Project Layout](#project-layout)
+- [Testing & Quality](#testing--quality)
+- [Contributing](#contributing)
 - [Development](#development)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+  - [Running Tests](#running-tests)
+- [Docker](#docker)
+- [License / Ethics Note](#license--ethics-note)
+
+## Quick Start
+
+### Installation
+
+```bash
+# Create & activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install CHAOS from PyPI
+pip install chaos-language
+
+# Optional: clone the repo to access artifacts/examples/, artifacts/templates/, and schema files
+git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+cd 05_CHAOS_Coding_Language
+
+# Or install from source in editable mode
+pip install -e .
+
+# Or with development dependencies
+pip install -e ".[dev]"
+```
+
+### 5-minute first steps
+
+1. **Install the tools** using the steps above (PyPI or editable install).
+2. **Grab a sample artifact** from `artifacts/examples/` to see the format.
+3. **Validate a file** with `chaos-validate` to confirm the toolchain works.
+4. **Inspect a ritual** with `chaos-cli` to view the symbolic content.
+5. **Keep a template handy** from `artifacts/templates/` for your own artifacts.
+
+### Guided Hello CHAOS (with expected output)
+
+Create a tiny CHAOS file, run the validator, and confirm success:
+
+```bash
+# 1) Create a minimal CHAOS artifact
+cat > hello.chaos <<'EOF'
+file_type: memory
+tags: quickstart, hello, 🌿
+consent: explicit
+safety_tier: low
+
+[CONTENT BEGIN]
+This is a tiny CHAOS hello to prove the toolchain is working.
+[CONTENT END]
+EOF
+
+# 2) Validate it with verbose output
+chaos-validate hello.chaos -v
+```
+
+Expected output:
+
+```
+✔ hello.chaos
+
+✓ All 1 file(s) valid
+```
+
+How to read this:
+- `✔ hello.chaos` — the file passed all schema checks (headers, tags, content markers).
+- `✓ All 1 file(s) valid` — the run succeeded; exit code is `0`. A `✖` line would call out the exact issue if validation failed.
+
+### Basic Usage
+
+```bash
+# Note: artifacts/examples/ paths below assume you're in a cloned repository root.
+# If you installed via pip, clone the repo first to access these files.
+
+# Validate CHAOS files (new format with headers)
+chaos-validate artifacts/examples/memory_vow.chaos -v
+
+# Validate multiple files or directories
+chaos-validate artifacts/examples/*.chaos
+chaos-validate --dir artifacts/examples/
+
+# Check for ethical compliance
+chaos-validate artifacts/examples/config_with_pii.chaos --fail-on-sensitive
+
+# Inspect legacy .sn artifacts (human-readable first)
+chaos-cli artifacts/corpus_sn/memory_garden.sn --json
+
+# Run with reporting outputs (execution remains bounded by declared ethics)
+chaos-exec artifacts/corpus_sn/stability_call.sn --report --emit report.json
+
+# Open an empathic agent loop
+chaos-agent --name Concord
+```
+
+Note: the `artifacts/examples/`, `artifacts/templates/`, and `schema/` paths above assume you're
+running from a local clone of the repository.
+
+### CHAOS File Format
+
+CHAOS files use a simple header + content structure:
+
+```chaos
+file_type: memory
+tags: garden, growth, 🌱
+consent: explicit
+safety_tier: med
+
+[CONTENT BEGIN]
+Your narrative, data, or operational content here.
+Unicode and emojis are fully supported! ✨
+[CONTENT END]
+```
+
+See [SPEC.md](SPEC.md) for the complete specification and [artifacts/examples/](artifacts/examples/) for reference files.
+
+To view the spec or schema locally, use a cross-platform viewer like `less`
+or your preferred file browser (for example: `less SPEC.md` or
+`less schema/chaos.schema.json`).
+
+## Examples
+
+- Browse **[artifacts/examples/](artifacts/examples/)** for reference files using the canonical
+  header + content structure.
+- Explore **[artifacts/templates/](artifacts/templates/)** to start new artifacts quickly.
+- Inspect legacy ritual objects in **[artifacts/corpus_sn/](artifacts/corpus_sn/)** to see
+  how symbolic memory and ethics are expressed.
+
+## Tools
+
+### Using the Makefile
+
+```bash
+make dev      # Install development dependencies
+make test     # Run test suite
+make lint     # Run linter
+make coverage # Run tests with coverage report
+make help     # Show all available commands
+```
+
+### Embedding CHAOS in Your Systems
+
+1. **Capture rituals.** Compose `.sn` artifacts that pair structured telemetry
+   with narrative, symbols, and consent boundaries.
+2. **Interpret with agents.** Use `run_chaos` or agent runtimes to align protocol
+   with declared intent, emotions, and ethical constraints.
+3. **Optionally execute.** Emit JSON, trigger bounded protocols, or generate
+   reports—always downstream of the declared ritual and ethics.
 
 ## Overview
 
@@ -122,8 +300,8 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
   tool executes them.
 - **Interpreted by agents.** Agent runtimes align protocol, emotional stance,
   and symbolic memory from the file.
-- **Constrained by ethics.** Boundaries, consent flows, and refusal paths must
-  be honored by interpreters and tooling.
+- **Constrained by ethics.** Boundaries, consent flows, and refusal paths must be
+  honored by interpreters and tooling.
 - **Optionally executed.** Tools can emit JSON, trigger bounded protocols, or
   generate reports—always downstream of the declared ritual and ethics.
 - **Governance layer.** CHAOS can stand alone as an intent and governance layer
@@ -148,142 +326,6 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 - Corpus and tooling evolve with EdenOS; expect iterative refinement.
 - Scope is limited to environments that honor CHAOS ethical posture; elsewhere
   treat artifacts as read-only ritual documents.
-
-## Quick Start
-
-### Installation
-
-```bash
-# Create & activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install CHAOS from PyPI
-pip install chaos-language
-
-# Optional: clone the repo to access artifacts/examples/, artifacts/templates/, and schema files
-git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
-cd 05_CHAOS_Coding_Language
-
-# Or install from source in editable mode
-pip install -e .
-
-# Or with development dependencies
-pip install -e ".[dev]"
-```
-
-### Basic Usage
-
-```bash
-# Note: artifacts/examples/ paths below assume you're in a cloned repository root.
-# If you installed via pip, clone the repo first to access these files.
-
-# Validate CHAOS files (new format with headers)
-chaos-validate artifacts/examples/memory_vow.chaos -v
-
-# Validate multiple files or directories
-chaos-validate artifacts/examples/*.chaos
-chaos-validate --dir artifacts/examples/
-
-# Check for ethical compliance
-chaos-validate artifacts/examples/config_with_pii.chaos --fail-on-sensitive
-
-# Inspect legacy .sn artifacts (human-readable first)
-chaos-cli artifacts/corpus_sn/memory_garden.sn --json
-
-# Run with reporting outputs (execution remains bounded by declared ethics)
-chaos-exec artifacts/corpus_sn/stability_call.sn --report --emit report.json
-
-# Open an empathic agent loop
-chaos-agent --name Concord
-```
-
-Note: the `artifacts/examples/`, `artifacts/templates/`, and `schema/` paths above assume you're
-running from a local clone of the repository.
-
-### First validation in 60 seconds
-
-Create a tiny CHAOS file, run the validator, and confirm success:
-
-```bash
-# 1) Create a minimal CHAOS artifact
-cat > hello.chaos <<'EOF'
-file_type: memory
-tags: quickstart, hello, 🌿
-consent: explicit
-safety_tier: low
-
-[CONTENT BEGIN]
-This is a tiny CHAOS hello to prove the toolchain is working.
-[CONTENT END]
-EOF
-
-# 2) Validate it with verbose output
-chaos-validate hello.chaos -v
-```
-
-Expected output:
-
-```
-✔ hello.chaos
-
-✓ All 1 file(s) valid
-```
-
-How to read this:
-- `✔ hello.chaos` — the file passed all schema checks (headers, tags, content markers).
-- `✓ All 1 file(s) valid` — the run succeeded; exit code is `0`. A `✖` line would call out the exact issue if validation failed.
-
-### CHAOS File Format
-
-CHAOS files use a simple header + content structure:
-
-```chaos
-file_type: memory
-tags: garden, growth, 🌱
-consent: explicit
-safety_tier: med
-
-[CONTENT BEGIN]
-Your narrative, data, or operational content here.
-Unicode and emojis are fully supported! ✨
-[CONTENT END]
-```
-
-See [SPEC.md](SPEC.md) for the complete specification and [artifacts/examples/](artifacts/examples/) for reference files.
-
-To view the spec or schema locally, use a cross-platform viewer like `less`
-or your preferred file browser (for example: `less SPEC.md` or
-`less schema/chaos.schema.json`).
-
-## Examples
-
-- Browse **[artifacts/examples/](artifacts/examples/)** for reference files using the canonical
-  header + content structure.
-- Explore **[artifacts/templates/](artifacts/templates/)** to start new artifacts quickly.
-- Inspect legacy ritual objects in **[artifacts/corpus_sn/](artifacts/corpus_sn/)** to see
-  how symbolic memory and ethics are expressed.
-
-## Tools
-
-### Using the Makefile
-
-```bash
-make dev      # Install development dependencies
-make test     # Run test suite
-make lint     # Run linter
-make coverage # Run tests with coverage report
-make help     # Show all available commands
-```
-
-### Embedding CHAOS in Your Systems
-
-1. **Capture rituals.** Compose `.sn` artifacts that pair structured telemetry
-   with narrative, symbols, and consent boundaries.
-2. **Interpret with agents.** Use `run_chaos` or agent runtimes to align protocol
-   with declared intent, emotions, and ethical constraints.
-3. **Optionally execute.** Emit JSON, trigger bounded protocols, or generate
-   reports—always downstream of the declared ritual and ethics.
 
 ## Project Layout
 
@@ -311,7 +353,7 @@ make help     # Show all available commands
 │   ├── chaos_cli.py          # Interactive shell and artifact inspector
 │   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
-│   └── chaos_fuzz.py         # Artifact corpus validation runner
+│   ├── chaos_fuzz.py         # Artifact corpus validation runner
 ├── docs/                     # Documentation
 │   └── modernization/        # Modernization notes and docs
 ├── artifacts/                # Curated artifacts and reusable assets
