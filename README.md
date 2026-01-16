@@ -81,10 +81,10 @@ pip install -e ".[dev]"
 ### 5-minute first steps
 
 1. **Install the tools** using the steps above (PyPI or editable install).
-2. **Grab a sample artifact** from `artifacts/examples/` to see the format.
+2. **Grab a sample artifact** from `artifacts/examples/` to see the format (these paths assume a cloned repo; PyPI users should clone to access the examples).
 3. **Validate a file** with `chaos-validate` to confirm the toolchain works.
 4. **Inspect a ritual** with `chaos-cli` to view the symbolic content.
-5. **Keep a template handy** from `artifacts/templates/` for your own artifacts.
+5. **Keep a template handy** from `artifacts/templates/` for your own artifacts (clone the repo to access these templates if you installed from PyPI).
 
 ### Guided Hello CHAOS (with expected output)
 
@@ -353,7 +353,7 @@ This is descriptive, not a formal grammar; meaning and ethics remain primary.
 │   ├── chaos_cli.py          # Interactive shell and artifact inspector
 │   ├── chaos_exec.py         # Artifact runner with JSON/report output
 │   ├── chaos_agent_cli.py    # Agent REPL
-│   ├── chaos_fuzz.py         # Artifact corpus validation runner
+│   └── chaos_fuzz.py         # Artifact corpus validation runner
 ├── docs/                     # Documentation
 │   └── modernization/        # Modernization notes and docs
 ├── artifacts/                # Curated artifacts and reusable assets
