@@ -68,7 +68,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install chaos-language
 
 # Optional: clone the repo to access artifacts/examples/, artifacts/templates/, and schema files
-git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+git clone https://github.com/emre2821/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
 
 # Or install from source in editable mode
