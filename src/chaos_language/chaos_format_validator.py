@@ -55,14 +55,10 @@ class ChaosHeader:
         has_non_empty_tag = False
         has_empty_tag = False
         for raw_tag in tags.split(","):
-            stripped = raw_tag.strip()
-            if stripped:
+            if raw_tag.strip():
                 has_non_empty_tag = True
             else:
                 has_empty_tag = True
-            if has_non_empty_tag and has_empty_tag:
-                break
-
         if not has_non_empty_tag:
             raise ChaosValidationError("tags must contain at least one non-empty tag")
         if has_empty_tag:
