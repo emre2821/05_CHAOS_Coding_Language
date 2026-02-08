@@ -55,6 +55,10 @@ class ChaosHeader:
         tag_list = [t.strip() for t in tags.split(",")]
         if not any(tag_list):
             raise ChaosValidationError("tags must contain at least one non-empty tag")
+        if not all(tag_list):
+            raise ChaosValidationError(
+                "tags must not contain empty entries (check for extra commas)"
+            )
 
         # Validate enumeration fields if present
         if "consent" in self.headers:
