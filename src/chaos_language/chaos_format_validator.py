@@ -26,6 +26,13 @@ SAFETY_TIER_VALUES = {"low", "med", "high"}
 SENSITIVE_VALUES = {"pii", "trauma", "none"}
 
 
+def _has_empty_and_non_empty_tags(tags: str) -> tuple[bool, bool]:
+    stripped_tags = [tag.strip() for tag in tags.split(",")]
+    has_non_empty_tag = any(stripped_tags)
+    has_empty_tag = any(not tag for tag in stripped_tags)
+    return has_empty_tag, has_non_empty_tag
+
+
 class ChaosHeader:
     """Represents and validates a CHAOS file header."""
 
@@ -52,13 +59,7 @@ class ChaosHeader:
             raise ChaosValidationError("tags cannot be empty")
 
         # Parse tags to ensure they're valid
-        has_non_empty_tag = False
-        has_empty_tag = False
-        for raw_tag in tags.split(","):
-            if raw_tag.strip():
-                has_non_empty_tag = True
-            else:
-                has_empty_tag = True
+        has_empty_tag, has_non_empty_tag = _has_empty_and_non_empty_tags(tags)
         if not has_non_empty_tag:
             raise ChaosValidationError("tags must contain at least one non-empty tag")
         if has_empty_tag:
