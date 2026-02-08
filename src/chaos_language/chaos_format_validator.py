@@ -52,8 +52,14 @@ class ChaosHeader:
             raise ChaosValidationError("tags cannot be empty")
 
         # Parse tags to ensure they're valid
-        tag_list = [t.strip() for t in tags.split(",")]
-        if not any(tag_list):
+        has_non_empty_tag = False
+        has_empty_tag = False
+        for raw_tag in tags.split(","):
+            if raw_tag.strip():
+                has_non_empty_tag = True
+            else:
+                has_empty_tag = True
+        if not has_non_empty_tag:
             raise ChaosValidationError("tags must contain at least one non-empty tag")
         if not all(tag_list):
             raise ChaosValidationError(
