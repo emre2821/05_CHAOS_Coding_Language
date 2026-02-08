@@ -61,7 +61,7 @@ class ChaosHeader:
                 has_empty_tag = True
         if not has_non_empty_tag:
             raise ChaosValidationError("tags must contain at least one non-empty tag")
-        if not all(tag_list):
+        if has_empty_tag:
             raise ChaosValidationError(
                 "tags must not contain empty entries (check for extra commas)"
             )
