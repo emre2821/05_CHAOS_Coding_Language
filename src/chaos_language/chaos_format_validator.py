@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 from .chaos_errors import ChaosValidationError
@@ -26,11 +27,10 @@ SAFETY_TIER_VALUES = {"low", "med", "high"}
 SENSITIVE_VALUES = {"pii", "trauma", "none"}
 
 
-def _has_empty_and_non_empty_tags(tags: str) -> tuple[bool, bool]:
-    stripped_tags = [tag.strip() for tag in tags.split(",")]
-    has_non_empty_tag = any(stripped_tags)
-    has_empty_tag = any(not tag for tag in stripped_tags)
-    return has_empty_tag, has_non_empty_tag
+@dataclass(frozen=True)
+class TagStatus:
+    has_non_empty_tag: bool
+    has_empty_tag: bool
 
 
 class ChaosHeader:
@@ -59,10 +59,10 @@ class ChaosHeader:
             raise ChaosValidationError("tags cannot be empty")
 
         # Parse tags to ensure they're valid
-        has_empty_tag, has_non_empty_tag = _has_empty_and_non_empty_tags(tags)
-        if not has_non_empty_tag:
+        tag_status = self._tag_status(tags)
+        if not tag_status.has_non_empty_tag:
             raise ChaosValidationError("tags must contain at least one non-empty tag")
-        if has_empty_tag:
+        if tag_status.has_empty_tag:
             raise ChaosValidationError(
                 "tags must not contain empty entries (check for extra commas)"
             )
@@ -103,6 +103,14 @@ class ChaosHeader:
     def __contains__(self, key: str) -> bool:
         """Check if a header key exists."""
         return key in self.headers
+
+    @staticmethod
+    def _tag_status(tags: str) -> TagStatus:
+        stripped_tags = [tag.strip() for tag in tags.split(",")]
+        return TagStatus(
+            has_non_empty_tag=any(stripped_tags),
+            has_empty_tag=any(not tag for tag in stripped_tags),
+        )
 
 
 def parse_chaos_file(path: Path) -> tuple[ChaosHeader, str]:
