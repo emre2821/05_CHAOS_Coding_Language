@@ -1,8 +1,8 @@
 # CHAOS: Symbolic–Operational Language for EdenOS
 
-[![Tests](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/tests.yml/badge.svg)](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/tests.yml)
-[![Pylint](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/pylint.yml/badge.svg)](https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language/actions/workflows/pylint.yml)
-[![codecov](https://codecov.io/gh/Paradigm-Eden/05_CHAOS_Coding_Language/graph/badge.svg)](https://codecov.io/gh/Paradigm-Eden/05_CHAOS_Coding_Language)
+[![Tests](https://github.com/emre2821/05_CHAOS_Coding_Language/actions/workflows/tests.yml/badge.svg)](https://github.com/emre2821/05_CHAOS_Coding_Language/actions/workflows/tests.yml)
+[![Pylint](https://github.com/emre2821/05_CHAOS_Coding_Language/actions/workflows/pylint.yml/badge.svg)](https://github.com/emre2821/05_CHAOS_Coding_Language/actions/workflows/pylint.yml)
+[![codecov](https://codecov.io/gh/emre2821/05_CHAOS_Coding_Language/graph/badge.svg)](https://codecov.io/gh/emre2821/05_CHAOS_Coding_Language)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: Eden Cooperative](https://img.shields.io/badge/license-Eden%20Cooperative-purple.svg)](LICENSE)
 
@@ -407,7 +407,7 @@ For comprehensive project information, see:
 
 ```bash
 # Clone the repository (skip this if you're already in a local clone)
-git clone https://github.com/Paradigm-Eden/05_CHAOS_Coding_Language.git
+git clone https://github.com/emre2821/05_CHAOS_Coding_Language.git
 cd 05_CHAOS_Coding_Language
 
 # Create virtual environment
